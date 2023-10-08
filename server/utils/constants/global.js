@@ -1,5 +1,5 @@
 const important = {
-    CONNECTION_STRING: 'mongodb://localhost:27017/weddingplanner',
+    CONNECTION_STRING: 'mongodb://localhost:27017/weddingplanner-vuejs',
     SECRET: 'my-very-secret',
 };
 
