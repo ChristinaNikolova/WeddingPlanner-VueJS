@@ -6,8 +6,7 @@ export default {
       required: true,
     },
     isHomePage: {
-      type: String,
-      required: true,
+      type: Boolean,
       default: false,
     },
   },

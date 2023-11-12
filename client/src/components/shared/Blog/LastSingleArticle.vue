@@ -1,5 +1,5 @@
 <script>
-// todo import Lint
+// todo import Link
 
 export default {
   props: {

@@ -11,20 +11,11 @@ export default {
       articles: [],
     };
   },
-  // methods: {
-  //   test(result) {
-  //     this.articles = result;
-  //     console.log("this", this.articles);
-  //   },
-  // },
   async mounted() {
-    console.log(this.articles);
-    const result = await articlesService
+    await articlesService
       .getLastThree()
       .then((res) => (this.articles = res))
       .catch((err) => console.error(err));
-
-    console.log("result", result);
   },
 };
 </script>
