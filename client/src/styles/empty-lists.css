@@ -1,0 +1,15 @@
+/* Empty List */
+
+.empty {
+  font-size: 50px;
+  font-weight: 600;
+  color: var(--clr-gold);
+  margin-bottom: 200px;
+}
+
+.empty-planner {
+  border-bottom: 1px solid var(--clr-gold);
+  margin-left: 700px;
+  margin-right: 700px;
+  padding-bottom: 20px;
+}

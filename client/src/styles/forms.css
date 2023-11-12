@@ -1,0 +1,147 @@
+/* Form  */
+
+.auth-form {
+  width: 30%;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-wrapper:last-of-type {
+  margin-bottom: 60px;
+}
+
+.form-wrapper-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-width {
+  width: 80%;
+}
+
+.form-btns-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 40px;
+  margin-top: 60px;
+}
+
+.form-btns-wrapper button {
+  margin-left: unset;
+  margin-right: unset;
+}
+
+/* Label */
+
+.label {
+  font-weight: 500;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.1px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+/* Input & TextArea & Select */
+
+.input {
+  border: unset;
+  border-radius: unset;
+  font-size: 22px;
+  color: var(--clr-black) !important;
+  font-family: var(--font-family);
+}
+
+input.input,
+select.input {
+  height: 42px;
+}
+
+input.input,
+textarea {
+  padding: 10px;
+}
+
+.input:focus {
+  outline: none !important;
+  border: 1px solid var(--clr-gold);
+}
+
+input:read-only {
+  background-color: var(--clr-creme);
+}
+
+input:read-only:focus {
+  border: unset;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.7);
+}
+
+input:checked {
+  border: 1px solid var(--clr-gold);
+  accent-color: var(--clr-gold);
+  transform: scale(1.7);
+}
+
+.radio {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.radio input {
+  padding: unset;
+  margin: unset;
+  height: unset;
+}
+
+.radio .label {
+  margin-right: 12px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 400px) {
+  .radio {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .form-wrapper-center {
+    margin-bottom: 80px;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .auth-form {
+    width: 40%;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .auth-form {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .form-btns-wrapper {
+    flex-direction: column;
+    align-items: unset;
+  }
+}

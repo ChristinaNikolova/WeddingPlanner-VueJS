@@ -1,7 +1,14 @@
 @import "./reset.css";
+@import "./animations.css";
+@import "./buttons-links.css";
 @import "./constants.css";
+@import "./empty-lists.css";
+@import "./errors.css";
+@import "./forms.css";
 @import "./headings.css";
+@import "./icons.css";
 @import "./images.css";
+@import "./navigation.css";
 @import "./sections.css";
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 

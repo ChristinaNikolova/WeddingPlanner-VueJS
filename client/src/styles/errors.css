@@ -1,0 +1,11 @@
+/* Server error width */
+
+.form-error-message-width .error-message {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.form-error-message-width .error-message div {
+  width: 100%;
+  margin-bottom: 10px;
+}
