@@ -1,15 +1,6 @@
-<script>
-import Home from "./components/Home.vue";
-
-export default {
-  components: {
-    Home,
-  },
-};
-</script>
-
 <template>
-  <Home />
+  <router-view> </router-view>
 </template>
 
+<!-- todo move css here -->
 <style scoped></style>

@@ -1,7 +1,6 @@
 <script>
 import { jumbo } from "../utils/constants/images.js";
 import LastThreeArticles from "./shared/Blog/LastThreeArticles.vue";
-// todo import Link router
 import Jumbotron from "./Jumbotron.vue";
 
 export default {
@@ -19,7 +18,7 @@ export default {
 
 <template>
   <section class="home">
-    <Jumbotron :pathToImage="pathToImage" :isHomePage="true" />
+    <Jumbotron :path-to-image="pathToImage" :is-home-page="true" />
     <div class="home-content-wrapper">
       <h2 class="home-title">
         ELEGANTLY DESIGNED · ECLECTICALLY CURATED · IMPECCABLY PLANNED
@@ -28,7 +27,7 @@ export default {
         Because planning the biggest day of your life is only the beginning of
         your adventure
       </p>
-      <!-- <Link to="/plan" class="btn">Start planning</Link> -->
+      <router-link to="/plan" class="btn">Start planning</router-link>
     </div>
     <LastThreeArticles />
   </section>

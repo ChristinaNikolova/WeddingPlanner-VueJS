@@ -1,8 +1,3 @@
-<script>
-// todo import Link import { Link } from 'react-router-dom';
-export default {};
-</script>
-
 <template>
   <section class="not-found">
     <h2 class="not-found-main-title">404</h2>
@@ -10,7 +5,7 @@ export default {};
     <p class="not-found-content">
       Sorry, the page you are looking for doesn't exist
     </p>
-    <!-- <Link to="/" class="btn">Go back to home</Link> -->
+    <router-link to="/" class="btn">Go back to home</router-link>
   </section>
 </template>
 

@@ -29,7 +29,7 @@ export default {
         :key="article.id"
         :id="article.id"
         :title="article.title"
-        :shortContent="article.shortContent"
+        :short-content="article.shortContent"
         :image="article.image"
       />
     </div>
