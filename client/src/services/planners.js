@@ -1,12 +1,12 @@
-import { api } from "./api";
-import { requester } from "./requester";
-import { httpMethods } from "../utils/constants/global";
+import { httpMethods } from '../utils/constants/global';
+import { api } from './api';
+import { requester } from './requester';
 
-const all = () => {
+function all() {
   return requester(`${api.planners}`, httpMethods.GET)
-    .then((res) => res.json())
-    .catch((err) => console.error(err));
-};
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
 export default {
   all,

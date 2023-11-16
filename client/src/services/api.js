@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030";
+const baseUrl = 'http://localhost:3030';
 
 export const api = {
   register: `${baseUrl}/auth/register`,

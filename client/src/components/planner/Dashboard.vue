@@ -1,8 +1,8 @@
 <script>
 // todo Link import { Link } from 'react-router-dom';
-import Bottom from "../shared/images/Bottom.vue";
-import plannersService from "../../services/planners";
-import { bottom } from "../../utils/constants/images";
+import Bottom from '../shared/images/Bottom.vue';
+import plannersService from '../../services/planners';
+import { bottom } from '../../utils/constants/images';
 
 export default {
   components: {
@@ -19,8 +19,8 @@ export default {
   async mounted() {
     await plannersService
       .all()
-      .then((res) => (this.planners = res))
-      .catch((err) => console.error(err));
+      .then(res => (this.planners = res))
+      .catch(err => console.error(err));
   },
 };
 </script>
@@ -28,11 +28,15 @@ export default {
 <template>
   <section id="dashboard" class="dashboard section-background">
     <div class="section-title-wrapper">
-      <h2 class="section-title">Plan you wedding</h2>
+      <h2 class="section-title">
+        Plan you wedding
+      </h2>
     </div>
     <div class="dashboard-content-wrapper">
       <div class="dashboard-left-wrapper">
-        <h2 class="dashboard-left-title">My planners</h2>
+        <h2 class="dashboard-left-title">
+          My planners
+        </h2>
         <!-- {planners.length
                         ? planners.map((p) =>
                             <Link class={styles["dashboard-left-link"]} to={`/plan/${p.id}`} key={p.id}>

@@ -29,8 +29,10 @@ export default {
       class="last-three-articles-current-article-image img img-shadow"
       :src="image"
       :alt="title"
-    />
-    <h5 class="last-three-articles-current-article-title">{{ title }}</h5>
+    >
+    <h5 class="last-three-articles-current-article-title">
+      {{ title }}
+    </h5>
     <p class="last-three-articles-current-article-short-content">
       {{ shortContent }}
     </p>

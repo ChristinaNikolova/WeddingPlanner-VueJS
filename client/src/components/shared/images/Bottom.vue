@@ -21,19 +21,19 @@ export default {
   <div class="bottom-img-wrapper">
     <img
       class="bottom-img img img-shadow"
-      :src="'./../../../img/' + first"
+      :src="`./../../../img/${first}`"
       alt="wedding_flowers"
-    />
+    >
     <img
       class="bottom-img img img-shadow"
-      :src="'./../../../img/' + second"
+      :src="`./../../../img/${second}`"
       alt="wedding_table"
-    />
+    >
     <img
       class="bottom-img img img-shadow"
-      :src="'./../../../img/' + third"
+      :src="`./../../../img/${third}`"
       alt="wedding_invitations"
-    />
+    >
   </div>
 </template>
 

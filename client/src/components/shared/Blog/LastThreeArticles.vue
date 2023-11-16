@@ -1,6 +1,6 @@
 <script>
-import LastSingleArticle from "./LastSingleArticle.vue";
-import articlesService from "../../../services/articles";
+import articlesService from '../../../services/articles';
+import LastSingleArticle from './LastSingleArticle.vue';
 
 export default {
   components: {
@@ -14,20 +14,22 @@ export default {
   async mounted() {
     await articlesService
       .getLastThree()
-      .then((res) => (this.articles = res))
-      .catch((err) => console.error(err));
+      .then(res => (this.articles = res))
+      .catch(err => console.error(err));
   },
 };
 </script>
 
 <template>
   <div class="last-three-articles-section-wrapper">
-    <h3 class="last-three-artilces-title">Recent articles</h3>
+    <h3 class="last-three-artilces-title">
+      Recent articles
+    </h3>
     <div class="last-three-articles-wrapper">
       <LastSingleArticle
         v-for="article in articles"
-        :key="article.id"
         :id="article.id"
+        :key="article.id"
         :title="article.title"
         :short-content="article.shortContent"
         :image="article.image"

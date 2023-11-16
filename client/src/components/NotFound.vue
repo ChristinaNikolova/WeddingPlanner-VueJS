@@ -1,11 +1,17 @@
 <template>
   <section class="not-found">
-    <h2 class="not-found-main-title">404</h2>
-    <h4 class="not-found-sub-title">Page not found</h4>
+    <h2 class="not-found-main-title">
+      404
+    </h2>
+    <h4 class="not-found-sub-title">
+      Page not found
+    </h4>
     <p class="not-found-content">
       Sorry, the page you are looking for doesn't exist
     </p>
-    <router-link to="/" class="btn">Go back to home</router-link>
+    <router-link to="/" class="btn">
+      Go back to home
+    </router-link>
   </section>
 </template>
 

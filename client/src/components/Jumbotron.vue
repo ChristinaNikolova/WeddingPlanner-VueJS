@@ -16,8 +16,12 @@ export default {
 <template>
   <section class="jumbo" :style="{ 'background-image': `url(${pathToImage})` }">
     <div v-if="isHomePage" class="jumbo-title-wrapper">
-      <h4 class="jumbo-sub-title">It's time to &hellip;</h4>
-      <h1 class="jumbo-main-title">plan your wedding</h1>
+      <h4 class="jumbo-sub-title">
+        It's time to &hellip;
+      </h4>
+      <h1 class="jumbo-main-title">
+        plan your wedding
+      </h1>
     </div>
   </section>
 </template>

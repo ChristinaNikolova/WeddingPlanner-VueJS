@@ -1,7 +1,7 @@
 <script>
-import { jumbo } from "../utils/constants/images.js";
-import LastThreeArticles from "./shared/Blog/LastThreeArticles.vue";
-import Jumbotron from "./Jumbotron.vue";
+import { jumbo } from '../utils/constants/images.js';
+import LastThreeArticles from './shared/Blog/LastThreeArticles.vue';
+import Jumbotron from './Jumbotron.vue';
 
 export default {
   components: {
@@ -27,7 +27,9 @@ export default {
         Because planning the biggest day of your life is only the beginning of
         your adventure
       </p>
-      <router-link to="/plan" class="btn">Start planning</router-link>
+      <router-link to="/plan" class="btn">
+        Start planning
+      </router-link>
     </div>
     <LastThreeArticles />
   </section>
