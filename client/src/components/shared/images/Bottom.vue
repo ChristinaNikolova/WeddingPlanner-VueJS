@@ -1,17 +1,22 @@
 <script>
+import { bottom } from '../../../utils/constants/images';
+
 export default {
   props: {
     first: {
       type: String,
       required: true,
+      default: bottom.FIRST,
     },
     second: {
       type: String,
       required: true,
+      default: bottom.FIRST,
     },
     third: {
       type: String,
       required: true,
+      default: bottom.FIRST,
     },
   },
 };
@@ -22,17 +27,17 @@ export default {
     <img
       class="bottom-img img img-shadow"
       :src="`./../../../img/${first}`"
-      alt="wedding_flowers"
+      alt="wedding_image"
     >
     <img
       class="bottom-img img img-shadow"
       :src="`./../../../img/${second}`"
-      alt="wedding_table"
+      alt="wedding_image"
     >
     <img
       class="bottom-img img img-shadow"
       :src="`./../../../img/${third}`"
-      alt="wedding_invitations"
+      alt="wedding_image"
     >
   </div>
 </template>

@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/Home.vue';
-import NotFound from '../components/NotFound.vue';
+import PlannerDashboard from '../components/planner/Dashboard.vue';
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/plan', component: NotFound },
+  { path: '/plan', component: PlannerDashboard },
 ];
 
 const router = createRouter({

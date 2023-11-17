@@ -1,8 +1,8 @@
 <script>
 // todo Link import { Link } from 'react-router-dom';
-import Bottom from '../shared/images/Bottom.vue';
 import plannersService from '../../services/planners';
 import { bottom } from '../../utils/constants/images';
+import Bottom from '../shared/images/Bottom.vue';
 
 export default {
   components: {

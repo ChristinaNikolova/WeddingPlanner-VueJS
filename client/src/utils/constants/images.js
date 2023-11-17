@@ -9,3 +9,17 @@ export const bottom = {
   SECOND: 'wedding-1760024_1920.jpg',
   THIRD: 'wedding-905240_1920.jpg',
 };
+
+// export const personImages = {
+//   ADULT_FEMALE: <i className="fa-solid fa-person-dress"></i>,
+//   ADULT_MALE: <i className="fa-solid fa-person"></i>,
+//   CHILD_MALE: <i className="fa-solid fa-child"></i>,
+//   CHILD_FEMALE: <i className="fa-solid fa-child-dress"></i>,
+//   BABY: <i className="fa-solid fa-baby"></i>,
+// };
+
+// export const dishImages = {
+//   MEAT: <i className="fa-solid fa-hotdog"></i>,
+//   FISH: <i className="fa-solid fa-fish"></i>,
+//   VEGGIES: <i className="fa-solid fa-seedling"></i>,
+// };

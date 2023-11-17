@@ -1,4 +1,5 @@
 /* Show & Hide */
+
 .hide {
   opacity: 0;
   animation: FadeOut 0.5s ease-in-out;
