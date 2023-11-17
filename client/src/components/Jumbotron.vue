@@ -1,9 +1,11 @@
 <script>
+import { jumbo } from '../utils/constants/images.js';
+
 export default {
   props: {
     pathToImage: {
       type: String,
-      required: true,
+      default: jumbo.HOME,
     },
     isHomePage: {
       type: Boolean,

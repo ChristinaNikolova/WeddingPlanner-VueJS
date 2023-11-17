@@ -1,5 +1,4 @@
 <script>
-import { jumbo } from '../utils/constants/images.js';
 import LastThreeArticles from './shared/Blog/LastThreeArticles.vue';
 import Jumbotron from './Jumbotron.vue';
 
@@ -8,17 +7,12 @@ export default {
     Jumbotron,
     LastThreeArticles,
   },
-  data() {
-    return {
-      pathToImage: jumbo.HOME,
-    };
-  },
 };
 </script>
 
 <template>
   <section class="home">
-    <Jumbotron :path-to-image="pathToImage" :is-home-page="true" />
+    <Jumbotron :is-home-page="true" />
     <div class="home-content-wrapper">
       <h2 class="home-title">
         ELEGANTLY DESIGNED · ECLECTICALLY CURATED · IMPECCABLY PLANNED
