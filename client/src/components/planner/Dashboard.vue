@@ -36,17 +36,14 @@ export default {
         <h2 class="dashboard-left-title">
           My planners
         </h2>
-        <template v-if="planners.length">
-          <router-link
-            v-for="p in planners"
-            :key="p.id"
-            :to="`/plan/${p.id}`"
-            class="dashboard-left-link"
-          >
-            <i class="fa-solid fa-heart" />
-            {{ p.title }}
-          </router-link>
-        </template>
+        <ul v-if="planners.length">
+          <li v-for="p in planners" :key="p.id">
+            <router-link class="dashboard-left-link" :to="`/plan/${p.id}`">
+              <i class="fa-solid fa-heart" />
+              {{ p.title }}
+            </router-link>
+          </li>
+        </ul>
         <p v-else class="dashboard-left-no-planners">
           No planners yet
         </p>
