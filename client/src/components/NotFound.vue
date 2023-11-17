@@ -23,7 +23,6 @@
   justify-content: flex-start;
   align-items: center;
   position: relative;
-  height: 100vh;
 }
 
 .not-found-main-title {

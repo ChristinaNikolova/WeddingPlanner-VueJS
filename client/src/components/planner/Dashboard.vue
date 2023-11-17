@@ -1,5 +1,4 @@
 <script>
-// todo Link import { Link } from 'react-router-dom';
 import plannersService from '../../services/planners';
 import { bottom } from '../../utils/constants/images';
 import Bottom from '../shared/images/Bottom.vue';
@@ -37,17 +36,25 @@ export default {
         <h2 class="dashboard-left-title">
           My planners
         </h2>
-        <!-- {planners.length
-                        ? planners.map((p) =>
-                            <Link class={styles["dashboard-left-link"]} to={`/plan/${p.id}`} key={p.id}>
-                                <i class="fa-solid fa-heart"></i>
-                                {p.title}
-                            </Link>)
-                        : <p class={styles["dashboard-left-no-planners"]}>No planners yet</p>
-                    } -->
+        <template v-if="planners.length">
+          <router-link
+            v-for="p in planners"
+            :key="p.id"
+            :to="`/plan/${p.id}`"
+            class="dashboard-left-link"
+          >
+            <i class="fa-solid fa-heart" />
+            {{ p.title }}
+          </router-link>
+        </template>
+        <p v-else class="dashboard-left-no-planners">
+          No planners yet
+        </p>
       </div>
       <div class="dashboard-right-wrapper">
-        <!-- <Link to="/plan/create" class='btn'>Create new planner</Link> -->
+        <router-link to="/plan/create" class="btn">
+          Create new planner
+        </router-link>
       </div>
     </div>
     <Bottom :first="first" :second="second" :third="third" />
