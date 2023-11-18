@@ -1,6 +1,4 @@
 <script>
-// todo import Link
-
 export default {
   props: {
     id: {
@@ -36,7 +34,9 @@ export default {
     <p class="last-three-articles-current-article-short-content">
       {{ shortContent }}
     </p>
-    <!-- <Link class="btn" to={`/blog/${id}`}>Read more</Link> -->
+    <router-link class="btn" :to="`/blog/${id}`">
+      Read more
+    </router-link>
   </div>
 </template>
 
