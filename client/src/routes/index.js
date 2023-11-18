@@ -4,6 +4,7 @@ import PlannerDashboard from '../components/planner/Dashboard.vue';
 import PlannerDetails from '../components/planner/Details.vue';
 import PlannerCreate from '../components/planner/Create.vue';
 import GuestAll from '../components/guest/All.vue';
+import NoteAll from '../components/note/All.vue';
 
 const routes = [
   { path: '/', component: Home },
@@ -11,6 +12,7 @@ const routes = [
   { path: '/plan/:id', component: PlannerDetails },
   { path: '/plan/create', component: PlannerCreate },
   { path: '/:plannerId/guest', component: GuestAll },
+  { path: '/:plannerId/note', component: NoteAll },
 ];
 
 const router = createRouter({

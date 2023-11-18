@@ -118,9 +118,9 @@ export default {
           <i :class="getPersonImage" />
         </span>
         <!-- todo TEST THIs -->
-        <span v-show="isHovering" class="guests-all-icons">
+        <span v-if="isHovering" class="guests-all-icons">
           <!-- {!isEditIconHidden && <i onClick="{()" => onShowFormHandler(id)} class="fa-solid fa-pen"></i>} -->
-          <i v-show="!isEditIconHidden" class="fa-solid fa-pen" />
+          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" />
           <!-- {role !== 'bride' && role !== 'groom' && !isEditIconHidden && -->
           <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
           <!-- } -->

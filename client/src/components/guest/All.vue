@@ -1,9 +1,9 @@
 <script>
 import guestsService from '../../services/guests';
-import Single from './Single.vue';
+import SingleGuest from './Single.vue';
 
 export default {
-  components: { Single },
+  components: { SingleGuest },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -55,7 +55,7 @@ const onShowFormHandler = (guestId) => {
     <!--  onShowFormHandler={onShowFormHandler} -->
     <div class="guests-all-main-content-wrapper">
       <template v-if="guests.length">
-        <Single
+        <SingleGuest
           v-for="g in guests"
           :id="g.id"
           :key="g.id"
