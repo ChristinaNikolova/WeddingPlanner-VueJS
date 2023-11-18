@@ -1,5 +1,5 @@
 <script>
-import { jumbo } from '../utils/constants/images.js';
+import { jumbo } from '../utils/constants/image.js';
 
 export default {
   props: {

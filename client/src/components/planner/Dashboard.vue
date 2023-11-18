@@ -1,6 +1,6 @@
 <script>
 import plannersService from '../../services/planners';
-import { bottom } from '../../utils/constants/images';
+import { bottom } from '../../utils/constants/image';
 import Bottom from '../shared/images/Bottom.vue';
 
 export default {

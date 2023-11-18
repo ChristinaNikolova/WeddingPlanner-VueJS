@@ -1,5 +1,5 @@
 <script>
-import { bottom } from '../../../utils/constants/images';
+import { bottom } from '../../../utils/constants/image';
 
 export default {
   props: {
