@@ -16,7 +16,6 @@ export default {
     },
     isEditIconHidden: {
       type: Boolean,
-      required: true,
       default: false,
     },
     // todo onShowFormHandler
