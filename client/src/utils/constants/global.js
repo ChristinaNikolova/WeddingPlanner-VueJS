@@ -34,22 +34,22 @@ export const formNames = {
 //   BLOCK: 'block',
 // };
 
-// export const people = {
-//   ADULT: 'adult',
-//   CHILD: 'child',
-//   BABY: 'baby',
-// };
+export const people = {
+  ADULT: 'adult',
+  CHILD: 'child',
+  BABY: 'baby',
+};
 
-// export const genders = {
-//   MALE: 'male',
-//   FEMALE: 'female',
-// };
+export const genders = {
+  MALE: 'male',
+  FEMALE: 'female',
+};
 
-// export const dishes = {
-//   MEAT: 'meat',
-//   FISH: 'fish',
-//   VEGGIES: 'veggies',
-// };
+export const dishes = {
+  MEAT: 'meat',
+  FISH: 'fish',
+  VEGGIES: 'veggies',
+};
 
 export const addButtonTexts = {
   SUB_TASK: 'sub-task',

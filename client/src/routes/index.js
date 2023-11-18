@@ -3,12 +3,14 @@ import Home from '../components/Home.vue';
 import PlannerDashboard from '../components/planner/Dashboard.vue';
 import PlannerDetails from '../components/planner/Details.vue';
 import PlannerCreate from '../components/planner/Create.vue';
+import GuestAll from '../components/guest/All.vue';
 
 const routes = [
   { path: '/', component: Home },
   { path: '/plan', component: PlannerDashboard },
   { path: '/plan/:id', component: PlannerDetails },
   { path: '/plan/create', component: PlannerCreate },
+  { path: '/:plannerId/guest', component: GuestAll },
 ];
 
 const router = createRouter({
