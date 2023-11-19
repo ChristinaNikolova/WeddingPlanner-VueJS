@@ -34,7 +34,9 @@ export default {
     // todo do wee need them at all???
     selectedCategory(newValue, oldValue) {
       if (newValue.id !== oldValue.id) {
+        this.currentPage = 1;
         this.loadArticle();
+        this.getNewQuery();
       }
     },
     currentPage(newValue, oldValue) {
@@ -60,7 +62,8 @@ export default {
     },
     onSearch() {
       this.isSearched = true;
-      this.startPageHelper();
+      // todo fix this
+      // this.startPageHelper();
     },
     onChangeHandler(e) {
       this.query = e.target.value;
@@ -71,18 +74,12 @@ export default {
         id: e.target.id,
         name: e.target.textContent,
       };
-      this.startPageHelper();
     },
     onRemoveCategotyHandler() {
       this.selectedCategory = {
         id: 'default',
         name: 'all',
       };
-      this.startPageHelper();
-    },
-    startPageHelper() {
-      this.currentPage = 1;
-      this.getNewQuery();
     },
     getNewQuery() {
       this.$router.push(`/blog?page=${this.currentPage}&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
