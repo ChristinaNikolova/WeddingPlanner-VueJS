@@ -1,7 +1,6 @@
 import { httpMethods } from '../utils/constants/global';
 import { api } from './api';
-
-// import { requester } from './requester';
+import { requester } from './requester';
 
 function getLastThree() {
   return fetch(`${api.articles}`, {
@@ -26,11 +25,11 @@ function getLastThree() {
 //     .catch(err => console.error(err));
 // }
 
-// function deleteById(id) {
-//   return requester(`${api.adminArticle}/${id}`, httpMethods.DELETE)
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// }
+function deleteById(id) {
+  return requester(`${api.adminArticle}/${id}`, httpMethods.DELETE)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
 function all(currentPage = 1, selectedCategory, query = '') {
   return fetch(`${api.articles}/${currentPage}/${selectedCategory}/${query}`, {
@@ -43,19 +42,22 @@ function all(currentPage = 1, selectedCategory, query = '') {
     .catch(err => console.error(err));
 }
 
-// function getById(id) {
-//   return requester(`${api.articles}/${id}`, httpMethods.GET)
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// }
+function getById(id) {
+  return requester(`${api.articles}/${id}`, httpMethods.GET)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
-// function like(id) {
-//   return requester(`${api.articles}/${id}`, httpMethods.POST)
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// }
+function like(id) {
+  return requester(`${api.articles}/${id}`, httpMethods.POST)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
 export default {
   getLastThree,
   all,
+  like,
+  getById,
+  deleteById,
 };

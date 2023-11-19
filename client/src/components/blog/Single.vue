@@ -53,7 +53,6 @@ export default {
       <p class="article-single-short-content">
         {{ shortContent }}
       </p>
-      <!-- state={{ page: currentPage, category: selectedCategory }} -->
       <router-link class="btn" :to="`/blog/${id}`">
         Read more
       </router-link>

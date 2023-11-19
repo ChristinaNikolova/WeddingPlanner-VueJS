@@ -10,7 +10,7 @@ export default {
       type: String,
     },
   },
-  emits: ['onCategoryHandler', 'onRemoveCategotyHandler '],
+  emits: ['onCategoryHandler', 'onRemoveCategotyHandler'],
   data() {
     return {
       categories: [],

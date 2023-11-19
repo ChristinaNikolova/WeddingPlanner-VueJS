@@ -12,6 +12,7 @@ export default {
   // todo extract Jumbo
   // todo check if everywhere $event!!!
   // todo add hook for update???
+
   components: { Jumbotron, AllCategoryDropDown, List, Pagination },
   data() {
     return {
@@ -30,6 +31,7 @@ export default {
     };
   },
   watch: {
+    // todo do wee need them at all???
     selectedCategory(newValue, oldValue) {
       if (newValue.id !== oldValue.id) {
         this.loadArticle();
@@ -79,9 +81,11 @@ export default {
       this.startPageHelper();
     },
     startPageHelper() {
-      console.log('startPageHelper');
-      this.$router.push(`/blog?page=1&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
       this.currentPage = 1;
+      this.getNewQuery();
+    },
+    getNewQuery() {
+      this.$router.push(`/blog?page=${this.currentPage}&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
     },
     async loadArticle() {
       await articlesService
@@ -93,9 +97,6 @@ export default {
           this.isSearched = false;
         })
         .catch(err => console.error(err));
-    },
-    getNewQuery() {
-      this.$router.push(`/blog?page=${this.currentPage}&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
     },
   },
 };

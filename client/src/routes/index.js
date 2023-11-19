@@ -9,6 +9,7 @@ import EventAll from '../components/event/All.vue';
 import CostsAll from '../components/budget/All.vue';
 import TaskAll from '../components/checklist/task/All.vue';
 import ArticlesAll from '../components/blog/All.vue';
+import ArticleDetails from '../components/blog/Details.vue';
 import FavouriteArticle from '../components/user/FavouriteArticle.vue';
 
 const routes = [
@@ -22,6 +23,7 @@ const routes = [
   { path: '/:plannerId/budget', component: CostsAll },
   { path: '/:plannerId/checklist', component: TaskAll },
   { path: '/blog', component: ArticlesAll },
+  { path: '/blog/:id', component: ArticleDetails },
   { path: '/user/favourite-article', component: FavouriteArticle },
 ];
 
