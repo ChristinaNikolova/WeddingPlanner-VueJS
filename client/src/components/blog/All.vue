@@ -4,6 +4,7 @@ import { jumbo } from '../../utils/constants/image';
 import { directions } from '../../utils/constants/global';
 import articlesService from '../../services/articles';
 import Pagination from '../shared/Pagination.vue';
+import form from '../../utils/helpers/form';
 import AllCategoryDropDown from './AllCategoryDropDown.vue';
 import List from './List.vue';
 
@@ -23,7 +24,6 @@ export default {
         name: this.$route?.query?.category ? this.$route.query.category : 'all',
       },
       pagesCount: 1,
-      hasToScroll: false,
       isSearchIconClicked: false,
       query: '',
       isSearched: false,
@@ -49,7 +49,7 @@ export default {
     onPaginationHandler(direction) {
       const value = direction === this.directions.PREV ? -1 : 1;
       this.currentPage = this.currentPage + value;
-      this.hasToScroll = true;
+      form.scrollToTop();
     },
     onShowSearchForm() {
       this.isSearchIconClicked = !this.isSearchIconClicked;
@@ -91,11 +91,6 @@ export default {
           this.currentPage = Number(data.currentPage);
           this.pagesCount = data.pagesCount;
           this.isSearched = false;
-
-          // if (hasToScroll) {
-          //   scrollToTop();
-          //   setHasToScroll(false);
-          // }
         })
         .catch(err => console.error(err));
     },
@@ -127,7 +122,7 @@ export default {
                     onShowSearchForm={onShowSearchForm}
                     onSearch={onSearch}
                     onChangeHandler={onChangeHandler}
-                /> -->
+            /> -->
       <AllCategoryDropDown
         :selected-category-name="selectedCategory.name"
         @on-category-handler="onCategoryHandler"
