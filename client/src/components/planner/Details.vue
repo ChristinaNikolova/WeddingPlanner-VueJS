@@ -102,7 +102,6 @@ export default {
           Budget
         </h4>
         <div class="details-planner-btns-wrapper">
-          <!-- todo state={{ budget: planner.budget }} -->
           <router-link :to="`/${id}/budget`" class="btn">
             Costs
           </router-link>

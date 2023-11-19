@@ -12,11 +12,11 @@
 //   PASSWORD_MAX_LEN: 50,
 // };
 
-// export const category = {
-//   NAME_MIN_LEN: 3,
-//   NAME_MAX_LEN: 30,
-//   DEFAULT_CATEGORY_SELECTED_ID: '638325c6bdd58333840dcc7e',
-// };
+export const category = {
+  NAME_MIN_LEN: 3,
+  NAME_MAX_LEN: 30,
+  DEFAULT_CATEGORY_SELECTED_ID: '638325c6bdd58333840dcc7e',
+};
 
 // export const cost = {
 //   TITLE_MIN_LEN: 3,

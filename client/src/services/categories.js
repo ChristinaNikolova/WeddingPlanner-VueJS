@@ -1,6 +1,6 @@
-// import { httpMethods } from '../utils/constants/global';
-// import { api } from './api';
-// import { requester } from './requester';
+import { httpMethods } from '../utils/constants/global';
+import { api } from './api';
+import { requester } from './requester';
 
 // function create(name, image) {
 //   return requester(api.adminCategory, httpMethods.POST, { name, image })
@@ -24,16 +24,16 @@
 //     .catch(err => console.error(err));
 // };
 
-// function all() {
-//   return fetch(api.categories, {
-//     method: httpMethods.GET,
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function all() {
+  return fetch(api.categories, {
+    method: httpMethods.GET,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 // function getById(id) {
 //   return requester(`${api.adminCategory}/${id}`, httpMethods.GET)
@@ -41,6 +41,6 @@
 //     .catch(err => console.error(err));
 // };
 
-// export default{
-
-// }
+export default {
+  all,
+};

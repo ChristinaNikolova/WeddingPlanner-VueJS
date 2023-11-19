@@ -20,6 +20,12 @@ function deleteById(id) {
     .catch(err => console.error(err));
 }
 
+function getBudget(id) {
+  return requester(`${api.planners}/${id}/budget`, httpMethods.GET)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
 // function create (description, date, budget, location, bride, groom){
 //   return requester(`${api.planners}`, httpMethods.POST, { description, date, budget, location, bride, groom })
 //       .then((res) => res.json())
@@ -36,4 +42,5 @@ export default {
   all,
   getById,
   deleteById,
+  getBudget,
 };
