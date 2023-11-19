@@ -32,16 +32,16 @@ function getLastThree() {
 //     .catch(err => console.error(err));
 // }
 
-// function all(currentPage = 1, selectedCategory, query = '') {
-//   return fetch(`${api.articles}/${currentPage}/${selectedCategory}/${query}`, {
-//     method: httpMethods.GET,
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// }
+function all(currentPage = 1, selectedCategory, query = '') {
+  return fetch(`${api.articles}/${currentPage}/${selectedCategory}/${query}`, {
+    method: httpMethods.GET,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
 // function getById(id) {
 //   return requester(`${api.articles}/${id}`, httpMethods.GET)
@@ -57,4 +57,5 @@ function getLastThree() {
 
 export default {
   getLastThree,
+  all,
 };

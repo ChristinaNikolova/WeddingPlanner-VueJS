@@ -36,7 +36,7 @@ export default {
       />
     </div>
   </template>
-  <p class="empty">
+  <p v-else class="empty">
     No Articles Yet
   </p>
 </template>
