@@ -2,10 +2,10 @@
 //   ADMIN: 'admin@weddingplanner.com',
 // };
 
-// export const directions = {
-//   PREV: 'prev',
-//   NEXT: 'next',
-// };
+export const directions = {
+  PREV: 'prev',
+  NEXT: 'next',
+};
 
 export const httpMethods = {
   GET: 'GET',

@@ -1,9 +1,9 @@
 import { classNames, styleNames } from '../constants/global';
 
-// function toggle(element, remove, add) {
-//   element.classList.remove(remove);
-//   element.classList.add(add);
-// };
+function toggle(element, remove, add) {
+  element.classList.remove(remove);
+  element.classList.add(add);
+};
 
 function toggleWithTargetContent(targetElement, targetIcon) {
   targetElement.style.display === styleNames.NONE
@@ -21,6 +21,6 @@ function toggleWithTargetContent(targetElement, targetIcon) {
 }
 
 export default {
-//   toggle,
+  toggle,
   toggleWithTargetContent,
 };
