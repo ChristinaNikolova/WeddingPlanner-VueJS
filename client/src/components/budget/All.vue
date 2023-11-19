@@ -50,20 +50,20 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    // const onCancelFormHandler = (e) => {
-    //     cancelForm(e.target);
-    //     setCostId('');
-    //     setCurrentIndex('');
-    // }
-    // const onShowFormHandler = (e) => {
-    //     const targetFormElement = e.target.parentElement.parentElement.children[0];
-    //     targetFormElement.style.display = styleNames.FLEX;
-    // }
     async loadCosts() {
       await costsService
         .all(this.plannerId)
         .then(res => this.costs = res)
         .catch(err => console.error(err));
+    },
+    // const onCancelFormHandler = (e) => {
+    //     cancelForm(e.target);
+    //     setCostId('');
+    //     setCurrentIndex('');
+    // }
+    onShowFormHandler(e) {
+      const targetFormElement = e.target.parentElement.parentElement.children[0];
+      targetFormElement.style.display = styleNames.FLEX;
     },
     onDeleteHandler(id) {
       costsService
@@ -71,10 +71,10 @@ export default {
         .then(async () => await this.loadCosts())
         .catch(err => console.error(err));
     },
-    // const onEditHandler = (id, index) => {
-    //     setCostId(id);
-    //     setCurrentIndex(index);
-    // }
+    onEditHandler(id, index) {
+      this.costId = id;
+      this.currentIndex = index;
+    },
     calculateCategeryActualCosts(categoryId) {
       return (this.costs
         .filter(c => c.category === categoryId)
@@ -147,8 +147,8 @@ export default {
                 :title="cost.title"
                 :price="cost.price"
                 @on-delete-handler="onDeleteHandler"
+                @on-edit-handler="onEditHandler"
               />
-              <!-- onEditHandler={onEditHandler} -->
             </template>
           </template>
           <p v-else class="budget-main-current-category-costs-empty">
@@ -159,8 +159,8 @@ export default {
             :class-names="[]"
             :text="addButtonTexts.COST"
             :is-empty-string="false"
+            @on-show-form-handle="onShowFormHandler"
           />
-          <!-- on-show-form-handler="onShowFormHandler" -->
         </div>
       </div>
     </div>

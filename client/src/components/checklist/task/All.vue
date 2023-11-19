@@ -38,6 +38,10 @@ export default {
         .then(async () => await this.loadTasks())
         .catch(err => console.error(err));
     },
+    onEditHandler(id, index) {
+      this.taskId = id;
+      this.currentIndex = index;
+    },
     // const onShowTaskFormHandler = (e) => {
     //     const targetFormElement = e.target.parentElement.parentElement.nextSibling;
     //     targetFormElement.style.display = styleNames.FLEX;
@@ -49,11 +53,6 @@ export default {
     //     cancelForm(e.target);
     //     setTaskId('');
     //     setCurrentIndex('');
-    // }
-
-    // const onEditHandler = (id, index) => {
-    //     setTaskId(id);
-    //     setCurrentIndex(index);
     // }
   },
 };
@@ -113,11 +112,11 @@ export default {
                   :target="t.target"
                   :subtasks="t.subtasks"
                   :load-tasks="loadTasks"
+                  @on-edit-handler="onEditHandler"
                   @on-delete-handler="onDeleteHandler"
                 />
                 <!-- todo fix this -->
-                <!-- :on-edit-handler="{onEditHandler}"
-              :on-cancel-form-handler="{onCancelFormHandler}" -->
+                <!-- :on-cancel-form-handler="{onCancelFormHandler}" -->
               </template>
             </template>
             <p v-else class="checklist-all-empty-tasks">

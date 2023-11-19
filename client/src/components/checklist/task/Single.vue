@@ -4,7 +4,6 @@ import dropdown from '../../../utils/helpers/dropdown';
 import AllSubtasks from '../subtask/All.vue';
 
 export default {
-  //   onEditHandler,
   //   onCancelFormHandler
   components: { AllSubtasks },
   props: {
@@ -44,7 +43,7 @@ export default {
       type: Function,
     },
   },
-  emits: ['onDeleteHandler'],
+  emits: ['onDeleteHandler', 'onEditHandler'],
   data() {
     return {
       styleNames,
@@ -86,7 +85,7 @@ export default {
       >
         {{ title }}
         <span class="checklist-all-current-task-icons" :style="{ display: `${styleNames.NONE}` }">
-          <!-- {!taskId && <i onClick={() => onEditHandler(id, index)} class="fa-solid fa-pen"></i>} -->
+          <i v-if="!taskId" class="fa-solid fa-pen" @click="$emit('onEditHandler', id, index)" />
           <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
         </span>
       </h4>

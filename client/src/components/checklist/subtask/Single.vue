@@ -23,9 +23,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    // todo onEditHandler,
   },
-  emits: ['onDoneSubtask', 'onDeleteHandler'],
+  emits: ['onDoneSubtask', 'onDeleteHandler', 'onEditHandler'],
   data() {
     return {
       styleNames,
@@ -47,7 +46,6 @@ export default {
       if (e.target.nodeName !== tagNames.P) {
         return;
       }
-
       e.target.children[0].style.display = styleNames.INLINE_BLOCK;
     },
     onMouseLeaveHandler() {
@@ -73,8 +71,7 @@ export default {
         class="checklist-all-current-task-current-subtask-icons-wrapper subtask-icons-wrapper"
         :style="{ display: `${styleNames.NONE}` }"
       >
-        <!-- todo fix this -->
-        <!-- {!subtaskId && <i onClick={() => onEditHandler(id)} class="fa-solid fa-pen"></i>} -->
+        <i v-if="!subtaskId" class="fa-solid fa-pen" @click="$emit('onEditHandler', id)" />
         <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', taskId, id)" />
       </span>
     </p>

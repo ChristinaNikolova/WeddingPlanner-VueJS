@@ -1,6 +1,7 @@
 import { httpMethods } from '../utils/constants/global';
 import { api } from './api';
-import { requester } from './requester';
+
+// import { requester } from './requester';
 
 // function create(name, image) {
 //   return requester(api.adminCategory, httpMethods.POST, { name, image })

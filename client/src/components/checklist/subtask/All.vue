@@ -31,6 +31,9 @@ export default {
     //     const targetFormElement = e.target.parentElement.parentElement.parentElement.children[1].children[0];
     //     targetFormElement.style.display = styleNames.FLEX;
     // }
+    // const onCancelFormHelperHandler = () => {
+    //     setSubtaskId('');
+    // }
     onDoneSubtask(taskId, subtaskId) {
       subtasksService
         .done(taskId, subtaskId)
@@ -39,9 +42,9 @@ export default {
         })
         .catch(err => console.error(err));
     },
-    // const onEditHandler = (id) => {
-    //     setSubtaskId(id);
-    // }
+    onEditHandler(id) {
+      this.subtaskId = id;
+    },
     onDeleteHandler(taskId, subtaskId) {
       subtasksService
         .deleteById(taskId, subtaskId)
@@ -50,9 +53,6 @@ export default {
         })
         .catch(err => console.error(err));
     },
-    // const onCancelFormHelperHandler = () => {
-    //     setSubtaskId('');
-    // }
   },
 };
 </script>
@@ -88,9 +88,9 @@ export default {
         :is-done="st.isDone"
         @on-done-subtask="onDoneSubtask"
         @on-delete-handler="onDeleteHandler"
+        @on-edit-handler="onEditHandler"
       />
     </template>
-    <!-- :onEditHandler="onEditHandler" -->
     <p v-else className="checklist-all-empty-subtasks">
       No sub-tasks yet
     </p>

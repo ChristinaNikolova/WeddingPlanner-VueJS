@@ -23,10 +23,8 @@ export default {
       type: Number,
       default: 0,
     },
-
   },
-  emits: ['onDeleteHandler'],
-  // onEditHandler,
+  emits: ['onDeleteHandler', 'onEditHandler'],
   data() {
     return {
       styleNames,
@@ -58,7 +56,7 @@ export default {
     >
       {{ title }}
       <span class="budget-main-current-category-current-cost-icons" :style="{ display: `${styleNames.NONE}` }">
-        <!-- {!costId && <i onClick={() => onEditHandler(id, index)} class="fa-solid fa-pen"></i>} -->
+        <i v-if="!costId" class="fa-solid fa-pen" @click="$emit('onEditHandler', id, index)" />
         <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
       </span>
     </p>
