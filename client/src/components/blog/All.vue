@@ -24,8 +24,6 @@ export default {
       },
       pagesCount: 1,
       hasToScroll: false,
-      // remove this?
-      hasToNavigate: false,
       isSearchIconClicked: false,
       query: '',
       isSearched: false,
@@ -35,7 +33,6 @@ export default {
     selectedCategory(newValue, oldValue) {
       if (newValue.id !== oldValue.id) {
         this.loadArticle();
-        this.getNewQuery();
       }
     },
     currentPage(newValue, oldValue) {
@@ -72,14 +69,17 @@ export default {
         id: e.target.id,
         name: e.target.textContent,
       };
+      this.startPageHelper();
     },
     onRemoveCategotyHandler() {
       this.selectedCategory = {
         id: 'default',
         name: 'all',
       };
+      this.startPageHelper();
     },
     startPageHelper() {
+      console.log('startPageHelper');
       this.$router.push(`/blog?page=1&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
       this.currentPage = 1;
     },
@@ -96,20 +96,11 @@ export default {
           //   scrollToTop();
           //   setHasToScroll(false);
           // }
-
-        // if (this.hasToNavigate) {
-        //   startPageHelper();
-        //   setHasToNavigate(false);
-        // }
         })
         .catch(err => console.error(err));
     },
     getNewQuery() {
-      this.$router.replace({ query: {
-        page: this.currentPage,
-        category: this.selectedCategory.name.toLowerCase(),
-        categoryId: this.selectedCategory.id,
-      } });
+      this.$router.push(`/blog?page=${this.currentPage}&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
     },
   },
 };
