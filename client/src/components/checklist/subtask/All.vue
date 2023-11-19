@@ -1,9 +1,11 @@
 <script>
 import subtasksService from '../../../services/subtasks';
+import AddButton from '../../shared/buttons/Add.vue';
+import { addButtonTexts } from '../../../utils/constants/global';
 import SingleSubtask from './Single.vue';
 
 export default {
-  components: { SingleSubtask },
+  components: { AddButton, SingleSubtask },
   props: {
     taskId: {
       type: String,
@@ -21,6 +23,7 @@ export default {
   data() {
     return {
       subtaskId: '',
+      addButtonTexts,
     };
   },
   methods: {
@@ -92,14 +95,13 @@ export default {
       No sub-tasks yet
     </p>
     <div className="checklist-all-current-task-subtasks-form-icon-wrapper">
-      <!-- {!subtaskId
-                    && <AddButton
-                        classNames={[]}
-                        text={addButtonTexts.SUB_TASK}
-                        isEmptyString={false}
-                        onShowFormHandler={onShowSubTaskFormHandler}
-                    />
-                } -->
+      <AddButton
+        v-if="!subtaskId"
+        :class-names="[]"
+        :text="addButtonTexts.SUB_TASK"
+        :is-empty-string="false"
+        @on-show-form-handler="onShowSubTaskFormHandler"
+      />
     </div>
   </div>
 </template>

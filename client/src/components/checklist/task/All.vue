@@ -1,10 +1,11 @@
 <script>
 import tasksService from '../../../services/tasks';
-import { timespans } from '../../../utils/constants/global';
+import { addButtonTexts, timespans } from '../../../utils/constants/global';
+import AddButton from '../../shared/buttons/Add.vue';
 import SingleTask from './Single.vue';
 
 export default {
-  components: { SingleTask },
+  components: { SingleTask, AddButton },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -13,6 +14,7 @@ export default {
       currentIndex: '',
       timespan: '',
       timespans,
+      addButtonTexts,
     };
   },
   async mounted() {
@@ -71,14 +73,13 @@ export default {
             <p class="checklist-all-timespan">
               {{ time }}
             </p>
-            <!-- {!taskId
-            && <AddButton
-              classs="{[]}"
-              text="{addButtonTexts.TASK}"
-              is-empty-string="{false}"
-              on-show-form-handler="{onShowTaskFormHandler}"
+            <AddButton
+              v-if="!taskId"
+              :class-names="[]"
+              :text="addButtonTexts.TASK"
+              :is-empty-string="false"
+              :on-show-form-handler="onShowTaskFormHandler"
             />
-            } -->
           </div>
           <!-- {taskId
           && index === currentIndex
