@@ -1,17 +1,19 @@
 <script>
 import { styleNames, tagNames } from '../../../utils/constants/global';
 import dropdown from '../../../utils/helpers/dropdown';
+import AllSubtasks from '../subtask/All.vue';
+
 export default {
   //   onEditHandler,
   //   onCancelFormHandler
+  components: { AllSubtasks },
   props: {
-    // todo check type here
+    // todo check type here and why 2 ids
     index: {
       type: String,
       required: true,
     },
     taskId: {
-      type: String,
       required: true,
     },
     id: {
@@ -35,8 +37,8 @@ export default {
       required: true,
     },
     subtasks: {
-      type: Number,
-      required: true,
+      type: Array,
+      default: () => ([]),
     },
     loadTasks: {
       type: Function,
@@ -52,6 +54,9 @@ export default {
   methods: {
     // todo check what is index, check type of all props
     onMouseEnterHandler(e) {
+      console.log('id', this.id);
+      console.log('task Id', this.taskId);
+
       if (e.target.nodeName !== tagNames.H4) {
         return;
       }
@@ -100,12 +105,12 @@ export default {
       <p class="checklist-all-current-task-info-desc">
         {{ description }}
       </p>
-    <!-- <SubtasksAll
-                    taskId={id}
-                    subtasks={subtasks}
-                    loadTasks={loadTasks}
-                    onCancelFormHandler={onCancelFormHandler}
-                /> -->
+      <AllSubtasks
+        :task-id="id"
+        :subtasks="subtasks"
+        :load-tasks="loadTasks"
+      />
+      <!-- onCancelFormHandler={onCancelFormHandler} -->
     </div>
   </div>
 </template>
