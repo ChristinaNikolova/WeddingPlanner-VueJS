@@ -6,6 +6,7 @@ import PlannerCreate from '../components/planner/Create.vue';
 import GuestAll from '../components/guest/All.vue';
 import NoteAll from '../components/note/All.vue';
 import EventAll from '../components/event/All.vue';
+import TaskAll from '../components/checklist/task/All.vue';
 import FavouriteArticle from '../components/user/FavouriteArticle.vue';
 
 const routes = [
@@ -16,6 +17,7 @@ const routes = [
   { path: '/:plannerId/guest', component: GuestAll },
   { path: '/:plannerId/note', component: NoteAll },
   { path: '/:plannerId/event', component: EventAll },
+  { path: '/:plannerId/checklist', component: TaskAll },
   { path: '/user/favourite-article', component: FavouriteArticle },
 ];
 

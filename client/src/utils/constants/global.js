@@ -19,20 +19,20 @@ export const formNames = {
   UPDATE: 'update',
 };
 
-// export const classNames = {
-//   SHOW: 'show',
-//   HIDE: 'hide',
-//   FORM_WIDTH: 'form-width',
-//   CHEVRON_DOWN: 'fa-chevron-down',
-//   CHEVRON_RIGHT: 'fa-chevron-right',
-// };
+export const classNames = {
+  SHOW: 'show',
+  HIDE: 'hide',
+  FORM_WIDTH: 'form-width',
+  CHEVRON_DOWN: 'fa-chevron-down',
+  CHEVRON_RIGHT: 'fa-chevron-right',
+};
 
-// export const styleNames = {
-//   FLEX: 'flex',
-//   NONE: 'none',
-//   INLINE_BLOCK: 'inline-block',
-//   BLOCK: 'block',
-// };
+export const styleNames = {
+  FLEX: 'flex',
+  NONE: 'none',
+  INLINE_BLOCK: 'inline-block',
+  BLOCK: 'block',
+};
 
 export const people = {
   ADULT: 'adult',
@@ -60,10 +60,10 @@ export const addButtonTexts = {
   COST: 'cost',
 };
 
-// export const tagNames = {
-//   P: 'P',
-//   H4: 'H4',
-// };
+export const tagNames = {
+  P: 'P',
+  H4: 'H4',
+};
 
 // export const roles = [
 //   'bride',
@@ -79,15 +79,15 @@ export const addButtonTexts = {
 //   'friend',
 // ];
 
-// export const timespans = [
-//   'one year',
-//   'nine months',
-//   'six months',
-//   'three months',
-//   'one month',
-//   'three weeks',
-//   'two weeks',
-//   'one week',
-//   'one day',
-//   'wedding day',
-// ];
+export const timespans = [
+  'one year',
+  'nine months',
+  'six months',
+  'three months',
+  'one month',
+  'three weeks',
+  'two weeks',
+  'one week',
+  'one day',
+  'wedding day',
+];
