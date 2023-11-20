@@ -10,9 +10,11 @@ export default {
     },
     currentPage: {
       type: Number,
+      // todo add default here
     },
     selectedCategory: {
       type: String,
+      // todo add default here
     },
   },
 };

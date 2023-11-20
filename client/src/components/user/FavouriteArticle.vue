@@ -1,11 +1,10 @@
 <script>
 import usersService from '../../services/users';
 import { jumbo } from '../../utils/constants/image';
-
-import Jumbotron from '../Jumbotron.vue';
+import List from '../blog/List.vue';
 
 export default {
-  components: { Jumbotron },
+  components: { List },
   data() {
     return {
       pathToImage: jumbo.USER,
@@ -30,12 +29,10 @@ export default {
     <h4 class="fav-articles-title">
       Favourite Articles
     </h4>
-    <!-- todo fix this -->
-    <!-- <ArticlesList
-                articles={favArticles}
-            /> -->
-    <!-- todo fix this v-else -->
-    <p class="empty empty-planner">
+    <!-- todo test if this works without all props -->
+    <!-- todo add ? -->
+    <List v-if="articles?.length" :articles="articles" />
+    <p v-else class="empty empty-planner">
       No articles yet
     </p>
   </section>

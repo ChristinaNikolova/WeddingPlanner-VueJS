@@ -26,7 +26,7 @@ export default {
     onMouseEnter() {
       this.isHovering = true;
     },
-    onmouseLeave() {
+    onMouseLeave() {
       this.isHovering = false;
     },
   },
@@ -37,7 +37,7 @@ export default {
   <!-- ref={plannerRef} -->
   <section id="details-planner" class="details-planner">
     <div class="section-title-wrapper">
-      <h2 class="section-title" @mouseenter="onMouseEnter" @mouseleave="onmouseLeave">
+      <h2 class="section-title" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         {{ planner.title }}
         <span v-if="isHovering" class="details-planner-icons">
           <router-link :to="`/plan/edit/${id}`"><i class="fa-solid fa-pen" /></router-link>

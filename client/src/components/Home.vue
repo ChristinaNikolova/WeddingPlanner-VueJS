@@ -1,10 +1,8 @@
 <script>
 import LastThreeArticles from './shared/Blog/LastThreeArticles.vue';
-import Jumbotron from './Jumbotron.vue';
 
 export default {
   components: {
-    Jumbotron,
     LastThreeArticles,
   },
 };

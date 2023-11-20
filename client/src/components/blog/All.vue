@@ -1,5 +1,4 @@
 <script>
-import Jumbotron from '../Jumbotron.vue';
 import { jumbo } from '../../utils/constants/image';
 import { directions } from '../../utils/constants/global';
 import articlesService from '../../services/articles';
@@ -13,7 +12,7 @@ export default {
   // todo check if everywhere $event!!!
   // todo add hook for update???
 
-  components: { Jumbotron, AllCategoryDropDown, List, Pagination },
+  components: { AllCategoryDropDown, List, Pagination },
   data() {
     return {
       directions,

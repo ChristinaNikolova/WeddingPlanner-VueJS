@@ -1,11 +1,10 @@
 <script>
-import Jumbotron from '../Jumbotron.vue';
 import articlesService from '../../services/articles';
 import form from '../../utils/helpers/form';
 import LastThreeArticles from '../shared/Blog/LastThreeArticles.vue';
 
 export default {
-  components: { Jumbotron, LastThreeArticles },
+  components: { LastThreeArticles },
   // todo fix this const { userId, isAdmin } = useContext(AuthContext);
   // test if async await is needed
   data() {

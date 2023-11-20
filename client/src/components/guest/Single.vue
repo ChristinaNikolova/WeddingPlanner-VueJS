@@ -3,6 +3,7 @@ import { dishImages, personImages } from '../../utils/constants/image';
 import { dishes, genders, people } from '../../utils/constants/global';
 
 export default {
+  // todo names on function => same convension
   props: {
     id: {
       type: String,
