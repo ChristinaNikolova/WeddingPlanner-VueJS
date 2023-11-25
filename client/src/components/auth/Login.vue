@@ -22,9 +22,7 @@ export default {
   watch: {
     data: {
       handler() {
-        // false email = 0 && password =0
-        // true
-        this.isDisabled = this.v$.data.email.$errors.length === 0 && this.v$.email.$dirty && this.v$.password.$dirty && this.v$.data.password.$errors.length === 0;
+        this.isDisabled = this.v$.data.email.$invalid || this.v$.data.password.$invalid;
         return this.isDisabled;
       },
       deep: true,
@@ -73,29 +71,20 @@ export default {
     </div>
     <div class="login-content-wrapper">
       <form class="auth-form" @submit.prevent="onSubmitHandler">
-        <div class="form-wrapper">
-          <AppInput
-            v-model="v$.data.email.$model"
-            name="email"
-            type="email"
-            label="Email"
-          />
-          <template v-for="error of v$.data.email.$errors" :key="error.$uid">
-            <ClientError :error="error.$message" />
-          </template>
-        </div>
-        <div class="form-wrapper">
-          <AppInput
-            v-model="v$.data.password.$model"
-            name="password"
-            type="password"
-            label="Password"
-          />
-          <template v-for="error of v$.data.password.$errors" :key="error.$uid">
-            <ClientError :error="error.$message" />
-          </template>
-        </div>
-        <!-- todo disabled button <button class="btn" disabled={isDisabled}>Login</button> -->
+        <AppInput
+          v-model.trim="v$.data.email.$model"
+          :errors="v$?.data.email.$errors"
+          name="email"
+          type="email"
+          label="Email"
+        />
+        <AppInput
+          v-model.trim="v$.data.password.$model"
+          :errors="v$?.data.password.$errors"
+          name="password"
+          type="password"
+          label="Password"
+        />
         <button :disabled="isDisabled" class="btn">
           Login
         </button>

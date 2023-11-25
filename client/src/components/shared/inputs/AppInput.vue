@@ -1,7 +1,6 @@
 <script>
 export default {
   // todo add default values here and checke types
-  // onChangeHandler, onBlurHandler
   props: {
     modelValue: {
       type: String,
@@ -19,6 +18,10 @@ export default {
       type: String,
       required: true,
     },
+    errors: {
+      type: Array,
+      default: () => ([]),
+    },
     // checked: {
     //   type: String,
     //   required: true,
@@ -35,13 +38,16 @@ export default {
 </script>
 
 <template>
-  <label class="label" :for="name">{{ label }}</label>
-  <input
-    :id="name"
-    class="input"
-    :name="name"
-    :type="type"
-    :value="modelValue"
-    @input="onInput"
-  >
+  <div class="form-wrapper">
+    <label class="label" :for="name">{{ label }}</label>
+    <input
+      :id="name"
+      class="input"
+      :name="name"
+      :type="type"
+      :value="modelValue"
+      @input="onInput"
+    >
+    <ClientError v-for="error of errors" :key="error.$uid" :error="error.$message" />
+  </div>
 </template>

@@ -9,7 +9,7 @@ export const global = {
   NAME(min, max) {
     return `Name should be between ${min} and ${max} characters long`;
   },
-  REQUIRED: 'Value is required',
+  REQUIRED: 'Field is required',
   DEFAULT: 'Error',
 };
 
