@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/Home.vue';
 import Login from '../components/auth/Login.vue';
+import Register from '../components/auth/Register.vue';
 import PlannerDashboard from '../components/planner/Dashboard.vue';
 import PlannerDetails from '../components/planner/Details.vue';
 import GuestAll from '../components/guest/All.vue';
@@ -15,6 +16,7 @@ import FavouriteArticle from '../components/user/FavouriteArticle.vue';
 const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },
+  { path: '/register', component: Register },
   { path: '/plan', component: PlannerDashboard },
   { path: '/plan/:id', component: PlannerDetails },
   { path: '/:plannerId/guest', component: GuestAll },
