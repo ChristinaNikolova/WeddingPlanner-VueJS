@@ -10,9 +10,10 @@ import CategoryWrapper from './CategoryWrapper.vue';
 import InfoWrapper from './InfoWrapper.vue';
 import SingleCost from './Single.vue';
 import Create from './Create.vue';
+import Update from './Update.vue';
 
 export default {
-  components: { CategoryWrapper, InfoWrapper, AddButton, SingleCost, Create },
+  components: { CategoryWrapper, InfoWrapper, AddButton, SingleCost, Create, Update },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -20,7 +21,7 @@ export default {
       categories: [],
       costs: [],
       costId: '',
-      currentIndex: '',
+      currentIndex: null,
       styleNames,
       addButtonTexts,
       defaultCategory: category.DEFAULT_CATEGORY_SELECTED_ID,
@@ -33,20 +34,18 @@ export default {
         .toFixed(2);
     },
   },
-  async mounted() {
+  async created() {
     await this.loadCosts();
-
     await plannersService
       .getBudget(this.plannerId)
       .then(res => this.budget = res)
       .catch(err => console.error(err));
-
     await categoriesService
       .all()
       .then((res) => {
         res = res.filter(el => el.id !== this.defaultCategory);
         this.categories = res;
-        // costsAllRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        this.$refs.costsAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
       })
       .catch(err => console.error(err));
   },
@@ -63,7 +62,7 @@ export default {
       }
       form.onClearInputs();
       this.costId = '';
-      this.currentIndex = '';
+      this.currentIndex = null;
     },
     onShowFormHandler(e) {
       const targetFormElement = e.target.parentElement.parentElement.children[0];
@@ -92,10 +91,8 @@ export default {
 };
 </script>
 
-<!-- const costsAllRef = useRef(null); -->
 <template>
-  <!-- ref={costsAllRef} -->
-  <section id="budget" class="section-planner section-background">
+  <section id="budget" ref="costsAllRef" class="section-planner section-background">
     <div class="section-title-wrapper">
       <h2 class="section-title">
         Budget
@@ -114,15 +111,13 @@ export default {
           :category-costs="calculateCategoryActualCosts(cat.id)"
         />
         <div class="budget-main-current-category-costs-wrapper" :style="{ display: `${styleNames.BLOCK}` }">
-          <!-- {costId
-                                && index === currentIndex
-                                && <UpdateCost
-                                    plannerId={plannerId}
-                                    costId={costId}
-                                    loadCosts={loadCosts}
-                                    onCancelFormHandler={onCancelFormHandler}
-                                />
-                            } -->
+          <Update
+            v-if="costId && index === currentIndex"
+            :planner-id="plannerId"
+            :cost-id="costId"
+            :load-costs="loadCosts"
+            :on-cancel-form-handler="onCancelFormHandler"
+          />
           <Create
             v-if="!costId"
             :planner-id="plannerId"

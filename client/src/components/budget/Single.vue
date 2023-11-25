@@ -4,7 +4,7 @@ import { styleNames, tagNames } from '../../utils/constants/global';
 export default {
   props: {
     index: {
-      type: String,
+      type: Number,
       required: true,
     },
     costId: {
@@ -20,8 +20,8 @@ export default {
       required: true,
     },
     price: {
-      type: Number,
-      default: 0,
+      type: String,
+      required: true,
     },
   },
   emits: ['onDeleteHandler', 'onEditHandler'],
