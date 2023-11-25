@@ -68,7 +68,7 @@ export default {
         },
         price: {
           required: helpers.withMessage(global.REQUIRED, required),
-          minValue: helpers.withMessage(this.errors.PRICE, minValue(this.models.TITLE_MIN_LEN)),
+          minValue: helpers.withMessage(this.errors.PRICE, minValue(this.models.PRICE_MIN)),
         },
       },
     };

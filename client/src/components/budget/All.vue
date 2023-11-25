@@ -100,7 +100,6 @@ export default {
         Budget
       </h2>
     </div>
-    <!-- todo test the two props here -->
     <InfoWrapper
       :budget="budget"
       :actual-costs="calculateActualCosts"

@@ -28,9 +28,9 @@ export const auth = {
   REPEAT_PASSWORD: 'Password und repeat password are not equal',
 };
 
-// export const cost = {
-//   PRICE: 'Price should be a positive number',
-// };
+export const cost = {
+  PRICE: 'Price should be a positive number',
+};
 
 // export const event = {
 //   TIME: 'End time should be after the start time',

@@ -18,11 +18,11 @@ export const category = {
   DEFAULT_CATEGORY_SELECTED_ID: '638325c6bdd58333840dcc7e',
 };
 
-// export const cost = {
-//   TITLE_MIN_LEN: 3,
-//   TITLE_MAX_LEN: 80,
-//   PRICE_MIN: 1,
-// };
+export const cost = {
+  TITLE_MIN_LEN: 3,
+  TITLE_MAX_LEN: 80,
+  PRICE_MIN: 1,
+};
 
 // export const event = {
 //   TITLE_MIN_LEN: 5,
