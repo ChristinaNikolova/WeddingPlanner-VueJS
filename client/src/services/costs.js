@@ -8,11 +8,11 @@ function all(plannerId) {
     .catch(err => console.error(err));
 };
 
-// function create(plannerId, title, price, category) {
-//   return requester(`${api.costs}/${plannerId}`, httpMethods.POST, { title, price, category })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function create(plannerId, title, price, category) {
+  return requester(`${api.costs}/${plannerId}`, httpMethods.POST, { title, price, category })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 function deleteById(id) {
   return requester(`${api.costs}/${id}`, httpMethods.DELETE)
@@ -35,4 +35,5 @@ function deleteById(id) {
 export default {
   all,
   deleteById,
+  create,
 };

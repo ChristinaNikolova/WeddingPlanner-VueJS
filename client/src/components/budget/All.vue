@@ -4,13 +4,15 @@ import plannersService from '../../services/planners';
 import categoriesService from '../../services/categories';
 import { addButtonTexts, styleNames } from '../../utils/constants/global';
 import { category } from '../../utils/constants/model';
+import form from '../../utils/helpers/form';
 import AddButton from '../shared/buttons/Add.vue';
 import CategoryWrapper from './CategoryWrapper.vue';
 import InfoWrapper from './InfoWrapper.vue';
 import SingleCost from './Single.vue';
+import Create from './Create.vue';
 
 export default {
-  components: { CategoryWrapper, InfoWrapper, AddButton, SingleCost },
+  components: { CategoryWrapper, InfoWrapper, AddButton, SingleCost, Create },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -26,7 +28,6 @@ export default {
   },
   computed: {
     calculateActualCosts() {
-      // todo extract as normal method????
       return (this.costs
         .reduce((acc, curr) => Number(curr.price) + acc, 0))
         .toFixed(2);
@@ -56,11 +57,13 @@ export default {
         .then(res => this.costs = res)
         .catch(err => console.error(err));
     },
-    // const onCancelFormHandler = (e) => {
-    //     cancelForm(e.target);
-    //     setCostId('');
-    //     setCurrentIndex('');
-    // }
+    onCancelFormHandler() {
+      // todo need this?
+      // form.cancelForm(e.target);
+      form.onClearInputs();
+      this.costId = '';
+      this.currentIndex = '';
+    },
     onShowFormHandler(e) {
       const targetFormElement = e.target.parentElement.parentElement.children[0];
       targetFormElement.style.display = styleNames.FLEX;
@@ -120,14 +123,13 @@ export default {
                                     onCancelFormHandler={onCancelFormHandler}
                                 />
                             } -->
-          <!-- {!costId &&
-                                <CreateCost
-                                    plannerId={plannerId}
-                                    category={c.id}
-                                    loadCosts={loadCosts}
-                                    onCancelFormHandler={onCancelFormHandler}
-                                />
-                            } -->
+          <Create
+            v-if="!costId"
+            :planner-id="plannerId"
+            :category="cat.id"
+            :load-costs="loadCosts"
+            :on-cancel-form-handler="onCancelFormHandler"
+          />
           <div class="budget-main-current-category-costs-titles-wrapper">
             <p class="budget-main-current-category-costs-titles-title">
               Title
@@ -156,10 +158,8 @@ export default {
           </p>
           <AddButton
             v-if="!costId"
-            :class-names="[]"
             :text="addButtonTexts.COST"
-            :is-empty-string="false"
-            @on-show-form-handle="onShowFormHandler"
+            @on-show-form-handler="onShowFormHandler"
           />
         </div>
       </div>

@@ -4,6 +4,7 @@ import './styles/index.css';
 import App from './App.vue';
 import Jumbotron from './components/Jumbotron.vue';
 import AppInput from './components/shared/inputs/AppInput.vue';
+import FormButton from './components/shared/buttons/Form.vue';
 import ClientError from './components/shared/errors/ClientError.vue';
 import ServerError from './components/shared/errors/ServerError.vue';
 
@@ -11,6 +12,7 @@ const app = createApp(App);
 app.use(router);
 app.component('Jumbotron', Jumbotron);
 app.component('AppInput', AppInput);
+app.component('FormButton', FormButton);
 app.component('ClientError', ClientError);
 app.component('ServerError', ServerError);
 app.mount('#app');
