@@ -36,11 +36,11 @@ export const cost = {
 //   TIME: 'End time should be after the start time',
 // };
 
-// export const planner = {
-//   BUDGET: 'Budget should be a positive number',
-//   LOCATION(min, max) {
-//     return `Location should be between ${min} and ${max} characters long`;
-//   },
-//   NAME: 'Name should contain first and last name',
-//   DATE: 'Date should be in format DD.MM.YYYY',
-// };
+export const planner = {
+  BUDGET: 'Budget should be a positive number',
+  LOCATION(min, max) {
+    return `Location should be between ${min} and ${max} characters long`;
+  },
+  NAME: 'Name should contain first and last name',
+  DATE: 'Date should be in format DD.MM.YYYY',
+};

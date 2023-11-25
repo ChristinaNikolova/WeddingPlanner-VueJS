@@ -3,6 +3,7 @@ import Home from '../components/Home.vue';
 import Login from '../components/auth/Login.vue';
 import Register from '../components/auth/Register.vue';
 import PlannerDashboard from '../components/planner/Dashboard.vue';
+import PlannerCreate from '../components/planner/Create.vue';
 import PlannerDetails from '../components/planner/Details.vue';
 import GuestAll from '../components/guest/All.vue';
 import NoteAll from '../components/note/All.vue';
@@ -18,6 +19,7 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/register', component: Register },
   { path: '/plan', component: PlannerDashboard },
+  { path: '/plan/create', component: PlannerCreate },
   { path: '/plan/:id', component: PlannerDetails },
   { path: '/:plannerId/guest', component: GuestAll },
   { path: '/:plannerId/note', component: NoteAll },

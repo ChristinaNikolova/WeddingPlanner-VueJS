@@ -2,6 +2,7 @@
 import eventsService from '../../services/events';
 import SingleEvent from './Single.vue';
 
+// todo emits or function
 export default {
   components: { SingleEvent },
   data() {

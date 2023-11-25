@@ -26,11 +26,11 @@ function getBudget(id) {
     .catch(err => console.error(err));
 }
 
-// function create (description, date, budget, location, bride, groom){
-//   return requester(`${api.planners}`, httpMethods.POST, { description, date, budget, location, bride, groom })
-//       .then((res) => res.json())
-//       .catch((err) => console.error(err));
-// }
+function create(description, date, budget, location, bride, groom) {
+  return requester(`${api.planners}`, httpMethods.POST, { description, date, budget, location, bride, groom })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
 // function update(id, description, date, budget, location, bride, brideId, groom, groomId) {
 //   return requester(`${api.planners}/${id}`, httpMethods.PUT, { description, date, budget, location, bride, brideId, groom, groomId })
@@ -43,4 +43,5 @@ export default {
   getById,
   deleteById,
   getBudget,
+  create,
 };
