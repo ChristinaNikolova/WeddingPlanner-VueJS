@@ -11,7 +11,7 @@ export default {
       default: false,
     },
   },
-  emits: ['onCancelFormHandler'],
+  emits: ['onCancelButtonFormHandler'],
 };
 </script>
 
@@ -20,7 +20,7 @@ export default {
     <button :disabled="isDisabled" class="btn btn-center">
       {{ formName }}
     </button>
-    <button class="btn btn-center" type="button" @click="$emit('onCancelFormHandler')">
+    <button class="btn btn-center" type="button" @click="$emit('onCancelButtonFormHandler', $event, true)">
       Cancel
     </button>
   </div>

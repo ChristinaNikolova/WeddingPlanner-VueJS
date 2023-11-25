@@ -15,7 +15,6 @@ function onClearInputs() {
 
 function cancelForm(target) {
   let targetElement = '';
-
   if (target.classList.contains(classNames.FORM_WIDTH)) {
     targetElement = target.parentElement;
   }

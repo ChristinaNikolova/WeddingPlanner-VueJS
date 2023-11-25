@@ -57,9 +57,10 @@ export default {
         .then(res => this.costs = res)
         .catch(err => console.error(err));
     },
-    onCancelFormHandler() {
-      // todo need this?
-      // form.cancelForm(e.target);
+    onCancelFormHandler(e, changeDisplay = false) {
+      if (changeDisplay) {
+        form.cancelForm(e.target);
+      }
       form.onClearInputs();
       this.costId = '';
       this.currentIndex = '';
@@ -78,7 +79,7 @@ export default {
       this.costId = id;
       this.currentIndex = index;
     },
-    calculateCategeryActualCosts(categoryId) {
+    calculateCategoryActualCosts(categoryId) {
       return (this.costs
         .filter(c => c.category === categoryId)
         .reduce((acc, curr) => Number(curr.price) + acc, 0))
@@ -110,7 +111,7 @@ export default {
 
           :name="cat.name"
           :image="cat.image"
-          :category-costs="calculateCategeryActualCosts(cat.id)"
+          :category-costs="calculateCategoryActualCosts(cat.id)"
         />
         <div class="budget-main-current-category-costs-wrapper" :style="{ display: `${styleNames.BLOCK}` }">
           <!-- {costId

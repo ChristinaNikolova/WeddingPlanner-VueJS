@@ -27,6 +27,7 @@ export default {
       required: true,
     },
   },
+  emits: ['onCancelFormHandler'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -119,7 +120,7 @@ export default {
       <FormButton
         :form-name="formName"
         :is-disabled="isDisabled"
-        @on-cancel-form-handler="onCancelFormHandler"
+        @on-cancel-button-form-handler="onCancelFormHandler"
       />
     </form>
   </div>
