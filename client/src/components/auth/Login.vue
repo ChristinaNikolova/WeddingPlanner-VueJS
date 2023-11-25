@@ -1,9 +1,12 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { email, helpers, maxLength, minLength, required } from '@vuelidate/validators';
+import authService from '../../services/auth';
 import { auth as authErrors, global } from '../../utils/constants/error';
 import { auth as authModels } from '../../utils/constants/model';
 
+// todo fix this
+// const { userLogin } = useContext(AuthContext);
 export default {
   setup() {
     return { v$: useVuelidate() };
@@ -15,6 +18,7 @@ export default {
         password: '',
       },
       isDisabled: true,
+      serverError: '',
       errors: authErrors,
       models: authModels,
     };
@@ -31,10 +35,25 @@ export default {
   methods: {
     async onSubmitHandler() {
       const isValid = await this.v$.$validate();
-      console.log('isValid', isValid, this.v$);
+
+      if (!isValid) {
+        return;
+      }
+
+      // todo update data name
+      await authService.login(this.data.email, this.data.password)
+        .then((res) => {
+          if (!res.accessToken) {
+            this.serverError = res.message;
+            return;
+          }
+          // todo fix this
+          // userLogin(data);
+          this.$router.push({ path: '/' });
+        })
+        .catch(err => console.error(err));
     },
   },
-  // todo test if required is needed
   // todo extract function
   validations() {
     return {
@@ -56,8 +75,7 @@ export default {
 
 <template>
   <section id="login" class="section-background">
-    <!-- todo add server errors -->
-    <!-- {serverError && <ServerError errors={serverError} />} -->
+    <ServerError v-if="serverError" :errors="serverError" />
     <div class="section-title-wrapper">
       <h2 class="section-title">
         Login
