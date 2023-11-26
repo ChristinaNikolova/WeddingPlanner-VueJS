@@ -11,7 +11,7 @@ export default {
       favArticles: [],
     };
   },
-  async mounted() {
+  async created() {
     await usersService
       .getFav()
       .then(res => this.favArticles = res)

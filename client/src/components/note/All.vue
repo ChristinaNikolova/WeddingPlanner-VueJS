@@ -14,7 +14,7 @@ export default {
       isEditIconHidden: false,
     };
   },
-  async mounted() {
+  async created() {
     await this.loadNotes();
   },
   methods: {

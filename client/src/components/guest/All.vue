@@ -13,7 +13,7 @@ export default {
       isEditIconHidden: false,
     };
   },
-  async mounted() {
+  async created() {
     // toto scrollToTop();
     await this.loadGuests();
   },

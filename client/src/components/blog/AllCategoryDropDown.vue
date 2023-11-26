@@ -19,7 +19,7 @@ export default {
       classNames,
     };
   },
-  async mounted() {
+  async created() {
     await categoriesService
       .all()
       .then((res) => {

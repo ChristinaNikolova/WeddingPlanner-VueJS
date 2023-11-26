@@ -14,7 +14,7 @@ export default {
       isEditIconHidden: false,
     };
   },
-  async mounted() {
+  async created() {
     // todo scrollToTop();
     await this.loadEvents();
   },

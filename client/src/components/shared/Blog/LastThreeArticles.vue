@@ -11,7 +11,7 @@ export default {
       articles: [],
     };
   },
-  async mounted() {
+  async created() {
     await articlesService
       .getLastThree()
       .then(res => (this.articles = res))

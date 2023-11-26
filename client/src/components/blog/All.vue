@@ -45,7 +45,7 @@ export default {
       }
     },
   },
-  async mounted() {
+  async created() {
     await this.loadArticle();
   },
   methods: {
