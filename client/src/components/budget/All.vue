@@ -44,9 +44,11 @@ export default {
       .then((res) => {
         res = res.filter(el => el.id !== this.defaultCategory);
         this.categories = res;
-        this.$refs.costsAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
       })
       .catch(err => console.error(err));
+  },
+  mounted() {
+    this.$refs.costsAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
   },
   methods: {
     async loadCosts() {
