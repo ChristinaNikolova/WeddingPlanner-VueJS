@@ -40,14 +40,14 @@ export default {
     onCancelFormHelperHandler() {
       this.subtaskId = '';
     },
-    // onDoneSubtask(taskId, subtaskId) {
-    //   subtasksService
-    //     .done(taskId, subtaskId)
-    //     .then(() => {
-    //       this.loadTasks();
-    //     })
-    //     .catch(err => console.error(err));
-    // },
+    async onDoneSubtask(taskId, subtaskId) {
+      await subtasksService
+        .done(taskId, subtaskId)
+        .then(() => {
+          this.loadTasks();
+        })
+        .catch(err => console.error(err));
+    },
     onEditHandler(id) {
       this.subtaskId = id;
     },

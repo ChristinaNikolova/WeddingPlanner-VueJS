@@ -79,9 +79,10 @@ export default {
             this.serverError = res.message;
             return;
           }
+          // todo drop down should be opened
           this.serverError = '';
           this.currentStyle = styleNames.NONE;
-          //   this.onCancelFormHandler(e);
+          this.onCancelFormHandler(e);
           this.loadTasks();
         })
         .catch(err => console.error(err));
