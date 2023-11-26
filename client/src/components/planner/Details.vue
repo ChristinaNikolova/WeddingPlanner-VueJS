@@ -10,7 +10,7 @@ export default {
       isHovering: false,
     };
   },
-  async mounted() {
+  async created() {
     await plannersService
       .getById(this.id)
       .then(res => (this.planner = res))

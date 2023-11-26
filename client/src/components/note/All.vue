@@ -1,9 +1,11 @@
 <script>
 import notesService from '../../services/notes';
+import form from '../../utils/helpers/form';
+import Create from './Create.vue';
 import SingleNote from './Single.vue';
 
 export default {
-  components: { SingleNote },
+  components: { SingleNote, Create },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -14,7 +16,6 @@ export default {
     };
   },
   async mounted() {
-    // todo scrollToTop();
     await this.loadNotes();
   },
   methods: {
@@ -32,22 +33,23 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    onShowFormHandler(e, id) {
+      // todo test if event can be removed
+      this.isHidden = !this.isHidden;
+      this.noteId = id || '';
+      this.isEditIconHidden = !this.isEditIconHidden;
+    },
+    onCancelFormHandler() {
+      form.onClearInputs();
+      this.isHidden = true;
+      this.noteId = '';
+      this.isEditIconHidden = false;
+    },
   },
 };
 </script>
 
-<!-- const onShowFormHandler = (noteId) => {
-    setIsHidden(!isHidden);
-    noteId ? setNoteId(noteId) : setNoteId('');
-    setIsEditIconHidden(!isEditIconHidden);
-}
-
-const onCancelFormHandler = () => {
-    setIsHidden(true);
-    setNoteId('');
-    setIsEditIconHidden(false);
-} -->
-
+<!-- // todo scrollToTop(); -->
 <template>
   <section id="notes-all" class="section-planner section-background">
     <div class="section-title-wrapper">
@@ -71,7 +73,6 @@ const onCancelFormHandler = () => {
         No notes yet
       </p>
     </div>
-    <!-- todo create forms -->
     <!-- {noteId
                 ? <UpdateNote
                     noteId={noteId}
@@ -87,6 +88,14 @@ const onCancelFormHandler = () => {
                     loadNotes={loadNotes}
                 />
             } -->
+    <Create
+      v-if="!noteId"
+      :planner-id="plannerId"
+      :is-hidden="isHidden"
+      :load-notes="loadNotes"
+      :on-cancel-form-handler="onCancelFormHandler"
+      :on-show-form-handler="onShowFormHandler"
+    />
   </section>
 </template>
 

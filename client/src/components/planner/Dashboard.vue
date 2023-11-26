@@ -15,7 +15,7 @@ export default {
       third: bottom.THIRD,
     };
   },
-  async mounted() {
+  async created() {
     await plannersService
       .all()
       .then(res => (this.planners = res))
