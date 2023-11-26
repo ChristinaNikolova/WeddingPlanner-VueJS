@@ -102,13 +102,13 @@ export default {
       }
 
       await eventsService
-        .create(this.plannerId, this.data.title, this.data.startTime, this.data.endTime, this.duration)
+        .create(this.plannerId, this.data.title, this.data.startTime, this.data.endTime, this.data.duration)
         .then((res) => {
           if (res.message) {
             this.serverError = res.message;
             return;
           }
-          //  this.serverError = '';
+          this.serverError = '';
           this.onCancelFormHandler();
           this.loadEvents();
         })
