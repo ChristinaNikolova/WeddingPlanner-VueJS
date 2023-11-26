@@ -83,8 +83,9 @@ export default {
             this.serverError = res.message;
             return;
           }
-          // todo fix this
+
           this.data.description = '';
+          this.$nextTick(() => { this.v$.$reset(); });
           this.serverError = '';
           this.onCancelFormHandler();
           this.loadNotes();

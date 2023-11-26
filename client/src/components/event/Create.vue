@@ -107,7 +107,13 @@ export default {
             this.serverError = res.message;
             return;
           }
-          // todo reset form
+
+          // todo extract function
+          this.data.title = '';
+          this.data.startTime = '';
+          this.data.endTime = '';
+          this.data.duration = '';
+          this.$nextTick(() => { this.v$.$reset(); });
 
           this.serverError = '';
           this.onCancelFormHandler();
