@@ -1,11 +1,13 @@
 <script>
 import tasksService from '../../../services/tasks';
-import { addButtonTexts, timespans } from '../../../utils/constants/global';
-import AddButton from '../../shared/buttons/Add.vue';
+import { addButtonTexts, styleNames, timespans } from '../../../utils/constants/global';
+import form from '../../../utils/helpers/form';
+
+import Create from './Create.vue';
 import SingleTask from './Single.vue';
 
 export default {
-  components: { SingleTask, AddButton },
+  components: { SingleTask, Create },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -42,18 +44,15 @@ export default {
       this.taskId = id;
       this.currentIndex = index;
     },
-    // const onShowTaskFormHandler = (e) => {
-    //     const targetFormElement = e.target.parentElement.parentElement.nextSibling;
-    //     targetFormElement.style.display = styleNames.FLEX;
-
-    //     const timeSpanValue = targetFormElement.previousSibling.children[0].innerText.toLowerCase();
-    //     setTimespan(timeSpanValue);
-    // }
-    // const onCancelFormHandler = (e) => {
-    //     cancelForm(e.target);
-    //     setTaskId('');
-    //     setCurrentIndex('');
-    // }
+    onShowTaskFormHandler(e) {
+      const targetFormElement = e.target.parentElement.parentElement.nextSibling;
+      targetFormElement.style.display = styleNames.FLEX;
+    },
+    onCancelFormHandler(e) {
+      form.cancelForm(e.target);
+      this.taskId = '';
+      this.currentIndex = '';
+    },
   },
 };
 </script>
@@ -77,9 +76,16 @@ export default {
               :class-names="[]"
               :text="addButtonTexts.TASK"
               :is-empty-string="false"
-              :on-show-form-handler="onShowTaskFormHandler"
+              @on-show-form-handler="onShowTaskFormHandler"
             />
           </div>
+
+          <Create
+            v-if="!taskId"
+            :planner-id="plannerId"
+            :load-tasks="loadTasks"
+            :on-cancel-form-handler="onCancelFormHandler"
+          />
           <!-- {taskId
           && index === currentIndex
           && <UpdateTask

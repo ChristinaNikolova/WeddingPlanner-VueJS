@@ -54,9 +54,9 @@ export const planner = {
 //   DESC_MAX_LEN: 400,
 // };
 
-// export const task = {
-//   TITLE_MIN_LEN: 5,
-//   TITLE_MAX_LEN: 100,
-//   DESC_MIN_LEN: 10,
-//   DESC_MAX_LEN: 500,
-// };
+export const task = {
+  TITLE_MIN_LEN: 5,
+  TITLE_MAX_LEN: 100,
+  DESC_MIN_LEN: 10,
+  DESC_MAX_LEN: 500,
+};
