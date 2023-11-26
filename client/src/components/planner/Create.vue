@@ -1,7 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, minValue, required } from '@vuelidate/validators';
-import FormButton from '../shared/buttons/Form.vue';
 import { global, planner as plannerErrors } from '../../utils/constants/error';
 import { planner as plannerModels } from '../../utils/constants/model';
 import planner from '../../utils/validators/planner';
@@ -9,7 +8,6 @@ import { formNames } from '../../utils/constants/global';
 import plannersService from '../../services/planners';
 
 export default {
-  components: { FormButton },
   setup() {
     return { v$: useVuelidate(),
     };

@@ -1,11 +1,10 @@
 <script>
 import subtasksService from '../../../services/subtasks';
-import AddButton from '../../shared/buttons/Add.vue';
 import { addButtonTexts } from '../../../utils/constants/global';
 import SingleSubtask from './Single.vue';
 
 export default {
-  components: { AddButton, SingleSubtask },
+  components: { SingleSubtask },
   props: {
     taskId: {
       type: String,

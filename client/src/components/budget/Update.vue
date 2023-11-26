@@ -5,10 +5,8 @@ import { formNames, styleNames } from '../../utils/constants/global';
 import costsService from '../../services/costs';
 import { cost as costErrors, global } from '../../utils/constants/error';
 import { cost as costModels } from '../../utils/constants/model';
-import FormButton from '../shared/buttons/Form.vue';
 
 export default {
-  components: { FormButton },
   props: {
     plannerId: {
       type: String,

@@ -5,7 +5,6 @@ import categoriesService from '../../services/categories';
 import { addButtonTexts, styleNames } from '../../utils/constants/global';
 import { category } from '../../utils/constants/model';
 import form from '../../utils/helpers/form';
-import AddButton from '../shared/buttons/Add.vue';
 import CategoryWrapper from './CategoryWrapper.vue';
 import InfoWrapper from './InfoWrapper.vue';
 import SingleCost from './Single.vue';
@@ -13,7 +12,7 @@ import Create from './Create.vue';
 import Update from './Update.vue';
 
 export default {
-  components: { CategoryWrapper, InfoWrapper, AddButton, SingleCost, Create, Update },
+  components: { CategoryWrapper, InfoWrapper, SingleCost, Create, Update },
   data() {
     return {
       plannerId: this.$route.params.plannerId,

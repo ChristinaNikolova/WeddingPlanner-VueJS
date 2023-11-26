@@ -4,13 +4,10 @@ import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import { global } from '../../utils/constants/error';
 import { addButtonTexts, formNames } from '../../utils/constants/global';
 import { note as noteModels } from '../../utils/constants/model';
-import FormButton from '../shared/buttons/Form.vue';
 import notesService from '../../services/notes';
-import AddButton from '../shared/buttons/Add.vue';
 
 // todo formRef
 export default {
-  components: { FormButton, AddButton },
   props: {
     plannerId: {
       type: String,
@@ -45,6 +42,7 @@ export default {
       serverError: '',
       models: noteModels,
       global,
+      isDisabled: false,
     };
   },
   watch: {
@@ -85,6 +83,7 @@ export default {
             this.serverError = res.message;
             return;
           }
+          // todo fix this
           this.data.description = '';
           this.serverError = '';
           this.onCancelFormHandler();

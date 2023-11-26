@@ -1,6 +1,5 @@
 <script>
 import notesService from '../../services/notes';
-import form from '../../utils/helpers/form';
 import Create from './Create.vue';
 import SingleNote from './Single.vue';
 
@@ -40,7 +39,6 @@ export default {
       this.isEditIconHidden = !this.isEditIconHidden;
     },
     onCancelFormHandler() {
-      form.onClearInputs();
       this.isHidden = true;
       this.noteId = '';
       this.isEditIconHidden = false;

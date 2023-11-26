@@ -6,6 +6,7 @@ import Jumbotron from './components/Jumbotron.vue';
 import AppInput from './components/shared/inputs/AppInput.vue';
 import AppTextArea from './components/shared/inputs/AppTextArea.vue';
 import FormButton from './components/shared/buttons/Form.vue';
+import AddButton from './components/shared/buttons/Add.vue';
 import ClientError from './components/shared/errors/ClientError.vue';
 import ServerError from './components/shared/errors/ServerError.vue';
 
@@ -15,6 +16,7 @@ app.component('Jumbotron', Jumbotron);
 app.component('AppInput', AppInput);
 app.component('AppTextArea', AppTextArea);
 app.component('FormButton', FormButton);
+app.component('AddButton', AddButton);
 app.component('ClientError', ClientError);
 app.component('ServerError', ServerError);
 app.mount('#app');
