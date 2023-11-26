@@ -18,7 +18,7 @@ export default {
       required: true,
     },
     duration: {
-      type: String,
+      type: Number,
       required: true,
     },
     isHighlighted: {

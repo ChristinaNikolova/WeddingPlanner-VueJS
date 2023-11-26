@@ -2,7 +2,7 @@
 export default {
   props: {
     classNames: {
-      type: [],
+      type: Array,
       default: () => ([]),
     },
     text: {
