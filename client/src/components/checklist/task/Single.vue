@@ -99,11 +99,11 @@ export default {
           <span class="checklist-all-current-task-target">{{ target }}</span>
         </div>
         <div class="checklist-all-current-task-header-content-icon-wrapper">
-          <i class="fa-solid fa-chevron-right" @click="onShowContent" />
+          <i class="fa-solid fa-chevron-down" @click="onShowContent" />
         </div>
       </div>
     </div>
-    <div class="checklist-all-current-task-info-wrapper" :style="{ display: `${styleNames.NONE}` }">
+    <div class="checklist-all-current-task-info-wrapper" :style="{ display: `${styleNames.BLOCK}` }">
       <p class="checklist-all-current-task-info-desc">
         {{ description }}
       </p>
