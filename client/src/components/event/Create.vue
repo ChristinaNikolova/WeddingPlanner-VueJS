@@ -108,6 +108,11 @@ export default {
             this.serverError = res.message;
             return;
           }
+          // todo extract function
+          this.v$.data.title = '';
+          this.v$.data.startTime = '';
+          this.v$.data.endTime = '';
+          this.v$.data.duration = '';
           this.serverError = '';
           this.onCancelFormHandler();
           this.loadEvents();
