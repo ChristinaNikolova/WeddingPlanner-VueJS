@@ -80,6 +80,7 @@ export default {
             return;
           }
           // todo check if functions needed!!!
+          // todo extract form in separate component
           this.serverError = '';
           this.currentStyle = styleNames.NONE;
           this.onCancelFormHandler(e);

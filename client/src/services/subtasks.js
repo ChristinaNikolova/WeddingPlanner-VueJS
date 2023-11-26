@@ -20,20 +20,22 @@ function deleteById(taskId, subtaskId) {
     .catch(err => console.error(err));
 };
 
-// function getById(id) {
-//   return requester(`${api.subtask}/${id}`, httpMethods.GET)
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function getById(id) {
+  return requester(`${api.subtask}/${id}`, httpMethods.GET)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
-// function update(id, description) {
-//   return requester(`${api.subtask}/${id}`, httpMethods.PUT, { description })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function update(id, description) {
+  return requester(`${api.subtask}/${id}`, httpMethods.PUT, { description })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 export default {
   deleteById,
   done,
   create,
+  getById,
+  update,
 };
