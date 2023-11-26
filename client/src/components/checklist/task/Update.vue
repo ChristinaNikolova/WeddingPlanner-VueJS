@@ -12,6 +12,10 @@ export default {
       type: String,
       required: true,
     },
+    taskId: {
+      type: String,
+      required: true,
+    },
     loadTasks: {
       type: Function,
       required: true,
@@ -32,7 +36,7 @@ export default {
         title: '',
         description: '',
       },
-      formName: formNames.CREATE,
+      formName: formNames.UPDATE,
       serverError: '',
       isDisabled: true,
       currentStyle: styleNames.NONE,
@@ -70,6 +74,15 @@ export default {
       },
     };
   },
+  async created() {
+    await tasksService
+      .getById(this.planner, this.taskId)
+      .then((res) => {
+        this.data.title = res.title;
+        this.data.description = res.description;
+      })
+      .catch(err => console.error(err));
+  },
   methods: {
     async onSubmitHandler(e) {
       const isValid = await this.v$.$validate();
@@ -77,9 +90,8 @@ export default {
         return;
       }
 
-      this.timespan = e.target.parentElement.previousSibling.children[0].textContent;
-      await tasksService
-        .create(this.plannerId, this.data.title, this.data.description, this.timespan)
+      tasksService
+        .update(this.taskId, this.data.title, this.data.description)
         .then((res) => {
           if (res.message) {
             this.serverError = res.message;

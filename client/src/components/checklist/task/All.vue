@@ -5,9 +5,10 @@ import form from '../../../utils/helpers/form';
 
 import Create from './Create.vue';
 import SingleTask from './Single.vue';
+import Update from './Update.vue';
 
 export default {
-  components: { SingleTask, Create },
+  components: { SingleTask, Create, Update },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -19,9 +20,8 @@ export default {
       addButtonTexts,
     };
   },
-  async mounted() {
+  async created() {
     this.loadTasks();
-    // todo fix this
     this.$refs.tasksAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
   },
   methods: {
@@ -45,6 +45,7 @@ export default {
       this.currentIndex = index;
     },
     onShowTaskFormHandler(e) {
+      console.log(e.target.parentElement.parentElement.nextSibling);
       const targetFormElement = e.target.parentElement.parentElement.nextSibling;
       targetFormElement.style.display = styleNames.FLEX;
     },
@@ -65,7 +66,7 @@ export default {
       </h2>
     </div>
     <div class="checklist-all-main-content-wrapper">
-      <div v-for="(time, i) in timespans" :key="{ i }" class="checklist-all-timespan-wrapper">
+      <div v-for="(time, index) in timespans" :key="{ index }" class="checklist-all-timespan-wrapper">
         <div class="checklist-all-timespan-content-wrapper">
           <div class="checklist-all-timespan-title-wrapper">
             <p class="checklist-all-timespan">
@@ -79,30 +80,19 @@ export default {
               @on-show-form-handler="onShowTaskFormHandler"
             />
           </div>
-
+          <Update
+            v-if="taskId && index === currentIndex"
+            :planner-id="plannerId"
+            :task-id="taskId"
+            :load-tasks="loadTasks"
+            :on-cancel-form-handler="onCancelFormHandler"
+          />
           <Create
-            v-if="!taskId"
+            v-else-if="!taskId"
             :planner-id="plannerId"
             :load-tasks="loadTasks"
             :on-cancel-form-handler="onCancelFormHandler"
           />
-          <!-- {taskId
-          && index === currentIndex
-          && <UpdateTask
-            planner-id="{plannerId}"
-            task-id="{taskId}"
-            load-tasks="{loadTasks}"
-            on-cancel-form-handler="{onCancelFormHandler}"
-          />
-          } -->
-          <!-- {!taskId &&
-          <CreateTask
-            planner-id="{plannerId}"
-            timespan="{timespan}"
-            load-tasks="{loadTasks}"
-            on-cancel-form-handler="{onCancelFormHandler}"
-          />
-          } -->
           <div class="checklist-all-line" />
           <div class="checklist-all-tasks-content-wrapper">
             <template v-if="isTask(time)">
