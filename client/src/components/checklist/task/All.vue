@@ -45,7 +45,6 @@ export default {
       this.currentIndex = index;
     },
     onShowTaskFormHandler(e) {
-      console.log(e.target.parentElement.parentElement.nextSibling);
       const targetFormElement = e.target.parentElement.parentElement.nextSibling;
       targetFormElement.style.display = styleNames.FLEX;
     },
@@ -108,11 +107,10 @@ export default {
                   :target="t.target"
                   :subtasks="t.subtasks"
                   :load-tasks="loadTasks"
+                  :on-cancel-form-handler="onCancelFormHandler"
                   @on-edit-handler="onEditHandler"
                   @on-delete-handler="onDeleteHandler"
                 />
-                <!-- todo fix this -->
-                <!-- :on-cancel-form-handler="{onCancelFormHandler}" -->
               </template>
             </template>
             <p v-else class="checklist-all-empty-tasks">

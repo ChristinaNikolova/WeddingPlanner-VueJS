@@ -14,6 +14,7 @@ import ArticlesAll from '../components/blog/All.vue';
 import ArticleDetails from '../components/blog/Details.vue';
 import FavouriteArticle from '../components/user/FavouriteArticle.vue';
 
+// todo check all router added
 const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },

@@ -49,10 +49,10 @@ export const planner = {
   DATE_REGEX: /^[0-9]{2}.[0-9]{2}.[0-9]{4}$/g,
 };
 
-// export const subtask = {
-//   DESC_MIN_LEN: 5,
-//   DESC_MAX_LEN: 400,
-// };
+export const subtask = {
+  DESC_MIN_LEN: 5,
+  DESC_MAX_LEN: 400,
+};
 
 export const task = {
   TITLE_MIN_LEN: 5,

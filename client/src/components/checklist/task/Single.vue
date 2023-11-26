@@ -4,7 +4,6 @@ import dropdown from '../../../utils/helpers/dropdown';
 import AllSubtasks from '../subtask/All.vue';
 
 export default {
-  //   onCancelFormHandler
   components: { AllSubtasks },
   props: {
     // todo check type here and why 2 ids
@@ -42,8 +41,12 @@ export default {
     loadTasks: {
       type: Function,
     },
+    onCancelFormHandler: {
+      type: Function,
+      required: true,
+    },
   },
-  emits: ['onDeleteHandler', 'onEditHandler'],
+  emits: ['onDeleteHandler', 'onEditHandler', 'onCancelFormHandler'],
   data() {
     return {
       styleNames,
@@ -108,8 +111,8 @@ export default {
         :task-id="id"
         :subtasks="subtasks"
         :load-tasks="loadTasks"
+        :on-cancel-form-handler="onCancelFormHandler"
       />
-      <!-- onCancelFormHandler={onCancelFormHandler} -->
     </div>
   </div>
 </template>

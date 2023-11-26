@@ -1,10 +1,12 @@
 <script>
 import subtasksService from '../../../services/subtasks';
-import { addButtonTexts } from '../../../utils/constants/global';
+import { addButtonTexts, styleNames } from '../../../utils/constants/global';
+import Create from './Create.vue';
 import SingleSubtask from './Single.vue';
+import Update from './Update.vue';
 
 export default {
-  components: { SingleSubtask },
+  components: { SingleSubtask, Update, Create },
   props: {
     taskId: {
       type: String,
@@ -16,9 +18,14 @@ export default {
     },
     loadTasks: {
       type: Function,
+      required: true,
     },
-    // onCancelFormHandler
+    onCancelFormHandler: {
+      type: Function,
+      required: true,
+    },
   },
+  emits: ['onCancelFormHandler'],
   data() {
     return {
       subtaskId: '',
@@ -26,21 +33,21 @@ export default {
     };
   },
   methods: {
-    // const onShowSubTaskFormHandler = (e) => {
-    //     const targetFormElement = e.target.parentElement.parentElement.parentElement.children[1].children[0];
-    //     targetFormElement.style.display = styleNames.FLEX;
-    // }
-    // const onCancelFormHelperHandler = () => {
-    //     setSubtaskId('');
-    // }
-    onDoneSubtask(taskId, subtaskId) {
-      subtasksService
-        .done(taskId, subtaskId)
-        .then(() => {
-          this.loadTasks();
-        })
-        .catch(err => console.error(err));
+    onShowSubTaskFormHandler(e) {
+      const targetFormElement = e.target.parentElement.parentElement.parentElement.children[1].children[0];
+      targetFormElement.style.display = styleNames.FLEX;
     },
+    onCancelFormHelperHandler() {
+      this.subtaskId = '';
+    },
+    // onDoneSubtask(taskId, subtaskId) {
+    //   subtasksService
+    //     .done(taskId, subtaskId)
+    //     .then(() => {
+    //       this.loadTasks();
+    //     })
+    //     .catch(err => console.error(err));
+    // },
     onEditHandler(id) {
       this.subtaskId = id;
     },
@@ -62,19 +69,18 @@ export default {
       Sub-tasks
     </h6>
     <div className="checklist-all-current-task-subtasks-form-wrapper">
-      <!-- todo fix this -->
-      <!-- {subtaskId
-                    ? <UpdateSubtask
-                        subtaskId={subtaskId}
-                        loadTasks={loadTasks}
-                        onCancelFormHelperHandler={onCancelFormHelperHandler}
-                    />
-                    : <CreateSubtask
-                        taskId={taskId}
-                        loadTasks={loadTasks}
-                        onCancelFormHandler={onCancelFormHandler}
-                    />
-                } -->
+      <Update
+        v-if="subtaskId"
+        :subtask-id="subtaskId"
+        :load-tasks="loadTasks"
+        :on-cancel-form-helper-handler="onCancelFormHelperHandler"
+      />
+      <Create
+        v-else
+        :task-id="taskId"
+        :load-tasks="loadTasks"
+        :on-cancel-form-handler="onCancelFormHandler"
+      />
     </div>
     <template v-if="subtasks.length">
       <SingleSubtask
