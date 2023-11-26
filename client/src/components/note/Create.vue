@@ -117,7 +117,7 @@ export default {
       <FormButton
         :form-name="formName"
         :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="$emit('onCancelFormHandler')"
+        @on-cancel-button-form-handler="onCancelFormHandler"
       />
     </form>
   </div>
