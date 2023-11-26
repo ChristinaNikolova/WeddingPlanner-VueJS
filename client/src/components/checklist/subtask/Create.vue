@@ -34,7 +34,7 @@ export default {
       },
       formName: formNames.CREATE,
       serverError: '',
-      isDisabled: false,
+      isDisabled: true,
       currentStyle: styleNames.NONE,
       models: subtaskModel,
       global,
@@ -81,6 +81,9 @@ export default {
           }
           // todo check if functions needed!!!
           // todo extract form in separate component
+          // todo fix no content @media
+          // todo emits or function
+
           this.serverError = '';
           this.currentStyle = styleNames.NONE;
           this.onCancelFormHandler(e);

@@ -32,9 +32,9 @@ export const cost = {
   PRICE: 'Price should be a positive number',
 };
 
-// export const event = {
-//   TIME: 'End time should be after the start time',
-// };
+export const event = {
+  TIME: 'End time should be after the start time',
+};
 
 export const planner = {
   BUDGET: 'Budget should be a positive number',

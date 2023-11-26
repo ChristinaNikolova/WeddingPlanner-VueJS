@@ -1,10 +1,11 @@
 <script>
 import eventsService from '../../services/events';
+import Create from './Create.vue';
 import SingleEvent from './Single.vue';
+import Update from './Update.vue';
 
-// todo emits or function
 export default {
-  components: { SingleEvent },
+  components: { SingleEvent, Update, Create },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -33,29 +34,27 @@ export default {
         })
         .catch(err => console.error(err));
     },
-    onHeightlightHandler(id) {
-      eventsService
+    async onHeightlightHandler(id) {
+      await eventsService
         .heightlight(this.plannerId, id)
         .then(async () => {
           await this.loadEvents();
         })
         .catch(err => console.error(err));
     },
+    onShowFormHandler(e, id) {
+      this.isHidden = !this.isHidden;
+      this.eventId = id || '';
+      this.isEditIconHidden = !this.isEditIconHidden;
+    },
+    onCancelFormHandler() {
+      this.isHidden = true;
+      this.eventId = '';
+      this.isEditIconHidden = false;
+    },
   },
 };
 </script>
-
-<!-- const onShowFormHandler = (eventId) => {
-  setIsHidden(!isHidden);
-  eventId ? setEventId(eventId) : setEventId('');
-  setIsEditIconHidden(!isEditIconHidden);
-} -->
-
-<!-- const onCancelFormHandler = () => {
-  setIsHidden(true);
-  setEventId('');
-  setIsEditIconHidden(false);
-} -->
 
 <template>
   <section id="events-all" class="section-planner section-background">
@@ -76,32 +75,30 @@ export default {
           :duration="e.duration"
           :is-highlighted="e.isHighlighted"
           :is-edit-icon-hidden="isEditIconHidden"
+          :on-show-form-handler="onShowFormHandler"
           @on-delete-handler="onDeleteHandler"
           @on-heightlight-handler="onHeightlightHandler"
         />
       </template>
-      <!-- todo fix this -->
-      <!-- :on-show-form-handler="onShowFormHandler" -->
       <p v-else class="empty empty-planner">
         No events yet
       </p>
     </div>
-    <!-- todo fix this -->
-    <!-- {eventId
-                ? <UpdateEvent
-                    eventId={eventId}
-                    plannerId={plannerId}
-                    onCancelFormHandler={onCancelFormHandler}
-                    loadEvents={loadEvents}
-                />
-                : <CreateEvent
-                    plannerId={plannerId}
-                    isHidden={isHidden}
-                    onCancelFormHandler={onCancelFormHandler}
-                    onShowFormHandler={onShowFormHandler}
-                    loadEvents={loadEvents}
-                />
-            } -->
+    <Update
+      v-if="eventId"
+      :event-id="eventId"
+      :planner-id="plannerId"
+      :on-cancel-form-handler="onCancelFormHandler"
+      :load-events="loadEvents"
+    />
+    <Create
+      v-else
+      :planner-id="plannerId"
+      :is-hidden="isHidden"
+      :on-cancel-form-handler="onCancelFormHandler"
+      :on-show-form-handler="onShowFormHandler"
+      :load-events="loadEvents"
+    />
   </section>
 </template>
 

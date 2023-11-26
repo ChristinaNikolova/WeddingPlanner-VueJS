@@ -23,6 +23,10 @@ export default {
       type: Array,
       default: () => ([]),
     },
+    isReadonly: {
+      Type: Boolean,
+      default: false,
+    },
     // checked: {
     //   type: String,
     //   required: true,
@@ -47,6 +51,7 @@ export default {
       :name="name"
       :type="type"
       :value="modelValue"
+      :readonly="isReadonly"
       @input="onInput"
     >
     <ClientError v-for="error of errors" :key="error.$uid" :error="error.$message" />

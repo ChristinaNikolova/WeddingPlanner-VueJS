@@ -24,10 +24,10 @@ export const cost = {
   PRICE_MIN: 1,
 };
 
-// export const event = {
-//   TITLE_MIN_LEN: 5,
-//   TITLE_MAX_LEN: 25,
-// };
+export const event = {
+  TITLE_MIN_LEN: 5,
+  TITLE_MAX_LEN: 25,
+};
 
 // export const guest = {
 //   NAME_MIN_LEN: 1,
