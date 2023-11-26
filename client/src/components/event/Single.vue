@@ -29,11 +29,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    // onHeightlightHandler,
-    // onDeleteHandler,
-    // onShowFormHandler,
   },
-  emits: ['onDeleteHandler', 'onHeightlightHandler'],
+  emits: ['onDeleteHandler', 'onHeightlightHandler', 'onShowFormHandler'],
   data() {
     return {
       isHovering: false,
@@ -74,9 +71,8 @@ export default {
           {{ title }}
         </p>
         <span v-if="isHovering" class="events-all-icons">
-          <!-- todo fix this -->
-          <!-- <i v-if="!isEditIconHidden" onClick="{()" => onShowFormHandler(id)} class="fa-solid fa-pen"></i> -->
-          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" />
+
+          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" @click="$emit('onShowFormHandler', $event, id)" />
           <i v-if="!isEditIconHidden" class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
         </span>
       </div>

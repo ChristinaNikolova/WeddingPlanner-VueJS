@@ -75,7 +75,7 @@ export default {
           :duration="e.duration"
           :is-highlighted="e.isHighlighted"
           :is-edit-icon-hidden="isEditIconHidden"
-          :on-show-form-handler="onShowFormHandler"
+          @on-show-form-handler="onShowFormHandler"
           @on-delete-handler="onDeleteHandler"
           @on-heightlight-handler="onHeightlightHandler"
         />

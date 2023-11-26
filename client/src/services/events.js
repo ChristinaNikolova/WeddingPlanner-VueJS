@@ -30,21 +30,26 @@ function deleteById(id) {
     .catch(err => console.error(err));
 };
 
-// function getById(plannerId, eventId) {
-//   return requester(`${api.events}/${plannerId}/${eventId}`, httpMethods.GET)
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function getById(plannerId, eventId) {
+  return requester(`${api.events}/${plannerId}/${eventId}`, httpMethods.GET)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
-// function update(id, title, startTime, endTime, duration) {
-//   return requester(`${api.events}/${id}`, httpMethods.PUT, { title, startTime, endTime, duration })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function update(id, title, startTime, endTime, duration) {
+  const start = datetime.parseDate(startTime);
+  const end = datetime.parseDate(endTime);
+
+  return requester(`${api.events}/${id}`, httpMethods.PUT, { title, start, end, duration })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 export default {
   all,
   deleteById,
   create,
   heightlight,
+  getById,
+  update,
 };
