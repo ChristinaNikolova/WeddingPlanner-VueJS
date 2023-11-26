@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 function getDifference(start, end) {
   const difference = new Date(`01/01/2007 ${end}`) - new Date(`01/01/2007 ${start}`);
 
@@ -18,15 +16,12 @@ function formatTime(time) {
   return time <= 9 ? `0${time}` : time;
 }
 
-function formatDate(value) {
-  console.log(value);
-  if (value) {
-    console.log('if', moment(String(value)).format('hh:mm'));
-    return moment(String(value)).format('YYYYMMDD');
-  }
-}
+function parseDate(time) {
+  const [hour, minutes] = time.split(':');
+  return new Date('', '', '', hour, minutes);
+};
 
 export default {
   getDifference,
-  formatDate,
+  parseDate,
 };

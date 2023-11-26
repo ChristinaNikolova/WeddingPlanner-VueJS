@@ -10,8 +10,10 @@ function all(plannerId) {
 };
 
 function create(plannerId, title, startTime, endTime, duration) {
-  const start = datetime.formatDate(startTime);
-  return requester(`${api.events}/${plannerId}`, httpMethods.POST, { title, startTime, endTime, duration })
+  const start = datetime.parseDate(startTime);
+  const end = datetime.parseDate(endTime);
+
+  return requester(`${api.events}/${plannerId}`, httpMethods.POST, { title, start, end, duration })
     .then(res => res.json())
     .catch(err => console.error(err));
 };

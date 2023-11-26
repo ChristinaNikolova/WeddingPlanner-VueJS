@@ -65,7 +65,6 @@ export default {
           || this.v$.data.endTime.$invalid
           || this.v$.data.duration.$invalid;
 
-        console.log(this.v$);
         return this.isDisabled;
       },
       deep: true,
