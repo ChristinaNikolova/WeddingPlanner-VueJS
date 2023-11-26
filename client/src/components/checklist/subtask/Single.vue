@@ -40,9 +40,6 @@ export default {
   },
   methods: {
     onMouseEnterHandler(e) {
-      console.log('Subtask Single subtaskId', this.subtaskId);
-      console.log('Subtask Single taskId', this.taskId);
-      console.log('Subtask Single id', this.id);
       if (e.target.nodeName !== tagNames.P) {
         return;
       }

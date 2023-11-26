@@ -54,11 +54,7 @@ export default {
     };
   },
   methods: {
-    // todo check what is index, check type of all props
     onMouseEnterHandler(e) {
-      console.log('id', this.id);
-      console.log('task Id', this.taskId);
-
       if (e.target.nodeName !== tagNames.H4) {
         return;
       }
