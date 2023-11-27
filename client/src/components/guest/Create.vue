@@ -138,7 +138,6 @@ export default {
   <div class="form-wrapper-center">
     <form v-if="!isHidden" class="guest-form form-error-message-width" @submit.prevent="onSubmitHandler">
       <ServerError v-if="serverError" :errors="serverError" />
-
       <AppInput
         v-model.trim="v$.data.firstName.$model"
         :errors="v$?.data.firstName.$errors"

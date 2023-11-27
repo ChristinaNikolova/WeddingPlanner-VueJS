@@ -98,6 +98,7 @@ input:checked {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  gap: 12px;
 }
 
 .radio input {

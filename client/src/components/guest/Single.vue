@@ -122,7 +122,7 @@ export default {
           <i :class="getPersonImage" />
         </span>
         <span v-if="isHovering" class="guests-all-icons">
-          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" @click="$emit('onShowFormHandler', id)" />
+          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" @click="$emit('onShowFormHandler', $event, id)" />
           <i v-if="showDeleteIcon" class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
         </span>
       </p>
