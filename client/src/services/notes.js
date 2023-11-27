@@ -20,20 +20,22 @@ function deleteById(id) {
     .catch(err => console.error(err));
 };
 
-// function getById(plannerId, noteId) {
-//   return requester(`${api.notes}/${plannerId}/${noteId}`, httpMethods.GET)
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function getById(plannerId, noteId) {
+  return requester(`${api.notes}/${plannerId}/${noteId}`, httpMethods.GET)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
-// function update(id, description) {
-//   return requester(`${api.notes}/${id}`, httpMethods.PUT, { description })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function update(id, description) {
+  return requester(`${api.notes}/${id}`, httpMethods.PUT, { description })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 export default {
   all,
   deleteById,
   create,
+  getById,
+  update,
 };

@@ -2,24 +2,21 @@
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import { global } from '../../utils/constants/error';
-import { addButtonTexts, formNames } from '../../utils/constants/global';
+import { formNames } from '../../utils/constants/global';
 import { note as noteModels } from '../../utils/constants/model';
 import notesService from '../../services/notes';
 
-// todo formRef
-// todo cleanup emiter func  + emits
 export default {
   props: {
     plannerId: {
       type: String,
       required: true,
     },
-    isHidden: { type: Boolean, default: false },
-    onCancelFormHandler: {
-      type: Function,
+    noteId: {
+      type: String,
       required: true,
     },
-    onShowFormHandler: {
+    onCancelFormHandler: {
       type: Function,
       required: true,
     },
@@ -28,7 +25,7 @@ export default {
       required: true,
     },
   },
-  emits: ['onCancelFormHandler', 'onShowFormHandler'],
+  emits: ['onCancelFormHandler'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -38,12 +35,11 @@ export default {
       data: {
         description: '',
       },
-      formName: formNames.CREATE,
-      buttonText: addButtonTexts.NOTE,
+      formName: formNames.UPDATE,
       serverError: '',
+      isDisabled: true,
       models: noteModels,
       global,
-      isDisabled: true,
     };
   },
   watch: {
@@ -70,6 +66,14 @@ export default {
       },
     };
   },
+  async created() {
+    await notesService
+      .getById(this.plannerId, this.noteId)
+      .then((res) => {
+        this.data.description = res.description;
+      })
+      .catch(err => console.error(err));
+  },
   methods: {
     async onSubmitHandler() {
       const isValid = await this.v$.$validate();
@@ -78,15 +82,13 @@ export default {
       }
 
       await notesService
-        .create(this.plannerId, this.data.description)
+        .update(this.noteId, this.data.description)
         .then(async (res) => {
           if (res.message) {
             this.serverError = res.message;
             return;
           }
 
-          this.data.description = '';
-          this.$nextTick(() => { this.v$.$reset(); });
           this.serverError = '';
           this.onCancelFormHandler();
           this.loadNotes();
@@ -95,17 +97,11 @@ export default {
     },
   },
 };
+//  ref={formRef}
 </script>
 
-<!-- ref={formRef} -->
 <template>
-  <AddButton
-    :class-names="['note-form-icon']"
-    :text="buttonText"
-    is-empty-string="true"
-    @on-show-form-handler="onShowFormHandler"
-  />
-  <div v-if="!isHidden" class="form-wrapper-center">
+  <div class="form-wrapper-center">
     <form class="form-width form-error-message-width" @submit.prevent="onSubmitHandler">
       <ServerError v-if="serverError" :errors="serverError" />
       <AppTextArea

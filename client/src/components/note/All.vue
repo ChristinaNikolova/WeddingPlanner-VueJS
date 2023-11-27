@@ -2,9 +2,10 @@
 import notesService from '../../services/notes';
 import Create from './Create.vue';
 import SingleNote from './Single.vue';
+import Update from './Update.vue';
 
 export default {
-  components: { SingleNote, Create },
+  components: { SingleNote, Create, Update },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -65,29 +66,22 @@ export default {
           :created-at="n.createdAt"
           :is-edit-icon-hidden="isEditIconHidden"
           @on-delete-handler="onDeleteHandler"
+          @on-show-form-handler="onShowFormHandler"
         />
       </template>
       <p v-else class="empty empty-planner">
         No notes yet
       </p>
     </div>
-    <!-- {noteId
-                ? <UpdateNote
-                    noteId={noteId}
-                    plannerId={plannerId}
-                    onCancelFormHandler={onCancelFormHandler}
-                    loadGuests={loadNotes}
-                />
-                : <CreateNote
-                    plannerId={plannerId}
-                    isHidden={isHidden}
-                    onCancelFormHandler={onCancelFormHandler}
-                    onShowFormHandler={onShowFormHandler}
-                    loadNotes={loadNotes}
-                />
-            } -->
+    <Update
+      v-if="noteId"
+      :note-id="noteId"
+      :planner-id="plannerId"
+      :on-cancel-form-handler="onCancelFormHandler"
+      :load-notes="loadNotes"
+    />
     <Create
-      v-if="!noteId"
+      v-else
       :planner-id="plannerId"
       :is-hidden="isHidden"
       :load-notes="loadNotes"

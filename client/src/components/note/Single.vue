@@ -18,9 +18,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    // todo onShowFormHandler
   },
-  emits: ['onDeleteHandler'],
+  emits: ['onDeleteHandler', 'onShowFormHandler'],
 };
 </script>
 
@@ -31,9 +30,7 @@ export default {
         {{ createdAt }}
       </p>
       <div class="notes-all-icon-wrapper">
-        <!-- todo TEST THIs -->
-        <!-- <i v-if="!isEditIconHidden" onClick="{()" => onShowFormHandler(id)} class="fa-solid fa-pen"></i>} -->
-        <i v-if="!isEditIconHidden" class="fa-solid fa-pen" />
+        <i v-if="!isEditIconHidden" class="fa-solid fa-pen" @click="$emit('onShowFormHandler', $event, id)" />
         <i v-if="!isEditIconHidden" class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
       </div>
     </div>
