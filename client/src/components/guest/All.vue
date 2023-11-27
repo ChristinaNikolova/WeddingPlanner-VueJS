@@ -1,9 +1,11 @@
 <script>
 import guestsService from '../../services/guests';
+import Create from './Create.vue';
 import SingleGuest from './Single.vue';
+import Update from './Update.vue';
 
 export default {
-  components: { SingleGuest },
+  components: { SingleGuest, Update, Create },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -30,20 +32,19 @@ export default {
         .then(res => this.guests = res)
         .catch(err => console.error(err));
     },
+    onCancelFormHandler() {
+      this.isHidden = true;
+      this.isEditIconHidden = false;
+      this.guestId = '';
+    },
+    onShowFormHandler(e, id) {
+      this.isHidden = !this.isHidden;
+      this.guestId = id || '';
+      this.isEditIconHidden = !this.isEditIconHidden;
+    },
   },
 };
 </script>
-<!-- const onCancelFormHandler = () => {
-    setIsHidden(true);
-    setIsEditIconHidden(false);
-    setGuestId('');
-}
-
-const onShowFormHandler = (guestId) => {
-    setIsHidden(!isHidden);
-    guestId ? setGuestId(guestId) : setGuestId('');
-    setIsEditIconHidden(!isEditIconHidden);
-} -->
 
 <template>
   <section id="guests-all" class="section-planner section-background">
@@ -52,7 +53,6 @@ const onShowFormHandler = (guestId) => {
         Guests
       </h2>
     </div>
-    <!--  onShowFormHandler={onShowFormHandler} -->
     <div class="guests-all-main-content-wrapper">
       <template v-if="guests.length">
         <SingleGuest
@@ -69,26 +69,26 @@ const onShowFormHandler = (guestId) => {
           :main-dish="g.mainDish"
           :confirmed="g.confirmed"
           :is-edit-icon-hidden="isEditIconHidden"
+          @on-show-form-handler="onShowFormHandler"
           @on-delete-handler="onDeleteHandler"
         />
       </template>
     </div>
-    <!-- todo update this -->
-    <!-- {guestId
-                ? <UpdateGuest
-                    guestId={guestId}
-                    plannerId={plannerId}
-                    onCancelFormHandler={onCancelFormHandler}
-                    loadGuests={loadGuests}
-                />
-                : <CreateGuest
-                    plannerId={plannerId}
-                    isHidden={isHidden}
-                    onCancelFormHandler={onCancelFormHandler}
-                    onShowFormHandler={onShowFormHandler}
-                    loadGuests={loadGuests}
-                />
-            } -->
+    <Update
+      v-if="guestId"
+      :guest-id="guestId"
+      :planner-id="plannerId"
+      :on-cancel-form-handler="onCancelFormHandler"
+      :load-guests="loadGuests"
+    />
+    <Create
+      v-else
+      :planner-id="plannerId"
+      :is-hidden="isHidden"
+      :on-cancel-form-handler="onCancelFormHandler"
+      :on-show-form-handler="onShowFormHandler"
+      :load-guests="loadGuests"
+    />
   </section>
 </template>
 

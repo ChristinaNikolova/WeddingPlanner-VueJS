@@ -29,10 +29,10 @@ export const event = {
   TITLE_MAX_LEN: 25,
 };
 
-// export const guest = {
-//   NAME_MIN_LEN: 1,
-//   NAME_MAX_LEN: 50,
-// };
+export const guest = {
+  NAME_MIN_LEN: 1,
+  NAME_MAX_LEN: 50,
+};
 
 export const note = {
   DESC_MIN_LEN: 5,

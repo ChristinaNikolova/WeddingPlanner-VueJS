@@ -8,11 +8,11 @@ function all(plannerId) {
     .catch(err => console.error(err));
 }
 
-// function create(plannerId, firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
-//   return requester(`${api.guests}/${plannerId}`, httpMethods.POST, { firstName, lastName, gender, age, side, role, table, mainDish, confirmed })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// }
+function create(plannerId, firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
+  return requester(`${api.guests}/${plannerId}`, httpMethods.POST, { firstName, lastName, gender, age, side, role, table, mainDish, confirmed })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
 function deleteById(id) {
   return requester(`${api.guests}/${id}`, httpMethods.DELETE)
@@ -35,4 +35,5 @@ function deleteById(id) {
 export default {
   all,
   deleteById,
+  create,
 };

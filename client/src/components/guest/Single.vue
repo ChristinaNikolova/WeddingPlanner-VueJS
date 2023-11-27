@@ -4,6 +4,7 @@ import { dishes, genders, people } from '../../utils/constants/global';
 
 export default {
   // todo names on function => same convension
+  // todo test trash icon when guests difrent from nride and groom
   props: {
     id: {
       type: String,
@@ -50,9 +51,8 @@ export default {
       type: Boolean,
       required: false,
     },
-    // onShowFormHandler,
   },
-  emits: ['onDeleteHandler'],
+  emits: ['onDeleteHandler', 'onShowFormHandler'],
   data() {
     return {
       isHovering: false,
@@ -95,6 +95,9 @@ export default {
 
       return image;
     },
+    showDeleteIcon() {
+      return this.role !== 'bride' && this.role !== 'groom' && !this.isEditIconHidden;
+    },
   },
   methods: {
     onMouseEnterHandler() {
@@ -118,13 +121,9 @@ export default {
         <span class="guests-all-image">
           <i :class="getPersonImage" />
         </span>
-        <!-- todo TEST THIs -->
         <span v-if="isHovering" class="guests-all-icons">
-          <!-- {!isEditIconHidden && <i onClick="{()" => onShowFormHandler(id)} class="fa-solid fa-pen"></i>} -->
-          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" />
-          <!-- {role !== 'bride' && role !== 'groom' && !isEditIconHidden && -->
-          <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
-          <!-- } -->
+          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" @click="$emit('onShowFormHandler', id)" />
+          <i v-if="showDeleteIcon" class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
         </span>
       </p>
       <p class="guests-all-side">
