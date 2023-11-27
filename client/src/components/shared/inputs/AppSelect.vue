@@ -1,6 +1,5 @@
 <script>
 export default {
-  // todo add default values here and checke types
   props: {
     modelValue: {
       type: String,
@@ -10,27 +9,22 @@ export default {
       type: String,
       required: true,
     },
-    type: {
-      type: String,
-      required: true,
-      default: 'text',
-    },
     label: {
       type: String,
       required: true,
     },
     errors: {
       type: Array,
-      default: () => ([]),
+      required: () => ([]),
     },
-    isReadonly: {
-      Type: Boolean,
-      default: false,
+    categories: {
+      type: Array,
+      required: () => ([]),
     },
   },
   emits: ['update:modelValue'],
   methods: {
-    onInput($event) {
+    onChange($event) {
       const { value } = $event.target;
       this.$emit('update:modelValue', value);
     },
@@ -41,15 +35,20 @@ export default {
 <template>
   <div class="form-wrapper">
     <label class="label" :for="name">{{ label }}</label>
-    <input
+    <select
       :id="name"
       class="input"
       :name="name"
-      :type="type"
-      :readonly="isReadonly"
       :value="modelValue"
-      @input="onInput"
+      @change="onChange"
     >
+      <option disabled value="">
+        Please relect {{ name }}
+      </option>
+      <option v-for="c in categories" :key="c.id ? c.id : c" :value="c.id ? c.id : c">
+        {{ c.name ? c.name : c }}
+      </option>
+    </select>
     <ClientError v-for="error of errors" :key="error.$uid" :error="error.$message" />
   </div>
 </template>
