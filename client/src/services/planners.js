@@ -32,11 +32,11 @@ function create(description, date, budget, location, bride, groom) {
     .catch(err => console.error(err));
 }
 
-// function update(id, description, date, budget, location, bride, brideId, groom, groomId) {
-//   return requester(`${api.planners}/${id}`, httpMethods.PUT, { description, date, budget, location, bride, brideId, groom, groomId })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function update(id, description, date, budget, location, bride, brideId, groom, groomId) {
+  return requester(`${api.planners}/${id}`, httpMethods.PUT, { description, date, budget, location, bride, brideId, groom, groomId })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 export default {
   all,
@@ -44,4 +44,5 @@ export default {
   deleteById,
   getBudget,
   create,
+  update,
 };

@@ -4,6 +4,7 @@ import Login from '../components/auth/Login.vue';
 import Register from '../components/auth/Register.vue';
 import PlannerDashboard from '../components/planner/Dashboard.vue';
 import PlannerCreate from '../components/planner/Create.vue';
+import PlannerUpdate from '../components/planner/Update.vue';
 import PlannerDetails from '../components/planner/Details.vue';
 import GuestAll from '../components/guest/All.vue';
 import NoteAll from '../components/note/All.vue';
@@ -21,6 +22,7 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/plan', component: PlannerDashboard },
   { path: '/plan/create', component: PlannerCreate },
+  { path: '/plan/edit/:id', component: PlannerUpdate },
   { path: '/plan/:id', component: PlannerDetails },
   { path: '/:plannerId/guest', component: GuestAll },
   { path: '/:plannerId/note', component: NoteAll },
