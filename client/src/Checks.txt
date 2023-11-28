@@ -1,2 +1,3 @@
 [] todo check if everywhere $event!!!
 [] todo check async/await
+[] todo check emits

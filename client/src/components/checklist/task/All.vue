@@ -77,7 +77,6 @@ export default {
               v-if="!taskId"
               :class-names="[]"
               :text="addButtonTexts.TASK"
-              :is-empty-string="false"
               @on-show-form-handler="onShowTaskFormHandler"
             />
           </div>

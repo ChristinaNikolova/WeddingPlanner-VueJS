@@ -104,7 +104,6 @@ export default {
         v-if="!subtaskId"
         :class-names="[]"
         :text="addButtonTexts.SUB_TASK"
-        :is-empty-string="false"
         @on-show-form-handler="onShowSubTaskFormHandler"
       />
     </div>
