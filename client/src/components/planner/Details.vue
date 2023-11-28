@@ -22,7 +22,7 @@ export default {
     onDeleteHandler() {
       plannersService
         .deleteById(this.id)
-        .then(() => this.$router.push('/plan'))
+        .then(() => this.$router.push({ path: '/plan' }))
         .catch(err => console.error(err));
     },
     onMouseEnter() {

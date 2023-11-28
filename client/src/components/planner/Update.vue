@@ -45,7 +45,7 @@ export default {
             this.serverError = res.message;
             return;
           }
-          this.$router.push({ path: `/plan/${this.id}` });
+          this.$router.push({ path: '/plan', params: `${this.id}` });
         })
         .catch(err => console.error(err));
     },
@@ -57,6 +57,7 @@ export default {
   <PlannerForm
     :initial-data="data"
     :server-error="serverError"
+    :form-name="formName"
     @on-submit-handler="onSubmitHandler"
   />
 </template>

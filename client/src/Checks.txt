@@ -9,4 +9,3 @@
 [] todo check if functions needed!!!
 [] todo add default values here and checke types
 [] todo check all router added (at the end)
-[] todo check all routes (lecture)
