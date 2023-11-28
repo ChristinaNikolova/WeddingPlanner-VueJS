@@ -1,14 +1,11 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
-import { global } from '../../utils/constants/error';
-import { addButtonTexts, formNames } from '../../utils/constants/global';
-import { note as noteModels } from '../../utils/constants/model';
+import { addButtonTexts } from '../../utils/constants/global';
 import notesService from '../../services/notes';
+import NoteForm from './Form.vue';
 
-// todo formRef
-// todo cleanup emiter func  + emits
 export default {
+  components: { NoteForm },
   props: {
     plannerId: {
       type: String,
@@ -23,12 +20,8 @@ export default {
       type: Function,
       required: true,
     },
-    loadNotes: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onCancelFormHandler', 'onShowFormHandler'],
+  emits: ['onCancelFormHandler', 'onShowFormHandler', 'onFinish'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -38,47 +31,15 @@ export default {
       data: {
         description: '',
       },
-      formName: formNames.CREATE,
       buttonText: addButtonTexts.NOTE,
       serverError: '',
-      models: noteModels,
-      global,
-      isDisabled: true,
     };
   },
-  watch: {
-    data: {
-      handler() {
-        this.isDisabled = this.v$.data.description.$invalid;
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError;
-      return this.isDisabled;
-    },
-  },
-  validations() {
-    return {
-      data: {
-        description: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(global.DESC(this.models.DESC_MIN_LEN, this.models.DESC_MAX_LEN), minLength(this.models.DESC_MIN_LEN)),
-          maxLength: helpers.withMessage(global.DESC(this.models.DESC_MIN_LEN, this.models.DESC_MAX_LEN), maxLength(this.models.DESC_MAX_LEN)),
-        },
-      },
-    };
-  },
-  methods: {
-    async onSubmitHandler() {
-      const isValid = await this.v$.$validate();
-      if (!isValid) {
-        return;
-      }
 
+  methods: {
+    async onSubmitHandler(description) {
       await notesService
-        .create(this.plannerId, this.data.description)
+        .create(this.plannerId, description)
         .then(async (res) => {
           if (res.message) {
             this.serverError = res.message;
@@ -88,8 +49,7 @@ export default {
           this.data.description = '';
           this.$nextTick(() => { this.v$.$reset(); });
           this.serverError = '';
-          this.onCancelFormHandler();
-          this.loadNotes();
+          this.$emit('onFinish');
         })
         .catch(err => console.error(err));
     },
@@ -97,29 +57,18 @@ export default {
 };
 </script>
 
-<!-- ref={formRef} -->
 <template>
   <AddButton
     :class-names="['note-form-icon']"
     :text="buttonText"
-    is-empty-string="true"
+    :is-empty-string="true"
     @on-show-form-handler="onShowFormHandler"
   />
-  <div v-if="!isHidden" class="form-wrapper-center">
-    <form class="form-width form-error-message-width" @submit.prevent="onSubmitHandler">
-      <ServerError v-if="serverError" :errors="serverError" />
-      <AppTextArea
-        v-model.trim="v$.data.description.$model"
-        :errors="v$?.data.description.$errors"
-        name="description"
-        rows="10"
-        label="Note"
-      />
-      <FormButton
-        :form-name="formName"
-        :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="onCancelFormHandler"
-      />
-    </form>
-  </div>
+  <NoteForm
+    v-if="!isHidden"
+    :initial-data="data"
+    :server-error="serverError"
+    :on-cancel-form-handler="onCancelFormHandler"
+    @on-submit-handler="onSubmitHandler"
+  />
 </template>

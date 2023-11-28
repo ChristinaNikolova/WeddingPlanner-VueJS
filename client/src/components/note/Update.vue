@@ -1,12 +1,10 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
-import { global } from '../../utils/constants/error';
 import { formNames } from '../../utils/constants/global';
-import { note as noteModels } from '../../utils/constants/model';
 import notesService from '../../services/notes';
+import NoteForm from './Form.vue';
 
 export default {
+  components: { NoteForm },
   props: {
     plannerId: {
       type: String,
@@ -20,50 +18,16 @@ export default {
       type: Function,
       required: true,
     },
-    loadNotes: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onCancelFormHandler'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
-  },
+  emits: ['onCancelFormHandler', 'onFinish'],
   data() {
     return {
       data: {
         description: '',
       },
-      formName: formNames.UPDATE,
       serverError: '',
-      isDisabled: true,
-      models: noteModels,
-      global,
-    };
-  },
-  watch: {
-    data: {
-      handler() {
-        this.isDisabled = this.v$.data.description.$invalid;
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError;
-      return this.isDisabled;
-    },
-  },
-  validations() {
-    return {
-      data: {
-        description: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(global.DESC(this.models.DESC_MIN_LEN, this.models.DESC_MAX_LEN), minLength(this.models.DESC_MIN_LEN)),
-          maxLength: helpers.withMessage(global.DESC(this.models.DESC_MIN_LEN, this.models.DESC_MAX_LEN), maxLength(this.models.DESC_MAX_LEN)),
-        },
-      },
+      formName: formNames.UPDATE,
+      isDisabled: false,
     };
   },
   async created() {
@@ -75,14 +39,9 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler() {
-      const isValid = await this.v$.$validate();
-      if (!isValid) {
-        return;
-      }
-
+    async onSubmitHandler(description) {
       await notesService
-        .update(this.noteId, this.data.description)
+        .update(this.noteId, description)
         .then(async (res) => {
           if (res.message) {
             this.serverError = res.message;
@@ -90,32 +49,21 @@ export default {
           }
 
           this.serverError = '';
-          this.onCancelFormHandler();
-          this.loadNotes();
+          this.$emit('onFinish');
         })
         .catch(err => console.error(err));
     },
   },
 };
-//  ref={formRef}
 </script>
 
 <template>
-  <div class="form-wrapper-center">
-    <form class="form-width form-error-message-width" @submit.prevent="onSubmitHandler">
-      <ServerError v-if="serverError" :errors="serverError" />
-      <AppTextArea
-        v-model.trim="v$.data.description.$model"
-        :errors="v$?.data.description.$errors"
-        name="description"
-        rows="10"
-        label="Note"
-      />
-      <FormButton
-        :form-name="formName"
-        :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="onCancelFormHandler"
-      />
-    </form>
-  </div>
+  <NoteForm
+    :initial-data="data"
+    :server-error="serverError"
+    :form-name="formName"
+    :initial-disabled="isDisabled"
+    :on-cancel-form-handler="onCancelFormHandler"
+    @on-submit-handler="onSubmitHandler"
+  />
 </template>

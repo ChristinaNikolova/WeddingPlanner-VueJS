@@ -34,7 +34,6 @@ export default {
         .catch(err => console.error(err));
     },
     onShowFormHandler(e, id) {
-      // todo test if event can be removed
       this.isHidden = !this.isHidden;
       this.noteId = id || '';
       this.isEditIconHidden = !this.isEditIconHidden;
@@ -43,6 +42,10 @@ export default {
       this.isHidden = true;
       this.noteId = '';
       this.isEditIconHidden = false;
+    },
+    async onFinish() {
+      this.onCancelFormHandler();
+      await this.loadNotes();
     },
   },
 };
@@ -78,15 +81,15 @@ export default {
       :note-id="noteId"
       :planner-id="plannerId"
       :on-cancel-form-handler="onCancelFormHandler"
-      :load-notes="loadNotes"
+      @on-finish="onFinish"
     />
     <Create
       v-else
       :planner-id="plannerId"
       :is-hidden="isHidden"
-      :load-notes="loadNotes"
-      :on-cancel-form-handler="onCancelFormHandler"
       :on-show-form-handler="onShowFormHandler"
+      :on-cancel-form-handler="onCancelFormHandler"
+      @on-finish="onFinish"
     />
   </section>
 </template>
