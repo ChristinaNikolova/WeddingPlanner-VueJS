@@ -1,10 +1,5 @@
 import { classNames, styleNames } from '../constants/global';
 
-// todo do ween this this
-// function isButtonDisabled(inputs, errors) {
-//   return Object.values(inputs).some(x => !x) || errors.some(x => x);
-// };
-
 function scrollToTop() {
   window.scrollTo({ behavior: 'smooth', top: 0 });
 };
