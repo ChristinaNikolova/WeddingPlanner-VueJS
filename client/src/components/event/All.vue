@@ -16,7 +16,6 @@ export default {
     };
   },
   async created() {
-    // todo scrollToTop();
     await this.loadEvents();
   },
   methods: {
@@ -51,6 +50,10 @@ export default {
       this.isHidden = true;
       this.eventId = '';
       this.isEditIconHidden = false;
+    },
+    async onFinish() {
+      this.onCancelFormHandler();
+      await this.loadEvents();
     },
   },
 };
@@ -89,15 +92,15 @@ export default {
       :event-id="eventId"
       :planner-id="plannerId"
       :on-cancel-form-handler="onCancelFormHandler"
-      :load-events="loadEvents"
+      @on-finish="onFinish"
     />
     <Create
       v-else
       :planner-id="plannerId"
       :is-hidden="isHidden"
-      :on-cancel-form-handler="onCancelFormHandler"
       :on-show-form-handler="onShowFormHandler"
-      :load-events="loadEvents"
+      :on-cancel-form-handler="onCancelFormHandler"
+      @on-finish="onFinish"
     />
   </section>
 </template>

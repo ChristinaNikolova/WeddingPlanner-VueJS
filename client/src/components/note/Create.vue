@@ -11,7 +11,10 @@ export default {
       type: String,
       required: true,
     },
-    isHidden: { type: Boolean, default: false },
+    isHidden: {
+      type: Boolean,
+      default: false,
+    },
     onCancelFormHandler: {
       type: Function,
       required: true,
@@ -31,8 +34,8 @@ export default {
       data: {
         description: '',
       },
-      buttonText: addButtonTexts.NOTE,
       serverError: '',
+      addButtonTexts,
     };
   },
 
@@ -48,6 +51,7 @@ export default {
 
           this.data.description = '';
           this.$nextTick(() => { this.v$.$reset(); });
+
           this.serverError = '';
           this.$emit('onFinish');
         })
@@ -60,7 +64,7 @@ export default {
 <template>
   <AddButton
     :class-names="['note-form-icon']"
-    :text="buttonText"
+    :text="addButtonTexts.NOTE"
     :is-empty-string="true"
     @on-show-form-handler="onShowFormHandler"
   />

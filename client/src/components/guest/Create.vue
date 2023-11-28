@@ -29,7 +29,6 @@ export default {
     return { v$: useVuelidate(),
     };
   },
-
   data() {
     return {
       data: {
@@ -47,7 +46,6 @@ export default {
       addButtonTexts,
     };
   },
-
   methods: {
     async onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
       await guestsService
