@@ -28,12 +28,6 @@ export default {
       type: String,
       required: true,
     },
-    currentPage: {
-      type: Number,
-    },
-    selectedCategory: {
-      type: String,
-    },
   },
 };
 </script>

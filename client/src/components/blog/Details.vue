@@ -21,12 +21,12 @@ export default {
     async $route(newValue, oldValue) {
       if (oldValue.params.id !== newValue.params.id) {
         this.id = newValue.params.id;
-        this.loadArticle();
+        await this.loadArticle();
       }
     },
   },
-  created() {
-    this.loadArticle();
+  async created() {
+    await this.loadArticle();
   },
   methods: {
     onDeleteHandler() {
@@ -37,8 +37,8 @@ export default {
         })
         .catch(err => console.error(err));
     },
-    like() {
-      articlesService
+    async like() {
+      await articlesService
         .like(this.id)
         .then((res) => {
           this.isLiked = this.setIsLikedHelper(res.likes);
@@ -49,8 +49,8 @@ export default {
     setIsLikedHelper(likes) {
       return likes.includes(this.userId);
     },
-    loadArticle() {
-      articlesService
+    async loadArticle() {
+      await articlesService
         .getById(this.id)
         .then((res) => {
           this.article = res;

@@ -4,15 +4,15 @@ import { directions } from '../../utils/constants/global';
 import articlesService from '../../services/articles';
 import Pagination from '../shared/Pagination.vue';
 import form from '../../utils/helpers/form';
-import AllCategoryDropDown from './AllCategoryDropDown.vue';
+import CategoryDropDown from './CategoryDropDown.vue';
 import List from './List.vue';
+import Search from './Search.vue';
 
 export default {
-  // todo extract Jumbo
   // todo check if everywhere $event!!!
   // todo add hook for update???
 
-  components: { AllCategoryDropDown, List, Pagination },
+  components: { CategoryDropDown, List, Pagination, Search },
   data() {
     return {
       directions,
@@ -59,14 +59,16 @@ export default {
       this.isSearched = false;
       this.query = '';
     },
-    onSearch() {
+    onSearch(e, query) {
+      console.log(query);
       this.isSearched = true;
       // todo fix this
       // this.startPageHelper();
     },
-    onChangeHandler(e) {
-      this.query = e.target.value;
-    },
+    // todo remove this
+    // onChangeHandler(e) {
+    //   this.query = e.target.value;
+    // },
     // todo remove one of these onCategoryHandler/onRemoveCategotyHandler
     onCategoryHandler(e) {
       this.selectedCategory = {
@@ -113,24 +115,20 @@ export default {
       </p>
     </div>
     <div class="articles-all-forms-wrapper">
-      <!-- <ArticlesAllSearch
-                    isSearchIconClicked={isSearchIconClicked}
-                    query={query}
-                    onShowSearchForm={onShowSearchForm}
-                    onSearch={onSearch}
-                    onChangeHandler={onChangeHandler}
-            /> -->
-      <AllCategoryDropDown
+      <Search
+        :is-search-icon-clicked="isSearchIconClicked"
+        :query="query"
+        :on-change-handler="onChangeHandler"
+        @on-show-search-form="onShowSearchForm"
+        @on-search="onSearch"
+      />
+      <CategoryDropDown
         :selected-category-name="selectedCategory.name"
         @on-category-handler="onCategoryHandler"
         @on-remove-categoty-handler="onRemoveCategotyHandler"
       />
     </div>
-    <List
-      :articles="articles"
-      :current-page="currentPage"
-      :selected-category="selectedCategory"
-    />
+    <List :articles="articles" />
     <Pagination
       :current-page="currentPage"
       :pages-count="pagesCount"
@@ -145,16 +143,6 @@ export default {
   margin: 0 auto;
   text-align: center;
 }
-
-.articles-all i {
-  font-size: 18px;
-  margin-left: 10px;
-}
-
-.articles-all i:hover {
-  color: var(--clr-gold);
-}
-
 .articles-all-title-wrapper {
   text-align: center;
   max-width: 700px;

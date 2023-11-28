@@ -5,16 +5,8 @@ export default {
   components: { Single },
   props: {
     articles: {
-      type: [],
+      type: Array,
       default: () => ([]),
-    },
-    currentPage: {
-      type: Number,
-      // todo add default here
-    },
-    selectedCategory: {
-      type: String,
-      // todo add default here
     },
   },
 };
@@ -33,8 +25,6 @@ export default {
         :short-content="a.shortContent"
         :created-at="a.createdAt"
         :category-name="a.category.name"
-        :current-page="currentPage"
-        :selected-category="selectedCategory"
       />
     </div>
   </template>

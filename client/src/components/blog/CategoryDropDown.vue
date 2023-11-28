@@ -44,7 +44,7 @@ export default {
 </script>
 
 <template>
-  <div class="article-all-category-drop-down-wrapper">
+  <div>
     <span class="articles-all-category-drop-down">Category:</span>
     <button class="articles-all-category-drop-down-btn" @click="onToggleHandler">
       {{ selectedCategoryName }}
@@ -85,7 +85,13 @@ export default {
 
 .articles-all-category-drop-down-btn i {
   position: absolute;
-  top: 14px;
+  top: 13px;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.articles-all-category-drop-down-btn i:hover {
+  color: var(--clr-gold);
 }
 
 .articles-all-category-drop-down-ul {

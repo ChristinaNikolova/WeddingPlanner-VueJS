@@ -4,8 +4,8 @@ import { directions } from '../../utils/constants/global';
 export default {
   props: {
     currentPage: {
-      type: Number,
-      default: 1,
+      type: String,
+      default: '1',
     },
     pagesCount: {
       type: Number,
@@ -13,7 +13,8 @@ export default {
     },
     selectedCategory:
      {
-       type: String,
+       type: Object,
+       default: () => ({}),
      },
   },
   emits: ['onClickHandler'],
