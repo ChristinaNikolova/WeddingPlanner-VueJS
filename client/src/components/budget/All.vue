@@ -99,6 +99,7 @@ export default {
       <h2 class="section-title">
         Budget
       </h2>
+      <LinkButton button-text="Back" :path="`/plan/${plannerId}`" />
     </div>
     <InfoWrapper
       :budget="budget"

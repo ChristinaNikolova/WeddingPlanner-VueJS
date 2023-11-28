@@ -65,6 +65,7 @@ export default {
       <h2 class="section-title">
         The big day
       </h2>
+      <LinkButton button-text="Back" :path="`/plan/${plannerId}`" />
     </div>
     <div class="events-all-main-content-wrapper">
       <template v-if="events.length">

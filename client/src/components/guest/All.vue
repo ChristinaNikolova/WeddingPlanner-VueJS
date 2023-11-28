@@ -55,6 +55,7 @@ export default {
       <h2 class="section-title">
         Guests
       </h2>
+      <LinkButton button-text="Back" :path="`/plan/${plannerId}`" />
     </div>
     <div class="guests-all-main-content-wrapper">
       <template v-if="guests.length">

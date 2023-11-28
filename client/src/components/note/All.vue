@@ -57,6 +57,7 @@ export default {
       <h2 class="section-title">
         Notes
       </h2>
+      <LinkButton button-text="Back" :path="`/plan/${plannerId}`" />
     </div>
     <div class="notes-all-main-content-wrapper">
       <template v-if="notes.length">

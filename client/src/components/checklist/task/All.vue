@@ -69,6 +69,7 @@ export default {
       <h2 class="section-title">
         The big day
       </h2>
+      <LinkButton button-text="Back" :path="`/plan/${plannerId}`" />
     </div>
     <div class="checklist-all-main-content-wrapper">
       <div v-for="(time, index) in timespans" :key="{ index }" class="checklist-all-timespan-wrapper">

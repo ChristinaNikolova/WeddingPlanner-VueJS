@@ -8,6 +8,7 @@ import AppSelect from './components/shared/inputs/AppSelect.vue';
 import AppTextArea from './components/shared/inputs/AppTextArea.vue';
 import FormButton from './components/shared/buttons/Form.vue';
 import AddButton from './components/shared/buttons/Add.vue';
+import LinkButton from './components/shared/buttons/Link.vue';
 import ClientError from './components/shared/errors/ClientError.vue';
 import ServerError from './components/shared/errors/ServerError.vue';
 
@@ -19,6 +20,7 @@ app.component('AppSelect', AppSelect);
 app.component('AppTextArea', AppTextArea);
 app.component('FormButton', FormButton);
 app.component('AddButton', AddButton);
+app.component('LinkButton', LinkButton);
 app.component('ClientError', ClientError);
 app.component('ServerError', ServerError);
 app.mount('#app');

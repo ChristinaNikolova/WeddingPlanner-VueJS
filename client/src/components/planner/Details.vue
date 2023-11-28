@@ -45,6 +45,7 @@ export default {
           <i class="fa-solid fa-trash" @click="onDeleteHandler" />
         </span>
       </h2>
+      <LinkButton button-text="Back to All Planners" path="/plan" />
     </div>
     <div class="details-planner-main-content-wrapper">
       <div class="details-planner-section">
