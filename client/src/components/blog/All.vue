@@ -9,7 +9,6 @@ import List from './List.vue';
 import Search from './Search.vue';
 
 export default {
-  // todo check if everywhere $event!!!
   components: { CategoryDropDown, List, Pagination, Search },
   data() {
     return {
@@ -28,7 +27,6 @@ export default {
     };
   },
   watch: {
-    // todo do wee need them at all???
     async selectedCategory(newValue, oldValue) {
       if (newValue.id !== oldValue.id) {
         this.currentPage = 1;
@@ -43,11 +41,14 @@ export default {
       }
     },
     async query() {
+      this.currentPage = 1;
       await this.loadArticles();
+      this.getNewQuery();
     },
   },
   async created() {
     await this.loadArticles();
+    form.scrollToTop();
   },
   methods: {
     onPaginationHandler(direction) {
@@ -55,7 +56,7 @@ export default {
       this.currentPage = this.currentPage + value;
       form.scrollToTop();
     },
-    onShowSearchForm() {
+    onSearchForm() {
       this.isSearchIconClicked = !this.isSearchIconClicked;
       this.isSearched = false;
       this.query = '';
@@ -64,7 +65,6 @@ export default {
       this.isSearched = true;
       this.query = searchedQuery;
     },
-    // todo remove one of these onCategoryHandler/onRemoveCategotyHandler
     onCategoryHandler(e) {
       this.selectedCategory = {
         id: e.target.id,
@@ -113,7 +113,7 @@ export default {
       <Search
         :is-search-icon-clicked="isSearchIconClicked"
         :query="query"
-        @on-show-search-form="onShowSearchForm"
+        @on-search-form="onSearchForm"
         @on-search="onSearch"
       />
       <CategoryDropDown

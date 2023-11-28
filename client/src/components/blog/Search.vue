@@ -9,7 +9,7 @@ export default {
       type: String,
     },
   },
-  emits: ['onShowSearchForm', 'onSearch'],
+  emits: ['onSearchForm', 'onSearch'],
   data() {
     return {
       searchedQuery: this.query,
@@ -18,7 +18,7 @@ export default {
   methods: {
     onShowHandler() {
       this.searchedQuery = '';
-      this.$emit('onShowSearchForm');
+      this.$emit('onSearchForm');
     },
   },
 };
@@ -43,7 +43,7 @@ export default {
     <i
       v-else
       class="fa-solid fa-magnifying-glass glass-position"
-      @click="$emit('onShowSearchForm')"
+      @click="$emit('onSearchForm')"
     />
   </span>
 </template>

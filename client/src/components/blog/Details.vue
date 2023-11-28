@@ -6,7 +6,6 @@ import LastThreeArticles from '../shared/Blog/LastThreeArticles.vue';
 export default {
   components: { LastThreeArticles },
   // todo fix this const { userId, isAdmin } = useContext(AuthContext);
-  // test if async await is needed
   data() {
     return {
       id: this.$route.params.id,
@@ -111,6 +110,11 @@ export default {
           {{ el }}
         </p>
       </div>
+    </div>
+    <div class="article-details-btn-wrapper">
+      <router-link to="/blog" class="btn">
+        Back
+      </router-link>
     </div>
     <div class="article-details-btn-wrapper" />
     <LastThreeArticles />

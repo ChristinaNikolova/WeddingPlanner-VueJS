@@ -14,7 +14,6 @@ export default {
   data() {
     return {
       categories: [],
-      // todo try to use select default lecture!!!
       defaultCategoryId: category.DEFAULT_CATEGORY_SELECTED_ID,
       classNames,
     };
