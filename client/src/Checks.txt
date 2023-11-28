@@ -1,11 +1,9 @@
 [] todo check if everywhere $event!!!
 [] todo check async/await
 [] todo check emits
-[] todo add back buttons for planner entities
 [] todo check roll to section
 [] todo scroll to the top after form closed
 [] todo names on function => same convension
-[] todo remove onClearInputs function
 [] todo emits or function
 [] todo fix no content @media
 [] todo check if functions needed!!!
