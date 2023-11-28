@@ -8,7 +8,8 @@ import { formNames } from '../../utils/constants/global';
 export default {
   props: {
     initialData: {
-      description: '',
+      type: Object,
+      required: true,
     },
     serverError: {
       type: String,

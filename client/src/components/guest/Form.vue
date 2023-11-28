@@ -5,7 +5,6 @@ import { formNames, roles } from '../../utils/constants/global';
 import { global } from '../../utils/constants/error';
 import { guest as guestModel } from '../../utils/constants/model';
 
-// todo test note initialdata
 export default {
   props: {
     initialData: {
