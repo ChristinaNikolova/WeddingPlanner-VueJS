@@ -16,7 +16,6 @@ export default {
     };
   },
   async created() {
-    // toto scrollToTop();
     await this.loadGuests();
   },
   methods: {
@@ -41,6 +40,10 @@ export default {
       this.isHidden = !this.isHidden;
       this.guestId = id || '';
       this.isEditIconHidden = !this.isEditIconHidden;
+    },
+    async onFinish() {
+      this.onCancelFormHandler();
+      await this.loadGuests();
     },
   },
 };
@@ -79,15 +82,15 @@ export default {
       :guest-id="guestId"
       :planner-id="plannerId"
       :on-cancel-form-handler="onCancelFormHandler"
-      :load-guests="loadGuests"
+      @on-finish="onFinish"
     />
     <Create
       v-else
       :planner-id="plannerId"
       :is-hidden="isHidden"
-      :on-cancel-form-handler="onCancelFormHandler"
       :on-show-form-handler="onShowFormHandler"
-      :load-guests="loadGuests"
+      :on-cancel-form-handler="onCancelFormHandler"
+      @on-finish="onFinish"
     />
   </section>
 </template>

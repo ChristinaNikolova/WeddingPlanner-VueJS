@@ -12,7 +12,6 @@ export default {
     },
     serverError: {
       type: String,
-      default: '',
     },
     formName: {
       type: String,
@@ -35,9 +34,9 @@ export default {
   data() {
     return {
       data: this.initialData,
+      isDisabled: this.initialDisabled,
       models: noteModels,
       global,
-      isDisabled: this.initialDisabled,
     };
   },
   watch: {

@@ -1,3 +1,5 @@
 [] todo check if everywhere $event!!!
 [] todo check async/await
 [] todo check emits
+[] todo add back buttons for planner entities
+[] todo scroll to the top after form closed
