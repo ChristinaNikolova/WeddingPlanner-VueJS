@@ -51,7 +51,6 @@ export default {
 };
 </script>
 
-<!-- // todo scrollToTop(); -->
 <template>
   <section id="notes-all" class="section-planner section-background">
     <div class="section-title-wrapper">

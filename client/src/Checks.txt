@@ -2,4 +2,6 @@
 [] todo check async/await
 [] todo check emits
 [] todo add back buttons for planner entities
+[] todo check roll to section
 [] todo scroll to the top after form closed
+[] todo names on function => same convension

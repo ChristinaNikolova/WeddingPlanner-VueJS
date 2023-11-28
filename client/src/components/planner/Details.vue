@@ -2,7 +2,6 @@
 import plannersService from '../../services/planners';
 
 export default {
-  // todo const plannerRef = useRef(null);
   data() {
     return {
       id: this.$route.params.id,
@@ -15,6 +14,9 @@ export default {
       .getById(this.id)
       .then(res => (this.planner = res))
       .catch(err => console.error(err));
+  },
+  mounted() {
+    this.$refs.plannerRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
   },
   methods: {
     onDeleteHandler() {
@@ -34,8 +36,7 @@ export default {
 </script>
 
 <template>
-  <!-- ref={plannerRef} -->
-  <section id="details-planner" class="details-planner">
+  <section id="details-planner" ref="plannerRef" class="details-planner">
     <div class="section-title-wrapper">
       <h2 class="section-title" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         {{ planner.title }}
