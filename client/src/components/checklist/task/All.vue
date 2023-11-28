@@ -55,6 +55,10 @@ export default {
       this.taskId = '';
       this.currentIndex = '';
     },
+    async onFinish(e) {
+      await this.loadTasks();
+      this.onCancelFormHandler(e);
+    },
   },
 };
 </script>
@@ -84,14 +88,14 @@ export default {
             v-if="taskId && index === currentIndex"
             :planner-id="plannerId"
             :task-id="taskId"
-            :load-tasks="loadTasks"
             :on-cancel-form-handler="onCancelFormHandler"
+            @on-finish="onFinish"
           />
           <Create
             v-else-if="!taskId"
             :planner-id="plannerId"
-            :load-tasks="loadTasks"
             :on-cancel-form-handler="onCancelFormHandler"
+            @on-finish="onFinish"
           />
           <div class="checklist-all-line" />
           <div class="checklist-all-tasks-content-wrapper">
