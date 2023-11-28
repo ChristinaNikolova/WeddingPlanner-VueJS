@@ -15,7 +15,7 @@ export default {
       directions,
       pathToImage: jumbo.BLOG,
       articles: [],
-      currentPage: this.$route?.query?.page ? this.$route.query.page : '1',
+      currentPage: this.$route?.query?.page ? Number(this.$route.query.page) : 1,
       selectedCategory: {
         id: this.$route?.query?.categoryId ? this.$route.query.categoryId : 'default',
         name: this.$route?.query?.category ? this.$route.query.category : 'all',

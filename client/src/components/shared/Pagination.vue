@@ -4,8 +4,8 @@ import { directions } from '../../utils/constants/global';
 export default {
   props: {
     currentPage: {
-      type: String,
-      default: '1',
+      type: Number,
+      default: 1,
     },
     pagesCount: {
       type: Number,
