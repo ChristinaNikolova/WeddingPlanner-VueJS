@@ -1,20 +1,13 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
-import { formNames, styleNames } from '../../../utils/constants/global';
-
-import { global } from '../../../utils/constants/error';
-import { subtask as subtaskModel } from '../../../utils/constants/model';
+import { formNames } from '../../../utils/constants/global';
 import subtasksService from '../../../services/subtasks';
+import SubtaskForm from './Form.vue';
 
 export default {
+  components: { SubtaskForm },
   props: {
     subtaskId: {
       type: String,
-      required: true,
-    },
-    loadTasks: {
-      type: Function,
       required: true,
     },
     onCancelFormHelperHandler: {
@@ -22,47 +15,15 @@ export default {
       required: true,
     },
   },
-  emits: ['onCancelFormHelperHandler'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
-  },
+  emits: ['onCancelFormHelperHandler', 'onFinish'],
   data() {
     return {
       data: {
         description: '',
       },
-      formName: formNames.CREATE,
-      serverError: '',
+      formName: formNames.UPDATE,
       isDisabled: false,
-      currentStyle: styleNames.NONE,
-      models: subtaskModel,
-      global,
-    };
-  },
-  watch: {
-    data: {
-      handler() {
-        this.currentStyle = styleNames.FLEX;
-        this.isDisabled = this.v$.data.description.$invalid;
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError;
-      return this.isDisabled;
-    },
-  },
-  validations() {
-    return {
-      data: {
-        description: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(global.DESC(this.models.DESC_MIN_LEN, this.models.DESC_MAX_LEN), minLength(this.models.DESC_MIN_LEN)),
-          maxLength: helpers.withMessage(global.DESC(this.models.DESC_MIN_LEN, this.models.DESC_MAX_LEN), maxLength(this.models.DESC_MAX_LEN)),
-        },
-      },
+      serverError: '',
     };
   },
   async created() {
@@ -74,23 +35,17 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(e) {
-      const isValid = await this.v$.$validate();
-      if (!isValid) {
-        return;
-      }
-
+    async onSubmitHandler(description) {
       await subtasksService
-        .update(this.subtaskId, this.data.description)
+        .update(this.subtaskId, description)
         .then((res) => {
           if (res.message) {
             this.serverError = res.message;
             return;
           }
+
           this.serverError = '';
-          this.currentStyle = styleNames.NONE;
-          this.onCancelFormHelperHandler(e);
-          this.loadTasks();
+          this.$emit('onFinish');
         })
         .catch(err => console.error(err));
     },
@@ -99,21 +54,12 @@ export default {
 </script>
 
 <template>
-  <div class="form-wrapper-center" :style="{ display: `${currentStyle}` }">
-    <form class="form-width form-error-message-width" @submit.prevent="onSubmitHandler">
-      <ServerError v-if="serverError" :errors="serverError" />
-      <AppTextArea
-        v-model.trim="v$.data.description.$model"
-        :errors="v$?.data.description.$errors"
-        name="description"
-        rows="4"
-        label="Description"
-      />
-      <FormButton
-        :form-name="formName"
-        :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="onCancelFormHelperHandler"
-      />
-    </form>
-  </div>
+  <SubtaskForm
+    :initial-data="data"
+    :server-error="serverError"
+    :form-name="formName"
+    :initial-disabled="isDisabled"
+    :on-cancel-form-handler="onCancelFormHelperHandler"
+    @on-submit-handler="onSubmitHandler"
+  />
 </template>

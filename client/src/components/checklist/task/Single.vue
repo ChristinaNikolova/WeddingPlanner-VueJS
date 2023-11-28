@@ -8,7 +8,7 @@ export default {
   props: {
     // todo check type here and why 2 ids
     index: {
-      type: String,
+      type: Number,
       required: true,
     },
     taskId: {

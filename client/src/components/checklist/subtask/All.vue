@@ -5,6 +5,7 @@ import Create from './Create.vue';
 import SingleSubtask from './Single.vue';
 import Update from './Update.vue';
 
+// todo loadTask as emiter
 export default {
   components: { SingleSubtask, Update, Create },
   props: {
@@ -59,6 +60,10 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    async onFinish() {
+      this.onCancelFormHelperHandler();
+      await this.loadTasks();
+    },
   },
 };
 </script>
@@ -72,14 +77,14 @@ export default {
       <Update
         v-if="subtaskId"
         :subtask-id="subtaskId"
-        :load-tasks="loadTasks"
         :on-cancel-form-helper-handler="onCancelFormHelperHandler"
+        @on-finish="onFinish"
       />
       <Create
         v-else
         :task-id="taskId"
-        :load-tasks="loadTasks"
         :on-cancel-form-handler="onCancelFormHandler"
+        @on-finish="onFinish"
       />
     </div>
     <template v-if="subtasks.length">
