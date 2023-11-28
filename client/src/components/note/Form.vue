@@ -64,6 +64,9 @@ export default {
       },
     };
   },
+  mounted() {
+    this.$refs.formRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  },
   methods: {
     async onSubmitFormHandler() {
       const isValid = await this.v$.$validate();
@@ -78,7 +81,7 @@ export default {
 </script>
 
 <template>
-  <div class="form-wrapper-center">
+  <div ref="formRef" class="form-wrapper-center">
     <form class="form-width form-error-message-width" @submit.prevent="onSubmitFormHandler">
       <ServerError v-if="serverError" :errors="serverError" />
       <AppTextArea
