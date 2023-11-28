@@ -14,6 +14,7 @@ import TaskAll from '../components/checklist/task/All.vue';
 import ArticlesAll from '../components/blog/All.vue';
 import ArticleDetails from '../components/blog/Details.vue';
 import FavouriteArticle from '../components/user/FavouriteArticle.vue';
+import NotFound from '../components/NotFound.vue';
 
 // todo check all router added
 const routes = [
@@ -32,6 +33,7 @@ const routes = [
   { path: '/blog', component: ArticlesAll },
   { path: '/blog/:id', component: ArticleDetails },
   { path: '/user/favourite-article', component: FavouriteArticle },
+  { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 
 const router = createRouter({
