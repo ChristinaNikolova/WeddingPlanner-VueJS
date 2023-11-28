@@ -4,10 +4,6 @@ function scrollToTop() {
   window.scrollTo({ behavior: 'smooth', top: 0 });
 };
 
-function onClearInputs() {
-  Array.from(document.getElementsByTagName('input')).forEach(input => input.value = '');
-}
-
 function cancelForm(target) {
   let targetElement = '';
   if (target.classList.contains(classNames.FORM_WIDTH)) {
@@ -22,5 +18,4 @@ function cancelForm(target) {
 export default {
   scrollToTop,
   cancelForm,
-  onClearInputs,
 };

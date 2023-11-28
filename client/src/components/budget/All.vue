@@ -57,11 +57,8 @@ export default {
         .then(res => this.costs = res)
         .catch(err => console.error(err));
     },
-    onCancelFormHandler(e, changeDisplay = false) {
-      if (changeDisplay) {
-        form.cancelForm(e.target);
-      }
-      form.onClearInputs();
+    onCancelFormHandler(e) {
+      form.cancelForm(e.target);
       this.costId = '';
       this.currentIndex = null;
     },
@@ -88,6 +85,10 @@ export default {
     isCost(currentCategoryId) {
       return this.costs.filter(cost => cost.category === currentCategoryId).length > 0;
     },
+    async onFinish(e) {
+      await this.loadCosts();
+      this.onCancelFormHandler(e);
+    },
   },
 };
 </script>
@@ -106,7 +107,6 @@ export default {
     <div class="budget-main-content-wrapper">
       <div v-for="(cat, index) in categories" :key="cat.id" class="budget-main-current-category-wrapper">
         <CategoryWrapper
-
           :name="cat.name"
           :image="cat.image"
           :category-costs="calculateCategoryActualCosts(cat.id)"
@@ -116,15 +116,15 @@ export default {
             v-if="costId && index === currentIndex"
             :planner-id="plannerId"
             :cost-id="costId"
-            :load-costs="loadCosts"
             :on-cancel-form-handler="onCancelFormHandler"
+            @on-finish="onFinish"
           />
           <Create
             v-if="!costId"
             :planner-id="plannerId"
             :category="cat.id"
-            :load-costs="loadCosts"
             :on-cancel-form-handler="onCancelFormHandler"
+            @on-finish="onFinish"
           />
           <div class="budget-main-current-category-costs-titles-wrapper">
             <p class="budget-main-current-category-costs-titles-title">
