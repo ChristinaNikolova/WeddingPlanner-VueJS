@@ -7,7 +7,6 @@ import { global } from '../../../utils/constants/error';
 import { subtask as subtaskModel } from '../../../utils/constants/model';
 import subtasksService from '../../../services/subtasks';
 
-// todo isDisabled => true Create, false Update
 export default {
   props: {
     subtaskId: {

@@ -27,7 +27,7 @@ export default {
         price: null,
       },
       formName: formNames.UPDATE,
-      isDisabled: true,
+      isDisabled: false,
       serverError: '',
     };
   },

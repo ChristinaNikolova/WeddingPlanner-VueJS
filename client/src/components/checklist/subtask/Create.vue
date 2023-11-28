@@ -79,10 +79,6 @@ export default {
             this.serverError = res.message;
             return;
           }
-          // todo check if functions needed!!!
-          // todo extract form in separate component
-          // todo fix no content @media
-          // todo emits or function
 
           this.serverError = '';
           this.currentStyle = styleNames.NONE;

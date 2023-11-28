@@ -1,6 +1,5 @@
 <script>
 export default {
-  // todo add default values here and checke types
   props: {
     modelValue: {
       type: String,

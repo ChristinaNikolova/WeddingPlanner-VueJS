@@ -6,3 +6,10 @@
 [] todo scroll to the top after form closed
 [] todo names on function => same convension
 [] todo remove onClearInputs function
+[] todo emits or function
+[] todo fix no content @media
+[] todo check if functions needed!!!
+[] todo add default values here and checke types
+[] todo check all router added (at the end)
+[] todo check all routes
+[] todo add Back buttons
