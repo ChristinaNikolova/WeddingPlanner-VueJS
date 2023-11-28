@@ -10,8 +10,6 @@ import Search from './Search.vue';
 
 export default {
   // todo check if everywhere $event!!!
-  // todo add hook for update???
-
   components: { CategoryDropDown, List, Pagination, Search },
   data() {
     return {
@@ -31,22 +29,25 @@ export default {
   },
   watch: {
     // todo do wee need them at all???
-    selectedCategory(newValue, oldValue) {
+    async selectedCategory(newValue, oldValue) {
       if (newValue.id !== oldValue.id) {
         this.currentPage = 1;
-        this.loadArticle();
+        await this.loadArticles();
         this.getNewQuery();
       }
     },
-    currentPage(newValue, oldValue) {
+    async currentPage(newValue, oldValue) {
       if (newValue !== oldValue) {
-        this.loadArticle();
+        await this.loadArticles();
         this.getNewQuery();
       }
+    },
+    async query() {
+      await this.loadArticles();
     },
   },
   async created() {
-    await this.loadArticle();
+    await this.loadArticles();
   },
   methods: {
     onPaginationHandler(direction) {
@@ -59,16 +60,10 @@ export default {
       this.isSearched = false;
       this.query = '';
     },
-    onSearch(e, query) {
-      console.log(query);
+    onSearch(e, searchedQuery) {
       this.isSearched = true;
-      // todo fix this
-      // this.startPageHelper();
+      this.query = searchedQuery;
     },
-    // todo remove this
-    // onChangeHandler(e) {
-    //   this.query = e.target.value;
-    // },
     // todo remove one of these onCategoryHandler/onRemoveCategotyHandler
     onCategoryHandler(e) {
       this.selectedCategory = {
@@ -85,7 +80,7 @@ export default {
     getNewQuery() {
       this.$router.push(`/blog?page=${this.currentPage}&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
     },
-    async loadArticle() {
+    async loadArticles() {
       await articlesService
         .all(this.currentPage, this.selectedCategory.id, this.query)
         .then((data) => {
@@ -118,7 +113,6 @@ export default {
       <Search
         :is-search-icon-clicked="isSearchIconClicked"
         :query="query"
-        :on-change-handler="onChangeHandler"
         @on-show-search-form="onShowSearchForm"
         @on-search="onSearch"
       />

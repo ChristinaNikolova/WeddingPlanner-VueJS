@@ -15,6 +15,12 @@ export default {
       searchedQuery: this.query,
     };
   },
+  methods: {
+    onShowHandler() {
+      this.searchedQuery = '';
+      this.$emit('onShowSearchForm');
+    },
+  },
 };
 </script>
 
@@ -32,12 +38,11 @@ export default {
         class="fa-solid fa-magnifying-glass"
         @click="$emit('onSearch', $event, searchedQuery)"
       />
-      <i class="fa-solid fa-xmark" @click="$emit('onShowSearchForm')" />
+      <i class="fa-solid fa-xmark" @click="onShowHandler" />
     </template>
     <i
       v-else
       class="fa-solid fa-magnifying-glass glass-position"
-
       @click="$emit('onShowSearchForm')"
     />
   </span>
