@@ -14,10 +14,6 @@ export default {
       type: String,
       required: true,
     },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
   emits: ['onCancelFormHandler', 'onFinish'],
   data() {
@@ -53,6 +49,12 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    checkIsDisabled(disable) {
+      this.isDisabled = disable;
+    },
+    cancelForm() {
+      this.$emit('onCancelFormHandler');
+    },
   },
 };
 </script>
@@ -63,7 +65,15 @@ export default {
     :server-error="serverError"
     :form-name="formName"
     :initial-disabled="isDisabled"
-    :on-cancel-form-handler="onCancelFormHandler"
+    @check-is-disabled="checkIsDisabled"
     @on-submit-handler="onSubmitHandler"
-  />
+  >
+    <template #button>
+      <FormButton
+        :form-name="formName"
+        :is-disabled="isDisabled"
+        @on-cancel-button-form-handler="cancelForm"
+      />
+    </template>
+  </NoteForm>
 </template>

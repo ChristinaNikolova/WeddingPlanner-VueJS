@@ -82,7 +82,7 @@ export default {
       v-if="noteId"
       :note-id="noteId"
       :planner-id="plannerId"
-      :on-cancel-form-handler="onCancelFormHandler"
+      @on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
     />
     <template v-else>
