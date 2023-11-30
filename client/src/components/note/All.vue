@@ -1,5 +1,6 @@
 <script>
 import notesService from '../../services/notes';
+import { addButtonTexts } from '../../utils/constants/global';
 import Create from './Create.vue';
 import SingleNote from './Single.vue';
 import Update from './Update.vue';
@@ -13,6 +14,7 @@ export default {
       notes: [],
       isHidden: true,
       isEditIconHidden: false,
+      addButtonTexts,
     };
   },
   async created() {
@@ -83,14 +85,20 @@ export default {
       :on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
     />
-    <Create
-      v-else
-      :planner-id="plannerId"
-      :is-hidden="isHidden"
-      :on-show-form-handler="onShowFormHandler"
-      :on-cancel-form-handler="onCancelFormHandler"
-      @on-finish="onFinish"
-    />
+    <template v-else>
+      <AddButton
+        :class-names="['note-form-icon']"
+        :text="addButtonTexts.NOTE"
+        :is-empty-string="true"
+        @on-show-form-handler="onShowFormHandler"
+      />
+      <Create
+        :planner-id="plannerId"
+        :is-hidden="isHidden"
+        @on-cancel-form-handler="onCancelFormHandler"
+        @on-finish="onFinish"
+      />
+    </template>
   </section>
 </template>
 

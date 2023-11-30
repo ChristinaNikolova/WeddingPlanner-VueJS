@@ -20,6 +20,7 @@ export default {
     <button :disabled="isDisabled" class="btn btn-center">
       {{ formName }}
     </button>
+    <!-- todo change order -->
     <button class="btn btn-center" type="button" @click="$emit('onCancelButtonFormHandler', $event, true)">
       Cancel
     </button>

@@ -1,6 +1,5 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { addButtonTexts } from '../../utils/constants/global';
 import notesService from '../../services/notes';
 import NoteForm from './Form.vue';
 
@@ -15,16 +14,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
-    onShowFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onCancelFormHandler', 'onShowFormHandler', 'onFinish'],
+  emits: ['onCancelFormHandler', 'onFinish'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -35,10 +26,9 @@ export default {
         description: '',
       },
       serverError: '',
-      addButtonTexts,
+      isDisabled: true,
     };
   },
-
   methods: {
     async onSubmitHandler(description) {
       await notesService
@@ -57,22 +47,30 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    checkIsDisabled(disable) {
+      this.isDisabled = disable;
+    },
+    cancelForm() {
+      this.$emit('onCancelFormHandler');
+    },
   },
 };
 </script>
 
 <template>
-  <AddButton
-    :class-names="['note-form-icon']"
-    :text="addButtonTexts.NOTE"
-    :is-empty-string="true"
-    @on-show-form-handler="onShowFormHandler"
-  />
   <NoteForm
     v-if="!isHidden"
     :initial-data="data"
     :server-error="serverError"
-    :on-cancel-form-handler="onCancelFormHandler"
     @on-submit-handler="onSubmitHandler"
-  />
+    @check-is-disabled="checkIsDisabled"
+  >
+    <template #button>
+      <FormButton
+        :form-name="formName"
+        :is-disabled="isDisabled"
+        @on-cancel-button-form-handler="cancelForm"
+      />
+    </template>
+  </NoteForm>
 </template>

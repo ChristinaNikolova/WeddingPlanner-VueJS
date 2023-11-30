@@ -22,12 +22,8 @@ export default {
       type: Boolean,
       default: true,
     },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onSubmitHandler', 'onCancelFormHandler'],
+  emits: ['onSubmitHandler', 'checkIsDisabled'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -44,12 +40,14 @@ export default {
     data: {
       handler() {
         this.isDisabled = this.v$.data.description.$invalid;
+        this.$emit('checkIsDisabled', this.isDisabled);
         return this.isDisabled;
       },
       deep: true,
     },
     serverError() {
       this.isDisabled = this.serverError;
+      this.$emit('checkIsDisabled', this.isDisabled);
       return this.isDisabled;
     },
   },
@@ -91,11 +89,7 @@ export default {
         rows="10"
         label="Note"
       />
-      <FormButton
-        :form-name="formName"
-        :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="onCancelFormHandler"
-      />
+      <slot name="button" />
     </form>
   </div>
 </template>
