@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import router from './routes/index';
 import './styles/index.css';
 import App from './App.vue';
@@ -13,6 +14,8 @@ import ClientError from './components/shared/errors/ClientError.vue';
 import ServerError from './components/shared/errors/ServerError.vue';
 
 const app = createApp(App);
+const pinia = createPinia();
+app.use(pinia);
 app.use(router);
 app.component('Jumbotron', Jumbotron);
 app.component('AppInput', AppInput);
