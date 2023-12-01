@@ -3,7 +3,7 @@ const { hasUser } = require('../middlewares/guards');
 const { all, create, heightlight, deleteById, update, getById } = require('../services/events');
 const { mapErrors } = require('../utils/parser');
 
-router.get('/:id', hasUser(), async (req, res) => {
+router.get('/:id',  async (req, res) => {
     try {
         const plannerId = req.params.id;
         const events = await all(plannerId);
@@ -14,10 +14,10 @@ router.get('/:id', hasUser(), async (req, res) => {
     }
 });
 
-router.post('/:id', hasUser(), async (req, res) => {
+router.post('/:id',  async (req, res) => {
     try {
         const plannerId = req.params.id;
-        const event = await create(plannerId, req.body.title, req.body.startTime, req.body.endTime, req.body.duration);
+        const event = await create(plannerId, req.body.title, req.body.start, req.body.end, req.body.duration);
         res.json(event);
     } catch (error) {
         const message = mapErrors(error);
@@ -25,7 +25,7 @@ router.post('/:id', hasUser(), async (req, res) => {
     }
 });
 
-router.post('/:plannerId/:eventId', hasUser(), async (req, res) => {
+router.post('/:plannerId/:eventId',  async (req, res) => {
     try {
         const id = req.params.eventId;
         const event = await heightlight(id);
@@ -36,7 +36,7 @@ router.post('/:plannerId/:eventId', hasUser(), async (req, res) => {
     }
 });
 
-router.delete('/:id', hasUser(), async (req, res) => {
+router.delete('/:id',  async (req, res) => {
     try {
         const id = req.params.id;
         const event = await deleteById(id);
@@ -47,10 +47,10 @@ router.delete('/:id', hasUser(), async (req, res) => {
     }
 });
 
-router.put('/:id', hasUser(), async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const event = await update(id, req.body.title, req.body.startTime, req.body.endTime, req.body.duration);
+        const event = await update(id, req.body.title, req.body.start, req.body.end, req.body.duration);
         res.json(event);
     } catch (error) {
         const message = mapErrors(error);
@@ -58,7 +58,7 @@ router.put('/:id', hasUser(), async (req, res) => {
     }
 });
 
-router.get('/:plannerId/:eventId', hasUser(), async (req, res) => {
+router.get('/:plannerId/:eventId', async (req, res) => {
     try {
         const id = req.params.eventId;
         const event = await getById(id, true);

@@ -1,5 +1,5 @@
 const { hasUser } = require('../middlewares/guards');
-const { allByUserId, create, getById, deleteById, update } = require('../services/planners');
+const { allByUserId, create, getById, deleteById, update, getBudget } = require('../services/planners');
 const router = require('express').Router();
 const { mapErrors } = require('../utils/parser');
 
@@ -30,6 +30,17 @@ router.get('/:id', hasUser(), async (req, res) => {
         const id = req.params.id;
         const planner = await getById(id, true);
         res.json(planner);
+    } catch (error) {
+        const message = mapErrors(error);
+        res.status(400).json({ message });
+    }
+});
+
+router.get('/:id/budget', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const budget = await getBudget(id);
+        res.json(budget);
     } catch (error) {
         const message = mapErrors(error);
         res.status(400).json({ message });

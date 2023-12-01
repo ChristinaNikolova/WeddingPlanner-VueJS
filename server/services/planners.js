@@ -57,6 +57,11 @@ async function getById(id, hasToCast) {
     return hasToCast ? plannerViewModel(planner) : planner;
 }
 
+async function getBudget(id) {
+  const planner = await getById(id, false);
+  return planner.budget.toFixed(2);
+}
+
 async function deleteById(id) {
     return Planner.findByIdAndDelete(id);
 }
@@ -94,4 +99,5 @@ module.exports = {
     getById,
     deleteById,
     update,
+    getBudget,
 }
