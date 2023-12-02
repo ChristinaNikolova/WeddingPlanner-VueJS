@@ -1,5 +1,6 @@
 <script>
 import eventsService from '../../services/events';
+import { addButtonTexts } from '../../utils/constants/global';
 import Create from './Create.vue';
 import SingleEvent from './Single.vue';
 import Update from './Update.vue';
@@ -13,6 +14,7 @@ export default {
       events: [],
       isHidden: true,
       isEditIconHidden: false,
+      addButtonTexts,
     };
   },
   async created() {
@@ -92,17 +94,23 @@ export default {
       v-if="eventId"
       :event-id="eventId"
       :planner-id="plannerId"
-      :on-cancel-form-handler="onCancelFormHandler"
+      @on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
     />
-    <Create
-      v-else
-      :planner-id="plannerId"
-      :is-hidden="isHidden"
-      :on-show-form-handler="onShowFormHandler"
-      :on-cancel-form-handler="onCancelFormHandler"
-      @on-finish="onFinish"
-    />
+    <template v-else>
+      <AddButton
+        :class-names="['note-form-icon']"
+        :text="addButtonTexts.NOTE"
+        :is-empty-string="true"
+        @on-show-form-handler="onShowFormHandler"
+      />
+      <Create
+        :planner-id="plannerId"
+        :is-hidden="isHidden"
+        @on-cancel-form-handler="onCancelFormHandler"
+        @on-finish="onFinish"
+      />
+    </template>
   </section>
 </template>
 

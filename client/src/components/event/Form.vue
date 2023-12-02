@@ -24,12 +24,8 @@ export default {
       type: Boolean,
       default: true,
     },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onSubmitHandler', 'onCancelFormHandler'],
+  emits: ['onSubmitHandler', 'checkIsDisabled'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -53,6 +49,7 @@ export default {
           || this.v$.data.startTime.$invalid
           || this.v$.data.endTime.$invalid
           || this.v$.data.duration.$invalid;
+        this.$emit('checkIsDisabled', this.isDisabled);
 
         return this.isDisabled;
       },
@@ -60,6 +57,7 @@ export default {
     },
     serverError() {
       this.isDisabled = this.serverError;
+      this.$emit('checkIsDisabled', this.isDisabled);
       return this.isDisabled;
     },
   },
@@ -132,11 +130,7 @@ export default {
         label="Duration"
         :is-readonly="true"
       />
-      <FormButton
-        :form-name="formName"
-        :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="onCancelFormHandler"
-      />
+      <slot name="button" />
     </form>
   </div>
 </template>

@@ -1,7 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import eventsService from '../../services/events';
-import { addButtonTexts } from '../../utils/constants/global';
 import EventForm from './Form.vue';
 
 export default {
@@ -15,16 +14,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
-    onShowFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onShowFormHandler', 'onCancelFormHandler', 'onFinish'],
+  emits: ['onCancelFormHandler', 'onFinish'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -37,11 +28,10 @@ export default {
         endTime: '',
         duration: '',
       },
-      addButtonTexts,
       serverError: '',
+      isDisabled: true,
     };
   },
-
   methods: {
     async onSubmitHandler(title, startTime, endTime, duration) {
       await eventsService
@@ -63,22 +53,30 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    checkIsDisabled(disable) {
+      this.isDisabled = disable;
+    },
+    cancelForm() {
+      this.$emit('onCancelFormHandler');
+    },
   },
 };
 </script>
 
 <template>
-  <AddButton
-    :class-names="['event-form-icon']"
-    :text="addButtonTexts.EVENT"
-    :is-empty-string="true"
-    @on-show-form-handler="onShowFormHandler"
-  />
   <EventForm
     v-if="!isHidden"
     :initial-data="data"
     :server-error="serverError"
-    :on-cancel-form-handler="onCancelFormHandler"
     @on-submit-handler="onSubmitHandler"
-  />
+    @check-is-disabled="checkIsDisabled"
+  >
+    <template #button>
+      <FormButton
+        :form-name="formName"
+        :is-disabled="isDisabled"
+        @on-cancel-button-form-handler="cancelForm"
+      />
+    </template>
+  </EventForm>
 </template>
