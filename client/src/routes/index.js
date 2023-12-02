@@ -16,24 +16,35 @@ import ArticlesAll from '../components/blog/All.vue';
 import ArticleDetails from '../components/blog/Details.vue';
 import FavouriteArticle from '../components/user/FavouriteArticle.vue';
 import NotFound from '../components/NotFound.vue';
+import { useAuthStore } from '../store/auth';
+
+function isUser() {
+  const userStore = useAuthStore();
+  return userStore.isAuthenticated ? userStore.isAuthenticated : { path: '/login' };
+};
+
+function isGuest() {
+  const userStore = useAuthStore();
+  return userStore.isAuthenticated ? { path: '/' } : undefined;
+};
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/login', component: Login },
-  { path: '/register', component: Register },
-  { path: '/logout', component: Logout },
-  { path: '/plan', component: PlannerDashboard },
-  { path: '/plan/create', component: PlannerCreate },
-  { path: '/plan/edit/:id', component: PlannerUpdate },
-  { path: '/plan/:id', component: PlannerDetails },
-  { path: '/:plannerId/guest', component: GuestAll },
-  { path: '/:plannerId/note', component: NoteAll },
-  { path: '/:plannerId/event', component: EventAll },
-  { path: '/:plannerId/budget', component: CostsAll },
-  { path: '/:plannerId/checklist', component: TaskAll },
+  { path: '/login', component: Login, beforeEnter: isGuest },
+  { path: '/register', component: Register, beforeEnter: isGuest },
+  { path: '/logout', component: Logout, beforeEnter: isUser },
+  { path: '/plan', component: PlannerDashboard, beforeEnter: isUser },
+  { path: '/plan/create', component: PlannerCreate, beforeEnter: isUser },
+  { path: '/plan/edit/:id', component: PlannerUpdate, beforeEnter: isUser },
+  { path: '/plan/:id', component: PlannerDetails, beforeEnter: isUser },
+  { path: '/:plannerId/guest', component: GuestAll, beforeEnter: isUser },
+  { path: '/:plannerId/note', component: NoteAll, beforeEnter: isUser },
+  { path: '/:plannerId/event', component: EventAll, beforeEnter: isUser },
+  { path: '/:plannerId/budget', component: CostsAll, beforeEnter: isUser },
+  { path: '/:plannerId/checklist', component: TaskAll, beforeEnter: isUser },
   { path: '/blog', component: ArticlesAll },
-  { path: '/blog/:id', component: ArticleDetails },
-  { path: '/user/favourite-article', component: FavouriteArticle },
+  { path: '/blog/:id', component: ArticleDetails, beforeEnter: isUser },
+  { path: '/user/favourite-article', component: FavouriteArticle, beforeEnter: isUser },
   { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 

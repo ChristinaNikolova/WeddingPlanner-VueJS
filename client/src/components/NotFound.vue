@@ -40,6 +40,10 @@
   margin-bottom: 80px;
 }
 
+.not-found .btn{
+  margin-bottom: 40px;
+}
+
 @media screen and (max-width: 1200px) {
   .not-found {
     margin-bottom: 50px;
