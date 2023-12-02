@@ -1,6 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import tasksService from '../../../services/tasks';
+import { formNames } from '../../../utils/constants/global';
 import TaskForm from './Form.vue';
 
 export default {
@@ -8,10 +9,6 @@ export default {
   props: {
     plannerId: {
       type: String,
-      required: true,
-    },
-    onCancelFormHandler: {
-      type: Function,
       required: true,
     },
   },
@@ -28,6 +25,8 @@ export default {
       },
       serverError: '',
       timespan: '',
+      isDisabled: true,
+      formName: formNames.CREATE,
     };
   },
   methods: {
@@ -49,6 +48,12 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    checkIsDisabled(disable) {
+      this.isDisabled = disable;
+    },
+    cancelForm(e) {
+      this.$emit('onCancelFormHandler', e);
+    },
   },
 };
 </script>
@@ -57,7 +62,15 @@ export default {
   <TaskForm
     :initial-data="data"
     :server-error="serverError"
-    :on-cancel-form-handler="onCancelFormHandler"
     @on-submit-handler="onSubmitHandler"
-  />
+    @check-is-disabled="checkIsDisabled"
+  >
+    <template #button>
+      <FormButton
+        :form-name="formName"
+        :is-disabled="isDisabled"
+        @on-cancel-button-form-handler="cancelForm"
+      />
+    </template>
+  </TaskForm>
 </template>

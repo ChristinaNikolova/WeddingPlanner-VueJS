@@ -2,7 +2,6 @@
 import tasksService from '../../../services/tasks';
 import { addButtonTexts, styleNames, timespans } from '../../../utils/constants/global';
 import form from '../../../utils/helpers/form';
-
 import Create from './Create.vue';
 import SingleTask from './Single.vue';
 import Update from './Update.vue';
@@ -89,13 +88,13 @@ export default {
             v-if="taskId && index === currentIndex"
             :planner-id="plannerId"
             :task-id="taskId"
-            :on-cancel-form-handler="onCancelFormHandler"
+            @on-cancel-form-handler="onCancelFormHandler"
             @on-finish="onFinish"
           />
           <Create
             v-else-if="!taskId"
             :planner-id="plannerId"
-            :on-cancel-form-handler="onCancelFormHandler"
+            @on-cancel-form-handler="onCancelFormHandler"
             @on-finish="onFinish"
           />
           <div class="checklist-all-line" />

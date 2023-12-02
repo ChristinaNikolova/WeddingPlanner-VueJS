@@ -1,7 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
-import { formNames, styleNames } from '../../../utils/constants/global';
+import { styleNames } from '../../../utils/constants/global';
 import { global } from '../../../utils/constants/error';
 import { task as taskModels } from '../../../utils/constants/model';
 
@@ -14,20 +14,12 @@ export default {
     serverError: {
       type: String,
     },
-    formName: {
-      type: String,
-      default: formNames.CREATE,
-    },
     initialDisabled: {
       type: Boolean,
       default: true,
     },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onSubmitHandler', 'onCancelFormHandler'],
+  emits: ['onSubmitHandler', 'checkIsDisabled'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -46,12 +38,14 @@ export default {
       handler() {
         this.currentStyle = styleNames.FLEX;
         this.isDisabled = this.v$.data.title.$invalid || this.v$.data.description.$invalid;
+        this.$emit('checkIsDisabled', this.isDisabled);
         return this.isDisabled;
       },
       deep: true,
     },
     serverError() {
       this.isDisabled = this.serverError;
+      this.$emit('checkIsDisabled', this.isDisabled);
       return this.isDisabled;
     },
   },
@@ -104,11 +98,7 @@ export default {
         rows="4"
         label="Description"
       />
-      <FormButton
-        :form-name="formName"
-        :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="onCancelFormHandler"
-      />
+      <slot name="button" />
     </form>
   </div>
 </template>
