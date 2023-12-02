@@ -78,7 +78,6 @@ export default {
   <GuestForm
     :initial-data="data"
     :initial-disabled="isDisabled"
-    :form-name="formName"
     :server-error="serverError"
     @check-is-disabled="checkIsDisabled"
     @on-submit-handler="onSubmitHandler"

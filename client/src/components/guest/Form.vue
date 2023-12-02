@@ -1,7 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
-import { formNames, roles } from '../../utils/constants/global';
+import { roles } from '../../utils/constants/global';
 import { global } from '../../utils/constants/error';
 import { guest as guestModel } from '../../utils/constants/model';
 
@@ -13,10 +13,6 @@ export default {
     },
     serverError: {
       type: String,
-    },
-    formName: {
-      type: String,
-      default: formNames.CREATE,
     },
     initialDisabled: {
       type: Boolean,

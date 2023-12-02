@@ -1,6 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import guestsService from '../../services/guests';
+import { formNames } from '../../utils/constants/global';
 import GuestForm from './Form.vue';
 
 export default {
@@ -35,6 +36,7 @@ export default {
       },
       serverError: '',
       isDisabled: true,
+      formName: formNames.CREATE,
     };
   },
   methods: {
