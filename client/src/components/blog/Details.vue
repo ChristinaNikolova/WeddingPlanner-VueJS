@@ -1,20 +1,23 @@
 <script>
+import { mapState } from 'pinia';
 import articlesService from '../../services/articles';
 import form from '../../utils/helpers/form';
 import LastThreeArticles from '../shared/Blog/LastThreeArticles.vue';
+import { useAuthStore } from '../../store/auth';
 
 export default {
   components: { LastThreeArticles },
-  // todo fix this const { userId, isAdmin } = useContext(AuthContext);
+  // todo fix this const {  isAdmin } = useContext(AuthContext);
   data() {
     return {
       id: this.$route.params.id,
       article: {},
       likeCounts: 0,
       isLiked: false,
-      // todo fix this
-      userId: '636faad4558aae5d3e7f50ad',
     };
+  },
+  computed: {
+    ...mapState(useAuthStore, ['userId']),
   },
   watch: {
     async $route(newValue, oldValue) {
