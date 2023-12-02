@@ -1,6 +1,5 @@
 <script>
 import categoriesService from '../../services/categories';
-import { category } from '../../utils/constants/model';
 import { classNames } from '../../utils/constants/global';
 import dropdown from '../../utils/helpers/dropdown';
 
@@ -14,7 +13,6 @@ export default {
   data() {
     return {
       categories: [],
-      defaultCategoryId: category.DEFAULT_CATEGORY_SELECTED_ID,
       classNames,
     };
   },
@@ -22,7 +20,6 @@ export default {
     await categoriesService
       .all()
       .then((res) => {
-        res = res.filter(el => el.id !== this.defaultCategoryId);
         this.categories = res;
       })
       .catch(err => console.error(err));

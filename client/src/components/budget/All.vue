@@ -3,7 +3,6 @@ import costsService from '../../services/costs';
 import plannersService from '../../services/planners';
 import categoriesService from '../../services/categories';
 import { addButtonTexts, styleNames } from '../../utils/constants/global';
-import { category } from '../../utils/constants/model';
 import form from '../../utils/helpers/form';
 import CategoryWrapper from './CategoryWrapper.vue';
 import InfoWrapper from './InfoWrapper.vue';
@@ -23,7 +22,6 @@ export default {
       currentIndex: null,
       styleNames,
       addButtonTexts,
-      defaultCategory: category.DEFAULT_CATEGORY_SELECTED_ID,
     };
   },
   computed: {
@@ -42,7 +40,6 @@ export default {
     await categoriesService
       .all()
       .then((res) => {
-        res = res.filter(el => el.id !== this.defaultCategory);
         this.categories = res;
       })
       .catch(err => console.error(err));
