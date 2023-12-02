@@ -13,17 +13,17 @@ function getLastThree() {
     .catch(err => console.error(err));
 }
 
-// function create(title, content, image, jumboImage, category) {
-//   return requester(api.adminArticle, httpMethods.POST, { title, content, image, jumboImage, category })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// }
+function create(title, content, image, jumboImage, category) {
+  return requester(api.adminArticle, httpMethods.POST, { title, content, image, jumboImage, category })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
-// function update(id, title, content, image, jumboImage, category) {
-//   return requester(`${api.adminArticle}/${id}`, httpMethods.PUT, { title, content, image, jumboImage, category })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// }
+function update(id, title, content, image, jumboImage, category) {
+  return requester(`${api.adminArticle}/${id}`, httpMethods.PUT, { title, content, image, jumboImage, category })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
 
 function deleteById(id) {
   return requester(`${api.adminArticle}/${id}`, httpMethods.DELETE)
@@ -60,4 +60,6 @@ export default {
   like,
   getById,
   deleteById,
+  create,
+  update,
 };

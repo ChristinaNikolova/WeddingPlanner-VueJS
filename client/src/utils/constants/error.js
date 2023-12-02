@@ -13,12 +13,12 @@ export const global = {
   DEFAULT: 'Error',
 };
 
-// export const article = {
-//   CONTENT(min, max) {
-//     return `Content should be between ${min} and ${max} characters long`;
-//   },
-//   CATEGOTY: 'Please select category',
-// };
+export const article = {
+  CONTENT(min, max) {
+    return `Content should be between ${min} and ${max} characters long`;
+  },
+  CATEGOTY: 'Please select category',
+};
 
 export const auth = {
   EMAIL: 'Invalid email',

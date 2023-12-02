@@ -16,6 +16,7 @@ import ArticlesAll from '../components/blog/All.vue';
 import ArticleDetails from '../components/blog/Details.vue';
 import FavouriteArticle from '../components/user/FavouriteArticle.vue';
 import AdminDashboard from '../components/administration/Dashboard.vue';
+import ArticleCreate from '../components/administration/blog/Create.vue';
 
 import NotFound from '../components/NotFound.vue';
 import { useAuthStore } from '../store/auth';
@@ -54,6 +55,7 @@ const routes = [
   { path: '/blog/:id', component: ArticleDetails, beforeEnter: isUser },
   { path: '/user/favourite-article', component: FavouriteArticle, beforeEnter: isUser },
   { path: '/administration', component: AdminDashboard, beforeEnter: isAdmin },
+  { path: '/administration/articles/create', component: ArticleCreate, beforeEnter: isAdmin },
   { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 
