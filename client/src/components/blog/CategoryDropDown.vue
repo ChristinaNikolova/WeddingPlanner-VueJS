@@ -10,7 +10,7 @@ export default {
       type: String,
     },
   },
-  emits: ['onCategoryHandler', 'onRemoveCategotyHandler'],
+  emits: ['onCategoryHandler', 'onRemoveCategoryHandler'],
   data() {
     return {
       categories: [],
@@ -47,7 +47,7 @@ export default {
     <span class="articles-all-category-drop-down">Category:</span>
     <button class="articles-all-category-drop-down-btn" @click="onToggleHandler">
       {{ selectedCategoryName }}
-      <i v-if="selectedCategoryName !== 'all'" class="fa-solid fa-xmark" @click.stop="$emit('onRemoveCategotyHandler')" />
+      <i v-if="selectedCategoryName !== 'all'" class="fa-solid fa-xmark" @click.stop="$emit('onRemoveCategoryHandler')" />
     </button>
     <ul class="articles-all-category-drop-down-ul hide">
       <li

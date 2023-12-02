@@ -71,7 +71,7 @@ export default {
         name: e.target.textContent,
       };
     },
-    onRemoveCategotyHandler() {
+    onRemoveCategoryHandler() {
       this.selectedCategory = {
         id: 'default',
         name: 'all',
@@ -119,7 +119,7 @@ export default {
       <CategoryDropDown
         :selected-category-name="selectedCategory.name"
         @on-category-handler="onCategoryHandler"
-        @on-remove-categoty-handler="onRemoveCategotyHandler"
+        @on-remove-category-handler="onRemoveCategoryHandler"
       />
     </div>
     <List :articles="articles" />
