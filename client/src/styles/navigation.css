@@ -4,13 +4,15 @@
   border-bottom: 1px solid var(--clr-gold);
 }
 
-li.logo a {
+li.header-nav-li.logo a,
+li.footer-nav-li.logo a {
   color: var(--clr-gold);
   font-size: 48px;
   font-weight: 800;
   letter-spacing: -0.5px;
 }
 
-li.logo a:hover {
+li.header-nav-li.logo a:hover,
+li.footer-nav-li.logo a:hover {
   font-weight: 400;
 }

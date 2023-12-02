@@ -7,7 +7,13 @@ import HamburgerHeader from './HamburgerHeader.vue';
 export default {
   components: { HamburgerHeader },
   computed: {
-    ...mapState(useAuthStore, ['isAuthenticated']),
+    ...mapState(useAuthStore, ['isAuthenticated', 'isAdmin']),
+  },
+  mounted() {
+    window.addEventListener('resize', this.setInitialCssStyles);
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.setInitialCssStyles);
   },
   methods: {
     showMenu() {
@@ -57,11 +63,11 @@ export default {
               Favourite
             </router-link>
           </li>
-          <!-- {todo isAdmin &&
-                                <li class={styles["header-nav-li"]}> secondary
-                                    <NavLink to="/administration">Administration</NavLink>
-                                </li>
-                            } -->
+          <li v-if="isAdmin" class="header-nav-li secondary">
+            <router-link to="/administration">
+              Administration
+            </router-link>
+          </li>
           <li class="header-nav-li secondary">
             <router-link to="/logout">
               Logout

@@ -11,7 +11,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ['isAuthenticated']),
+    ...mapState(useAuthStore, ['isAuthenticated', 'isAdmin']),
   },
 };
 </script>
@@ -34,13 +34,11 @@ export default {
           Favourite
         </router-link>
       </li>
-      <!-- todo {isAdmin &&
-      <li class="header-nav-li-hamburger">
+      <li v-if="isAdmin" class="header-nav-li-hamburger">
         <router-link to="/administration" @click="$emit('setInitialCssStyles')">
           Administration
         </router-link>
       </li>
-      } -->
       <li class="header-nav-li-hamburger">
         <router-link to="/logout" @click="$emit('setInitialCssStyles')">
           Logout
