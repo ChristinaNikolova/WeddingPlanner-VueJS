@@ -10,6 +10,16 @@ export const useAuthStore = defineStore('auth', {
     };
   },
   actions: {
+    getPersistedProfile() {
+      if (!sessionStorage.getItem('accessToken')) {
+        return;
+      }
+
+      this.userId = JSON.parse(sessionStorage.getItem('userId'));
+      this.accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
+      this.email = JSON.parse(sessionStorage.getItem('email'));
+      this.isAuthenticated = true;
+    },
     userLogin(userData) {
       this.userId = userData._id;
       this.email = userData.email;

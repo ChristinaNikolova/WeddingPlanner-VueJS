@@ -12,11 +12,16 @@ import AddButton from './components/shared/buttons/Add.vue';
 import LinkButton from './components/shared/buttons/Link.vue';
 import ClientError from './components/shared/errors/ClientError.vue';
 import ServerError from './components/shared/errors/ServerError.vue';
+import { useAuthStore } from './store/auth';
 
 const app = createApp(App);
 const pinia = createPinia();
 app.use(pinia);
 app.use(router);
+
+const userStore = useAuthStore();
+userStore.getPersistedProfile();
+
 app.component('Jumbotron', Jumbotron);
 app.component('AppInput', AppInput);
 app.component('AppSelect', AppSelect);
