@@ -1,7 +1,6 @@
 import { httpMethods } from '../utils/constants/global';
 import { api } from './api';
-
-// import { requester } from './requester';
+import { requester } from './requester';
 
 // function create(name, image) {
 //   return requester(api.adminCategory, httpMethods.POST, { name, image })
@@ -15,15 +14,15 @@ import { api } from './api';
 //     .catch(err => console.error(err));
 // };
 
-// function deleteById(id) {
-//   return requester(`${api.adminCategory}/${id}`, httpMethods.DELETE)
-//     .then((res) => {
-//       if (res.status !== 204) {
-//         return res.json();
-//       }
-//     })
-//     .catch(err => console.error(err));
-// };
+function deleteById(id) {
+  return requester(`${api.adminCategory}/${id}`, httpMethods.DELETE)
+    .then((res) => {
+      if (res.status !== 204) {
+        return res.json();
+      }
+    })
+    .catch(err => console.error(err));
+};
 
 function all() {
   return fetch(api.categories, {
@@ -44,4 +43,5 @@ function all() {
 
 export default {
   all,
+  deleteById,
 };
