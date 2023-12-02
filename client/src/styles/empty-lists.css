@@ -13,3 +13,17 @@
   margin-right: 700px;
   padding-bottom: 20px;
 }
+
+@media screen and (max-width: 1660px) {
+  .empty-planner {
+    margin-left: 200px;
+    margin-right: 200px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .empty-planner {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
