@@ -8,11 +8,11 @@ function create(name, image) {
     .catch(err => console.error(err));
 };
 
-// function update(id, name, image) {
-//   return requester(`${api.adminCategory}/${id}`, httpMethods.PUT, { name, image })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function update(id, name, image) {
+  return requester(`${api.adminCategory}/${id}`, httpMethods.PUT, { name, image })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 function deleteById(id) {
   return requester(`${api.adminCategory}/${id}`, httpMethods.DELETE)
@@ -35,14 +35,16 @@ function all() {
     .catch(err => console.error(err));
 };
 
-// function getById(id) {
-//   return requester(`${api.adminCategory}/${id}`, httpMethods.GET)
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function getById(id) {
+  return requester(`${api.adminCategory}/${id}`, httpMethods.GET)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 export default {
   all,
   deleteById,
   create,
+  update,
+  getById,
 };
