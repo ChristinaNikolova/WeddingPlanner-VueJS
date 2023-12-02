@@ -29,9 +29,7 @@ export default {
     <h4 class="fav-articles-title">
       Favourite Articles
     </h4>
-    <!-- todo test if this works without all props -->
-    <!-- todo add ? -->
-    <List v-if="articles?.length" :articles="articles" />
+    <List v-if="favArticles?.length" :articles="favArticles" />
     <p v-else class="empty empty-planner">
       No articles yet
     </p>
