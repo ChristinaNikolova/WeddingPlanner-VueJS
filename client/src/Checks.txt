@@ -9,4 +9,3 @@
 [] todo check all router added (at the end)
 [] todo router.replace
 [] todo add good data
-filter categories for article edit

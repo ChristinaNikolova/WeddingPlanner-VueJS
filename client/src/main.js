@@ -12,6 +12,7 @@ import AddButton from './components/shared/buttons/Add.vue';
 import LinkButton from './components/shared/buttons/Link.vue';
 import ClientError from './components/shared/errors/ClientError.vue';
 import ServerError from './components/shared/errors/ServerError.vue';
+import Loading from './components/shared/Loading.vue';
 import { useAuthStore } from './store/auth';
 
 const app = createApp(App);
@@ -31,4 +32,5 @@ app.component('AddButton', AddButton);
 app.component('LinkButton', LinkButton);
 app.component('ClientError', ClientError);
 app.component('ServerError', ServerError);
+app.component('Loading', Loading);
 app.mount('#app');
