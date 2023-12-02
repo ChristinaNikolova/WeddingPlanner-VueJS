@@ -1,6 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import notesService from '../../services/notes';
+import { formNames } from '../../utils/constants/global';
 import NoteForm from './Form.vue';
 
 export default {
@@ -27,6 +28,7 @@ export default {
       },
       serverError: '',
       isDisabled: true,
+      formName: formNames.CREATE,
     };
   },
   methods: {

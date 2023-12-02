@@ -3,7 +3,6 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import { global } from '../../utils/constants/error';
 import { note as noteModels } from '../../utils/constants/model';
-import { formNames } from '../../utils/constants/global';
 
 export default {
   props: {
@@ -13,10 +12,6 @@ export default {
     },
     serverError: {
       type: String,
-    },
-    formName: {
-      type: String,
-      default: formNames.CREATE,
     },
     initialDisabled: {
       type: Boolean,
