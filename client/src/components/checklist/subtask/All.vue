@@ -5,7 +5,6 @@ import Create from './Create.vue';
 import SingleSubtask from './Single.vue';
 import Update from './Update.vue';
 
-// todo loadTask as emiter
 export default {
   components: { SingleSubtask, Update, Create },
   props: {

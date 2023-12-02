@@ -22,12 +22,8 @@ export default {
       type: Boolean,
       default: true,
     },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onSubmitHandler', 'onCancelFormHandler'],
+  emits: ['onSubmitHandler', 'checkIsDisabled'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -47,12 +43,14 @@ export default {
         this.isDisabled = this.v$.data.firstName.$invalid
           || this.v$.data.lastName.$invalid
           || this.v$.data.role.$invalid;
+        this.$emit('checkIsDisabled', this.isDisabled);
         return this.isDisabled;
       },
       deep: true,
     },
     serverError() {
       this.isDisabled = this.serverError;
+      this.$emit('checkIsDisabled', this.isDisabled);
       return this.isDisabled;
     },
   },
@@ -113,7 +111,7 @@ export default {
       <div class="form-wrapper">
         <label class="label">Gender:</label>
         <div class="radio">
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="male">Male</label>
             <input
               id="male"
@@ -123,7 +121,7 @@ export default {
               class="input"
             >
           </div>
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="female">Female</label>
             <input
               id="female"
@@ -138,7 +136,7 @@ export default {
       <div class="form-wrapper">
         <label class="label">Age:</label>
         <div class="radio">
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="adult">Adult</label>
             <input
               id="adult"
@@ -148,7 +146,7 @@ export default {
               class="input"
             >
           </div>
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="child">Child</label>
             <input
               id="child"
@@ -158,7 +156,7 @@ export default {
               class="input"
             >
           </div>
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="baby">Baby</label>
             <input
               id="baby"
@@ -173,7 +171,7 @@ export default {
       <div class="form-wrapper">
         <label class="label">Side:</label>
         <div class="radio">
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="bride">Bride</label>
             <input
               id="bride"
@@ -183,7 +181,7 @@ export default {
               class="input"
             >
           </div>
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="groom">Groom</label>
             <input
               id="groom"
@@ -212,7 +210,7 @@ export default {
       <div class="form-wrapper">
         <label class="label">Main dish:</label>
         <div class="radio">
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="noInfo">No info</label>
             <input
               id="noInfo"
@@ -222,7 +220,7 @@ export default {
               class="input"
             >
           </div>
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="meat">Meat</label>
             <input
               id="meat"
@@ -232,7 +230,7 @@ export default {
               class="input"
             >
           </div>
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="fish">Fish</label>
             <input
               id="fish"
@@ -242,7 +240,7 @@ export default {
               class="input"
             >
           </div>
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="veggies">Veggies</label>
             <input
               id="veggies"
@@ -257,34 +255,29 @@ export default {
       <div class="form-wrapper">
         <label class="label">Confirmed:</label>
         <div class="radio">
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="yes">Yes</label>
             <input
               id="yes"
               v-model.trim="data.confirmed"
               type="radio"
-              value="true"
+              value="yes"
               class="input"
-              :name="true"
             >
           </div>
-          <div div class="form-wrapper-input-radio">
+          <div class="form-wrapper-input-radio">
             <label class="label" for="no">No</label>
             <input
               id="no"
               v-model.trim="data.confirmed"
               type="radio"
-              value="false"
+              value="no"
               class="input"
             >
           </div>
         </div>
       </div>
-      <FormButton
-        :form-name="formName"
-        :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="onCancelFormHandler"
-      />
+      <slot name="button" />
     </form>
   </div>
 </template>

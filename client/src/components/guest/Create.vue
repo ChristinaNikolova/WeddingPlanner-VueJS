@@ -1,6 +1,5 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { addButtonTexts } from '../../utils/constants/global';
 import guestsService from '../../services/guests';
 import GuestForm from './Form.vue';
 
@@ -15,16 +14,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
-    onShowFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onShowFormHandler', 'onCancelFormHandler', 'onFinish'],
+  emits: ['onCancelFormHandler', 'onFinish'],
   setup() {
     return { v$: useVuelidate(),
     };
@@ -43,7 +34,7 @@ export default {
         confirmed: 'no',
       },
       serverError: '',
-      addButtonTexts,
+      isDisabled: true,
     };
   },
   methods: {
@@ -72,22 +63,30 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    checkIsDisabled(disable) {
+      this.isDisabled = disable;
+    },
+    cancelForm() {
+      this.$emit('onCancelFormHandler');
+    },
   },
 };
 </script>
 
 <template>
-  <AddButton
-    :class-names="['guest-form-icon']"
-    :text="addButtonTexts.GUEST"
-    :is-empty-string="true"
-    @on-show-form-handler="onShowFormHandler"
-  />
   <GuestForm
     v-if="!isHidden"
     :initial-data="data"
     :server-error="serverError"
-    :on-cancel-form-handler="onCancelFormHandler"
     @on-submit-handler="onSubmitHandler"
-  />
+    @check-is-disabled="checkIsDisabled"
+  >
+    <template #button>
+      <FormButton
+        :form-name="formName"
+        :is-disabled="isDisabled"
+        @on-cancel-button-form-handler="cancelForm"
+      />
+    </template>
+  </GuestForm>
 </template>

@@ -1,5 +1,6 @@
 <script>
 import guestsService from '../../services/guests';
+import { addButtonTexts } from '../../utils/constants/global';
 import Create from './Create.vue';
 import SingleGuest from './Single.vue';
 import Update from './Update.vue';
@@ -13,6 +14,7 @@ export default {
       guests: [],
       isHidden: true,
       isEditIconHidden: false,
+      addButtonTexts,
     };
   },
   async created() {
@@ -82,17 +84,23 @@ export default {
       v-if="guestId"
       :guest-id="guestId"
       :planner-id="plannerId"
-      :on-cancel-form-handler="onCancelFormHandler"
+      @on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
     />
-    <Create
-      v-else
-      :planner-id="plannerId"
-      :is-hidden="isHidden"
-      :on-show-form-handler="onShowFormHandler"
-      :on-cancel-form-handler="onCancelFormHandler"
-      @on-finish="onFinish"
-    />
+    <template v-else>
+      <AddButton
+        :class-names="['guest-form-icon']"
+        :text="addButtonTexts.GUEST"
+        :is-empty-string="true"
+        @on-show-form-handler="onShowFormHandler"
+      />
+      <Create
+        :planner-id="plannerId"
+        :is-hidden="isHidden"
+        @on-cancel-form-handler="onCancelFormHandler"
+        @on-finish="onFinish"
+      />
+    </template>
   </section>
 </template>
 
