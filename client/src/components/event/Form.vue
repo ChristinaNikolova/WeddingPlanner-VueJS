@@ -3,7 +3,6 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import { event as eventError, global } from '../../utils/constants/error';
 import { event as eventModel } from '../../utils/constants/model';
-import { formNames } from '../../utils/constants/global';
 import datetime from '../../utils/helpers/datetime';
 import event from '../../utils/validators/event';
 
@@ -15,10 +14,6 @@ export default {
     },
     serverError: {
       type: String,
-    },
-    formName: {
-      type: String,
-      default: formNames.CREATE,
     },
     initialDisabled: {
       type: Boolean,

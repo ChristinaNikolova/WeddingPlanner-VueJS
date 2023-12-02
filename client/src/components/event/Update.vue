@@ -68,7 +68,6 @@ export default {
   <EventForm
     :initial-data="data"
     :server-error="serverError"
-    :form-name="formName"
     :initial-disabled="isDisabled"
     @check-is-disabled="checkIsDisabled"
     @on-submit-handler="onSubmitHandler"
