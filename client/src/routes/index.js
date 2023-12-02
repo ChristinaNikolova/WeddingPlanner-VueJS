@@ -21,25 +21,8 @@ import ArticleUpdate from '../components/administration/blog/Update.vue';
 import CategoryAll from '../components/administration/category/All.vue';
 import CategoryCreate from '../components/administration/category/Create.vue';
 import CategoryUpdate from '../components/administration/category/Update.vue';
-
 import NotFound from '../components/NotFound.vue';
-import { useAuthStore } from '../store/auth';
-
-// todo extract guards
-function isUser() {
-  const userStore = useAuthStore();
-  return userStore.isAuthenticated ? userStore.isAuthenticated : { path: '/login' };
-};
-
-function isGuest() {
-  const userStore = useAuthStore();
-  return userStore.isAuthenticated ? { path: '/' } : undefined;
-};
-
-function isAdmin() {
-  const userStore = useAuthStore();
-  return userStore.isAdmin ? userStore.isAdmin : { path: '/' };
-};
+import { isAdmin, isGuest, isUser } from '../guards/preGuards.js';
 
 const routes = [
   { path: '/', component: Home },

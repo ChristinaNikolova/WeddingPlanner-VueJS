@@ -5,17 +5,14 @@ export default {
   props: {
     first: {
       type: String,
-      required: true,
       default: bottom.FIRST,
     },
     second: {
       type: String,
-      required: true,
       default: bottom.SECOND,
     },
     third: {
       type: String,
-      required: true,
       default: bottom.THIRD,
     },
   },
