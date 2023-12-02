@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia';
+import { emails } from '../utils/constants/global';
 
 export const useAuthStore = defineStore('auth', {
   state: () => {
     return {
       isAuthenticated: false,
+      isAdmin: false,
       userId: '',
       accessToken: '',
       email: '',
+      emails,
     };
   },
   actions: {
@@ -19,6 +22,7 @@ export const useAuthStore = defineStore('auth', {
       this.accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
       this.email = JSON.parse(sessionStorage.getItem('email'));
       this.isAuthenticated = true;
+      this.isAdmin = this.email === this.emails.ADMIN;
     },
     userLogin(userData) {
       this.userId = userData._id;
@@ -28,6 +32,7 @@ export const useAuthStore = defineStore('auth', {
       this.setSessionStorage('email', this.email);
       this.setSessionStorage('accessToken', this.accessToken);
       this.isAuthenticated = true;
+      this.isAdmin = this.email === this.emails.ADMIN;
     },
     userLogout() {
       this.userId = '';
@@ -37,6 +42,7 @@ export const useAuthStore = defineStore('auth', {
       sessionStorage.removeItem('email');
       sessionStorage.removeItem('accessToken');
       this.isAuthenticated = false;
+      this.isAdmin = false;
     },
     setSessionStorage(key, value) {
       sessionStorage.setItem(key, JSON.stringify(value));

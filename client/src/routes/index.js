@@ -15,9 +15,12 @@ import TaskAll from '../components/checklist/task/All.vue';
 import ArticlesAll from '../components/blog/All.vue';
 import ArticleDetails from '../components/blog/Details.vue';
 import FavouriteArticle from '../components/user/FavouriteArticle.vue';
+import AdminDashboard from '../components/administration/Dashboard.vue';
+
 import NotFound from '../components/NotFound.vue';
 import { useAuthStore } from '../store/auth';
 
+// todo extract guards
 function isUser() {
   const userStore = useAuthStore();
   return userStore.isAuthenticated ? userStore.isAuthenticated : { path: '/login' };
@@ -26,6 +29,11 @@ function isUser() {
 function isGuest() {
   const userStore = useAuthStore();
   return userStore.isAuthenticated ? { path: '/' } : undefined;
+};
+
+function isAdmin() {
+  const userStore = useAuthStore();
+  return userStore.isAdmin ? userStore.isAdmin : { path: '/' };
 };
 
 const routes = [
@@ -45,6 +53,7 @@ const routes = [
   { path: '/blog', component: ArticlesAll },
   { path: '/blog/:id', component: ArticleDetails, beforeEnter: isUser },
   { path: '/user/favourite-article', component: FavouriteArticle, beforeEnter: isUser },
+  { path: '/administration', component: AdminDashboard, beforeEnter: isAdmin },
   { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 
