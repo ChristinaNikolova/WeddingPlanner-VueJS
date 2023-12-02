@@ -19,6 +19,7 @@ import AdminDashboard from '../components/administration/Dashboard.vue';
 import ArticleCreate from '../components/administration/blog/Create.vue';
 import ArticleUpdate from '../components/administration/blog/Update.vue';
 import CategoryAll from '../components/administration/category/All.vue';
+import CategoryCreate from '../components/administration/category/Create.vue';
 
 import NotFound from '../components/NotFound.vue';
 import { useAuthStore } from '../store/auth';
@@ -60,6 +61,7 @@ const routes = [
   { path: '/administration/articles/create', component: ArticleCreate, beforeEnter: isAdmin },
   { path: '/administration/articles/edit/:id', component: ArticleUpdate, beforeEnter: isAdmin },
   { path: '/administration/categories', component: CategoryAll, beforeEnter: isAdmin },
+  { path: '/administration/categories/create', component: CategoryCreate, beforeEnter: isAdmin },
   { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 

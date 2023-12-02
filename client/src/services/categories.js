@@ -2,11 +2,11 @@ import { httpMethods } from '../utils/constants/global';
 import { api } from './api';
 import { requester } from './requester';
 
-// function create(name, image) {
-//   return requester(api.adminCategory, httpMethods.POST, { name, image })
-//     .then(res => res.json())
-//     .catch(err => console.error(err));
-// };
+function create(name, image) {
+  return requester(api.adminCategory, httpMethods.POST, { name, image })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
 
 // function update(id, name, image) {
 //   return requester(`${api.adminCategory}/${id}`, httpMethods.PUT, { name, image })
@@ -44,4 +44,5 @@ function all() {
 export default {
   all,
   deleteById,
+  create,
 };
