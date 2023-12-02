@@ -45,6 +45,7 @@ export default {
       <h2 class="section-title">
         All Category
       </h2>
+      <LinkButton button-text="Back" path="/administration" />
     </div>
     <div>
       <ul class="all-categories-ul">

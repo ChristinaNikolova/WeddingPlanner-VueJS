@@ -11,12 +11,12 @@ export default {
     second: {
       type: String,
       required: true,
-      default: bottom.FIRST,
+      default: bottom.SECOND,
     },
     third: {
       type: String,
       required: true,
-      default: bottom.FIRST,
+      default: bottom.THIRD,
     },
   },
 };

@@ -18,7 +18,6 @@ export default {
 };
 </script>
 
-<!-- todo check this {id !== category.DEFAULT_CATEGORY_SELECTED_ID && <i class="fa-solid fa-trash" onClick={() => onDeleteHandler(id)}></i>} -->
 <template>
   <li class="all-categories-li">
     <img :src="image" :alt="name" class="all-categories-img img">

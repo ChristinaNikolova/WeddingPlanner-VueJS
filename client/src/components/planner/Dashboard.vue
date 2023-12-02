@@ -1,6 +1,5 @@
 <script>
 import plannersService from '../../services/planners';
-import { bottom } from '../../utils/constants/image';
 import Bottom from '../shared/images/Bottom.vue';
 
 export default {
@@ -10,9 +9,6 @@ export default {
   data() {
     return {
       planners: [],
-      first: bottom.FIRST,
-      second: bottom.SECOND,
-      third: bottom.THIRD,
     };
   },
   async created() {
@@ -54,7 +50,7 @@ export default {
         </router-link>
       </div>
     </div>
-    <Bottom :first="first" :second="second" :third="third" />
+    <Bottom />
   </section>
 </template>
 

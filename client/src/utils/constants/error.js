@@ -5,7 +5,6 @@ export const global = {
   DESC(min, max) {
     return `Description should be between ${min} and ${max} characters long`;
   },
-  IMAGE: 'Image is required',
   NAME(min, max) {
     return `Name should be between ${min} and ${max} characters long`;
   },

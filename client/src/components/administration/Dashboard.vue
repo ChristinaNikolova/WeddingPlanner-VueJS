@@ -25,9 +25,9 @@
           </router-link>
         </li>
         <li class="dashboard-li">
-          <router-linknk class="navigation-link btn" to="/administration/categories/create">
+          <router-link class="navigation-link btn" to="/administration/categories/create">
             Create Category
-          </router-linknk>
+          </router-link>
         </li>
       </ul>
       <img class="dashboard-img img-shadow" src="./../../../public/img/bride-428105_1920.jpg" alt="bride">
