@@ -7,7 +7,7 @@ import { global } from '../../../utils/constants/error';
 import { category as categoryModels } from '../../../utils/constants/model';
 
 export default {
-  constants: { Bottom },
+  components: { Bottom },
   props: {
     initialData: {
       type: Object,
@@ -74,7 +74,6 @@ export default {
       if (!isValid) {
         return;
       }
-
       this.$emit('onSubmitHandler', this.data.name, this.data.image);
     },
   },
