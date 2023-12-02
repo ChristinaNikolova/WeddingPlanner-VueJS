@@ -7,7 +7,6 @@ import { useAuthStore } from '../../store/auth';
 
 export default {
   components: { LastThreeArticles },
-  // todo fix this const {  isAdmin } = useContext(AuthContext);
   data() {
     return {
       id: this.$route.params.id,
@@ -17,7 +16,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ['userId']),
+    ...mapState(useAuthStore, ['userId', 'isAdmin']),
   },
   watch: {
     async $route(newValue, oldValue) {
@@ -95,14 +94,12 @@ export default {
             <i v-if="isLiked" class="fa-solid fa-heart" @click="like" />
             <i v-else class="fa-regular fa-heart" @click="like" />
           </li>
-          <!-- {isAdmin &&
-                            <li class={styles["article-details-li"]}>
-                                <Link to={`/administration/articles/edit/${id}`}>
-                                    <i class="fa-solid fa-pen"></i>
-                                </Link>
-                                <i onClick={onDeleteHandler} class="fa-solid fa-trash"></i>
-                            </li>
-            } -->
+          <li v-if="isAdmin" class="article-details-li">
+            <router-link :to="`/administration/articles/edit/${id}`">
+              <i class="fa-solid fa-pen" />
+            </router-link>
+            <i class="fa-solid fa-trash" @click="onDeleteHandler" />
+          </li>
         </ul>
       </div>
       <div class="article-details-content">

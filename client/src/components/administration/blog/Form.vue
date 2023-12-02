@@ -84,7 +84,7 @@ export default {
           required: helpers.withMessage(global.REQUIRED, required),
         },
         category: {
-          required: helpers.withMessage(global.REQUIRED, required),
+          required: helpers.withMessage(this.errors.CATEGORY, required),
         },
       },
     };
