@@ -5,11 +5,14 @@ export default {
   components: {
     LastThreeArticles,
   },
+  mounted() {
+    this.$refs.homeRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  },
 };
 </script>
 
 <template>
-  <section class="home">
+  <section ref="homeRef" class="home">
     <Jumbotron :is-home-page="true" />
     <div class="home-content-wrapper">
       <h2 class="home-title">
