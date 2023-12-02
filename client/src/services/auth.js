@@ -1,7 +1,6 @@
 import { httpMethods } from '../utils/constants/global';
 import { api } from './api';
-
-// import { requester } from './requester';
+import { requester } from './requester';
 
 function register(firstName, lastName, email, password) {
   return fetch(api.register, {
@@ -27,16 +26,18 @@ function login(email, password) {
     .catch(err => console.error(err));
 };
 
-// function logout() {
-//   return requester(api.logout, httpMethods.GET)
-//     .catch(err => console.error(err));
-// };
+function logout() {
+  return requester(api.logout, httpMethods.GET)
+    .catch(err => console.error(err));
+};
 
-// function getToken() {
-//   return sessionStorage.getItem('authToken');
-// };
+function getToken() {
+  return sessionStorage.getItem('accessToken');
+};
 
 export default {
   login,
   register,
+  logout,
+  getToken,
 };

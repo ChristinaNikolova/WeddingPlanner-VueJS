@@ -1,12 +1,12 @@
 <script>
+import { mapActions } from 'pinia';
 import { useVuelidate } from '@vuelidate/core';
 import { email, helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import authService from '../../services/auth';
 import { auth as authErrors, global } from '../../utils/constants/error';
 import { auth as authModels } from '../../utils/constants/model';
+import { useAuthStore } from '../../store/auth';
 
-// todo fix this
-// const { userLogin } = useContext(AuthContext);
 export default {
   setup() {
     return { v$: useVuelidate() };
@@ -37,6 +37,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useAuthStore, ['userLogin']),
     async onSubmitHandler() {
       const isValid = await this.v$.$validate();
 
@@ -44,15 +45,14 @@ export default {
         return;
       }
 
-      // todo update data name
       await authService.login(this.data.email, this.data.password)
-        .then((res) => {
-          if (!res.accessToken) {
-            this.serverError = res.message;
+        .then((data) => {
+          if (!data.accessToken) {
+            this.serverError = data.message;
             return;
           }
-          // todo fix this
-          // userLogin(data);
+
+          this.userLogin(data);
           this.$router.push({ path: '/' });
         })
         .catch(err => console.error(err));
