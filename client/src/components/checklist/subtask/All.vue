@@ -16,16 +16,8 @@ export default {
       type: Array,
       default: () => ([]),
     },
-    loadTasks: {
-      type: Function,
-      required: true,
-    },
-    onCancelFormHandler: {
-      type: Function,
-      required: true,
-    },
   },
-  emits: ['onCancelFormHandler'],
+  emits: ['onCancelFormHandler', 'onFinishTask'],
   data() {
     return {
       subtaskId: '',
@@ -44,7 +36,7 @@ export default {
       await subtasksService
         .done(taskId, subtaskId)
         .then(() => {
-          this.loadTasks();
+          this.$emit('onFinishTask');
         })
         .catch(err => console.error(err));
     },
@@ -55,13 +47,16 @@ export default {
       subtasksService
         .deleteById(taskId, subtaskId)
         .then(() => {
-          this.loadTasks();
+          this.$emit('onFinishTask');
         })
         .catch(err => console.error(err));
     },
     async onFinish() {
       this.onCancelFormHelperHandler();
-      await this.loadTasks();
+      this.$emit('onFinishTask');
+    },
+    onCancel(e) {
+      this.$emit('onCancelFormHandler', e);
     },
   },
 };
@@ -82,7 +77,7 @@ export default {
       <Create
         v-else
         :task-id="taskId"
-        @on-cancel-form-handler="onCancelFormHandler"
+        @on-cancel-form-handler="onCancel"
         @on-finish="onFinish"
       />
     </div>

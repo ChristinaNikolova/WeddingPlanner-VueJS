@@ -2,12 +2,13 @@
 import tasksService from '../../../services/tasks';
 import { addButtonTexts, styleNames, timespans } from '../../../utils/constants/global';
 import form from '../../../utils/helpers/form';
+import AllSubtasks from '../subtask/All.vue';
 import Create from './Create.vue';
 import SingleTask from './Single.vue';
 import Update from './Update.vue';
 
 export default {
-  components: { SingleTask, Create, Update },
+  components: { SingleTask, Create, Update, AllSubtasks },
   data() {
     return {
       plannerId: this.$route.params.plannerId,
@@ -110,12 +111,18 @@ export default {
                   :description="t.description"
                   :progress="t.progress"
                   :target="t.target"
-                  :subtasks="t.subtasks"
-                  :load-tasks="loadTasks"
-                  :on-cancel-form-handler="onCancelFormHandler"
                   @on-edit-handler="onEditHandler"
                   @on-delete-handler="onDeleteHandler"
-                />
+                >
+                  <template #allSubTasks>
+                    <AllSubtasks
+                      :task-id="t.id"
+                      :subtasks="t.subtasks"
+                      @on-cancel-form-handler="onCancelFormHandler"
+                      @on-finish-task="onFinish"
+                    />
+                  </template>
+                </SingleTask>
               </template>
             </template>
             <p v-else class="checklist-all-empty-tasks">
