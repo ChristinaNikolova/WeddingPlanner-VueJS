@@ -29,7 +29,7 @@ export default {
         mainDish: 'no info',
         confirmed: 'no',
       },
-      serverError: '',
+      serverError: [],
       formName: formNames.UPDATE,
       isDisabled: false,
     };
@@ -59,7 +59,7 @@ export default {
             return;
           }
 
-          this.serverError = '';
+          this.serverError = [];
           this.$emit('onFinish');
         })
         .catch(err => console.error(err));

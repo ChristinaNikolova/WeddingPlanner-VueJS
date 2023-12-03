@@ -7,7 +7,7 @@ export default {
   data() {
     return {
       categories: [],
-      serverError: '',
+      serverError: [],
       isLoading: true,
     };
   },
@@ -24,7 +24,7 @@ export default {
             return;
           }
 
-          this.serverError = '';
+          this.serverError = [];
           await this.loadCategories();
         })
         .catch(err => console.error(err));
@@ -45,7 +45,7 @@ export default {
 <template>
   <Loading v-if="isLoading" />
   <section v-else class="section-background">
-    <ServerError v-if="serverError" :errors="serverError" />
+    <ServerError v-if="serverError.length" :errors="serverError" />
     <div class="section-title-wrapper">
       <h2 class="section-title">
         All Category

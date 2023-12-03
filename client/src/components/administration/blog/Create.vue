@@ -14,7 +14,7 @@ export default {
         jumboImage: '',
         category: '',
       },
-      serverError: '',
+      serverError: [],
       isDisabled: true,
       formName: formNames.CREATE,
     };
@@ -29,7 +29,7 @@ export default {
             return;
           }
 
-          this.serverError = '';
+          this.serverError = [];
           this.$router.push({ path: `/blog/${res._id}` });
         })
         .catch(err => console.error(err));

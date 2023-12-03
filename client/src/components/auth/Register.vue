@@ -21,7 +21,7 @@ export default {
         repass: '',
       },
       isDisabled: true,
-      serverError: '',
+      serverError: [],
       errors: authErrors,
       models: authModels,
       globalErrors: global,
@@ -41,7 +41,7 @@ export default {
       deep: true,
     },
     serverError() {
-      this.isDisabled = this.serverError;
+      this.isDisabled = this.serverError.length;
       return this.isDisabled;
     },
   },
@@ -99,7 +99,7 @@ export default {
 
 <template>
   <section id="register" class="section-background">
-    <ServerError v-if="serverError" :errors="serverError" />
+    <ServerError v-if="serverError.length" :errors="serverError" />
     <div class="section-title-wrapper">
       <h2 class="section-title">
         Register

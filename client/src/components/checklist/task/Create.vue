@@ -23,7 +23,7 @@ export default {
         title: '',
         description: '',
       },
-      serverError: '',
+      serverError: [],
       timespan: '',
       isDisabled: true,
       formName: formNames.CREATE,
@@ -43,7 +43,7 @@ export default {
           this.data.description = '';
           this.$nextTick(() => { this.v$.$reset(); });
 
-          this.serverError = '';
+          this.serverError = [];
           this.$emit('onFinish', e);
         })
         .catch(err => console.error(err));

@@ -21,7 +21,7 @@ export default {
       data: {
         description: '',
       },
-      serverError: '',
+      serverError: [],
       formName: formNames.UPDATE,
       isDisabled: false,
     };
@@ -44,7 +44,7 @@ export default {
             return;
           }
 
-          this.serverError = '';
+          this.serverError = [];
           this.$emit('onFinish');
         })
         .catch(err => console.error(err));

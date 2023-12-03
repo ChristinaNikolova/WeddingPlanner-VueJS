@@ -13,7 +13,7 @@ export default {
       },
       id: this.$route.params.id,
       formName: formNames.UPDATE,
-      serverError: '',
+      serverError: [],
       isDisabled: false,
     };
   },
@@ -36,7 +36,7 @@ export default {
             return;
           }
 
-          this.serverError = '';
+          this.serverError = [];
           this.$router.push({ path: '/administration/categories' });
         })
         .catch(err => console.error(err));

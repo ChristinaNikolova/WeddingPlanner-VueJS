@@ -19,7 +19,7 @@ export default {
       groomId: '',
       formName: formNames.UPDATE,
       id: this.$route.params.id,
-      serverError: '',
+      serverError: [],
     };
   },
   async created() {

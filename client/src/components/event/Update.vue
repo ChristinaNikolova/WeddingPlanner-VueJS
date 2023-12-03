@@ -26,7 +26,7 @@ export default {
       },
       formName: formNames.UPDATE,
       isDisabled: false,
-      serverError: '',
+      serverError: [],
     };
   },
   async created() {
@@ -49,7 +49,7 @@ export default {
             return;
           }
 
-          this.serverError = '';
+          this.serverError = [];
           this.$emit('onFinish');
         })
         .catch(err => console.error(err));

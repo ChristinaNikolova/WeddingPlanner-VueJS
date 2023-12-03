@@ -11,7 +11,7 @@ export default {
         name: '',
         image: '',
       },
-      serverError: '',
+      serverError: [],
       isDisabled: true,
       formName: formNames.CREATE,
     };
@@ -26,7 +26,7 @@ export default {
             return;
           }
 
-          this.serverError = '';
+          this.serverError = [];
           this.$router.push({ path: '/administration/categories' });
         })
         .catch(err => console.error(err));

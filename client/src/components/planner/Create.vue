@@ -15,7 +15,7 @@ export default {
         bride: '',
         groom: '',
       },
-      serverError: '',
+      serverError: [],
       formName: formNames.CREATE,
     };
   },

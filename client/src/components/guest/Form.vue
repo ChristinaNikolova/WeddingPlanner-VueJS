@@ -12,7 +12,7 @@ export default {
       required: true,
     },
     serverError: {
-      type: String,
+      type: Array,
     },
     initialDisabled: {
       type: Boolean,
@@ -45,7 +45,7 @@ export default {
       deep: true,
     },
     serverError() {
-      this.isDisabled = this.serverError;
+      this.isDisabled = this.serverError.length;
       this.$emit('checkIsDisabled', this.isDisabled);
       return this.isDisabled;
     },
@@ -89,7 +89,7 @@ export default {
 <template>
   <div ref="formRef" class="form-wrapper-center">
     <form class="guest-form form-error-message-width" @submit.prevent="onSubmitFormHandler">
-      <ServerError v-if="serverError" :errors="serverError" />
+      <ServerError v-if="serverError.length" :errors="serverError" />
       <AppInput
         v-model.trim="v$.data.firstName.$model"
         :errors="v$?.data.firstName.$errors"

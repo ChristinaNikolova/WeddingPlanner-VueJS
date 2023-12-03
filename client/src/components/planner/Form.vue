@@ -16,8 +16,7 @@ export default {
       groom: '',
     },
     serverError: {
-      type: String,
-      default: '',
+      type: Array,
     },
     formName: {
       type: String,
@@ -52,7 +51,7 @@ export default {
       deep: true,
     },
     serverError() {
-      this.isDisabled = this.serverError;
+      this.isDisabled = this.serverError.length;
       return this.isDisabled;
     },
   },
@@ -106,7 +105,7 @@ export default {
 
 <template>
   <section class="section-background">
-    <ServerError v-if="serverError" :errors="serverError" />
+    <ServerError v-if="serverError.length" :errors="serverError" />
     <div class="section-title-wrapper">
       <h2 class="section-title">
         {{ formName }} Planner

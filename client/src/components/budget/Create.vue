@@ -26,7 +26,7 @@ export default {
         title: '',
         price: '',
       },
-      serverError: '',
+      serverError: [],
       formName: formNames.CREATE,
       isDisabled: true,
     };
@@ -46,7 +46,7 @@ export default {
           this.data.price = '';
           this.$nextTick(() => { this.v$.$reset(); });
 
-          this.serverError = '';
+          this.serverError = [];
           this.$emit('onFinish', e);
         })
         .catch(err => console.error(err));

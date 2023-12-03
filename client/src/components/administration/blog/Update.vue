@@ -15,7 +15,7 @@ export default {
         category: '',
       },
       id: this.$route.params.id,
-      serverError: '',
+      serverError: [],
       formName: formNames.UPDATE,
       isDisabled: false,
     };
@@ -42,7 +42,7 @@ export default {
             return;
           }
 
-          this.serverError = '';
+          this.serverError = [];
           this.$router.push({ path: `/blog/${res._id}` });
         })
         .catch(err => console.error(err));

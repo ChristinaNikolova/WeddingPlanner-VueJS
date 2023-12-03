@@ -1,5 +1,3 @@
-[] todo check if everywhere $event!!!
-[] todo names on function => same convension
 [] todo emits or function
 [] todo check if functions needed!!!
 [] todo add default values here and checke types

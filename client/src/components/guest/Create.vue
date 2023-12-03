@@ -34,7 +34,7 @@ export default {
         mainDish: 'no info',
         confirmed: 'no',
       },
-      serverError: '',
+      serverError: [],
       isDisabled: true,
       formName: formNames.CREATE,
     };
@@ -60,7 +60,7 @@ export default {
           this.data.confirmed = 'no';
           this.$nextTick(() => { this.v$.$reset(); });
 
-          this.serverError = '';
+          this.serverError = [];
           this.$emit('onFinish');
         })
         .catch(err => console.error(err));
