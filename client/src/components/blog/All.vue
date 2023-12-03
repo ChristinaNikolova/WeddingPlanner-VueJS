@@ -24,6 +24,7 @@ export default {
       isSearchIconClicked: false,
       query: '',
       isSearched: false,
+      isLoading: true,
     };
   },
   watch: {
@@ -88,6 +89,7 @@ export default {
           this.currentPage = Number(data.currentPage);
           this.pagesCount = data.pagesCount;
           this.isSearched = false;
+          this.isLoading = false;
         })
         .catch(err => console.error(err));
     },
@@ -96,7 +98,8 @@ export default {
 </script>
 
 <template>
-  <section class="articles-all">
+  <Loading v-if="isLoading" />
+  <section v-else class="articles-all">
     <Jumbotron
       :path-to-image="pathToImage"
       :is-home-page="false"

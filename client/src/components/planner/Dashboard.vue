@@ -9,19 +9,24 @@ export default {
   data() {
     return {
       planners: [],
+      isLoading: true,
     };
   },
   async created() {
     await plannersService
       .all()
-      .then(res => (this.planners = res))
+      .then((res) => {
+        this.planners = res;
+        this.isLoading = false;
+      })
       .catch(err => console.error(err));
   },
 };
 </script>
 
 <template>
-  <section id="dashboard" class="dashboard section-background">
+  <Loading v-if="isLoading" />
+  <section v-else id="dashboard" class="dashboard section-background">
     <div class="section-title-wrapper">
       <h2 class="section-title">
         Plan you wedding

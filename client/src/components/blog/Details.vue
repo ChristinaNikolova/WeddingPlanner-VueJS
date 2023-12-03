@@ -13,6 +13,7 @@ export default {
       article: {},
       likeCounts: 0,
       isLiked: false,
+      isLoading: true,
     };
   },
   computed: {
@@ -57,6 +58,7 @@ export default {
           this.article = res;
           this.likeCounts = res.likes.length;
           this.isLiked = this.setIsLikedHelper(res.likes);
+          this.isLoading = false;
           form.scrollToTop();
         })
         .catch(err => console.error(err));
@@ -66,7 +68,8 @@ export default {
 </script>
 
 <template>
-  <section class="article-details">
+  <Loading v-if="isLoading" />
+  <section v-else class="article-details">
     <Jumbotron
       :path-to-image="article.jumboImage"
       :is-home-page="false"

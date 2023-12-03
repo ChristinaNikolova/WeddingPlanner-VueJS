@@ -9,19 +9,24 @@ export default {
     return {
       pathToImage: jumbo.USER,
       favArticles: [],
+      isLoading: true,
     };
   },
   async created() {
     await usersService
       .getFav()
-      .then(res => this.favArticles = res)
+      .then((res) => {
+        this.favArticles = res;
+        this.isLoading = false;
+      })
       .catch(err => console.error(err));
   },
 };
 </script>
 
 <template>
-  <section class="fav-articles">
+  <Loading v-if="isLoading" />
+  <section v-else class="fav-articles">
     <Jumbotron
       :path-to-image="pathToImage"
       :is-home-page="false"

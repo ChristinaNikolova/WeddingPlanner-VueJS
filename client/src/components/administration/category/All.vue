@@ -8,6 +8,7 @@ export default {
     return {
       categories: [],
       serverError: '',
+      isLoading: true,
     };
   },
   async created() {
@@ -31,7 +32,10 @@ export default {
     async loadCategories() {
       await categoriesService
         .all()
-        .then(res => this.categories = res)
+        .then((res) => {
+          this.categories = res;
+          this.isLoading = false;
+        })
         .catch(err => console.error(err));
     },
   },
@@ -39,7 +43,8 @@ export default {
 </script>
 
 <template>
-  <section class="section-background">
+  <Loading v-if="isLoading" />
+  <section v-else class="section-background">
     <ServerError v-if="serverError" :errors="serverError" />
     <div class="section-title-wrapper">
       <h2 class="section-title">

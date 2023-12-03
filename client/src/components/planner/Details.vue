@@ -7,16 +7,20 @@ export default {
       id: this.$route.params.id,
       planner: {},
       isHovering: false,
+      isLoading: true,
     };
   },
   async created() {
     await plannersService
       .getById(this.id)
-      .then(res => (this.planner = res))
+      .then((res) => {
+        this.planner = res;
+        this.isLoading = false;
+      })
       .catch(err => console.error(err));
   },
   mounted() {
-    this.$refs.plannerRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    !this.isLoading && this.$refs.plannerRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
   },
   methods: {
     onDeleteHandler() {
@@ -36,7 +40,13 @@ export default {
 </script>
 
 <template>
-  <section id="details-planner" ref="plannerRef" class="details-planner">
+  <Loading v-if="isLoading" />
+  <section
+    v-else
+    id="details-planner"
+    ref="plannerRef"
+    class="details-planner"
+  >
     <div class="section-title-wrapper">
       <h2 class="section-title" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         {{ planner.title }}

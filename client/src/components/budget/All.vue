@@ -22,6 +22,7 @@ export default {
       currentIndex: null,
       styleNames,
       addButtonTexts,
+      isLoading: true,
     };
   },
   computed: {
@@ -45,13 +46,16 @@ export default {
       .catch(err => console.error(err));
   },
   mounted() {
-    this.$refs.costsAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    !this.isLoading && this.$refs.costsAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
   },
   methods: {
     async loadCosts() {
       await costsService
         .all(this.plannerId)
-        .then(res => this.costs = res)
+        .then((res) => {
+          this.costs = res;
+          this.isLoading = false;
+        })
         .catch(err => console.error(err));
     },
     onCancelFormHandler(e) {
@@ -91,7 +95,13 @@ export default {
 </script>
 
 <template>
-  <section id="budget" ref="costsAllRef" class="section-planner section-background">
+  <Loading v-if="isLoading" />
+  <section
+    v-else
+    id="budget"
+    ref="costsAllRef"
+    class="section-planner section-background"
+  >
     <div class="section-title-wrapper">
       <h2 class="section-title">
         Budget

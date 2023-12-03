@@ -15,6 +15,7 @@ export default {
       isHidden: true,
       isEditIconHidden: false,
       addButtonTexts,
+      isLoading: true,
     };
   },
   async created() {
@@ -24,7 +25,10 @@ export default {
     async loadNotes() {
       await notesService
         .all(this.plannerId)
-        .then(res => this.notes = res)
+        .then((res) => {
+          this.notes = res;
+          this.isLoading = false;
+        })
         .catch(err => console.error(err));
     },
     onDeleteHandler(id) {
@@ -54,7 +58,8 @@ export default {
 </script>
 
 <template>
-  <section id="notes-all" class="section-planner section-background">
+  <Loading v-if="isLoading" />
+  <section v-else id="notes-all" class="section-planner section-background">
     <div class="section-title-wrapper">
       <h2 class="section-title">
         Notes
