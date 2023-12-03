@@ -24,7 +24,7 @@ export default {
         :image="a.image"
         :short-content="a.shortContent"
         :created-at="a.createdAt"
-        :category-name="a.category.name"
+        :category-name="a.category.name ? a.category.name : ''"
       />
     </div>
   </template>

@@ -10,7 +10,7 @@ export default {
       data: {
         description: '',
         date: '',
-        budget: null,
+        budget: '',
         location: '',
         bride: '',
         groom: '',

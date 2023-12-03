@@ -10,7 +10,7 @@ export default {
       data: {
         description: '',
         date: '',
-        budget: null,
+        budget: '',
         location: '',
         bride: '',
         groom: '',
@@ -45,7 +45,7 @@ export default {
             this.serverError = res.message;
             return;
           }
-          this.$router.push({ path: '/plan', params: `${this.id}` });
+          this.$router.push({ path: '/plan' });
         })
         .catch(err => console.error(err));
     },
