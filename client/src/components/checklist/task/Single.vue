@@ -4,7 +4,6 @@ import dropdown from '../../../utils/helpers/dropdown';
 
 export default {
   props: {
-    // todo check type here and why 2 ids
     index: {
       type: Number,
       required: true,
