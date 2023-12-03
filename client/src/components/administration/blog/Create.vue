@@ -1,5 +1,6 @@
 <script>
 import articlesService from '../../../services/articles';
+import { formNames } from '../../../utils/constants/global';
 import ArticleForm from './Form.vue';
 
 export default {
@@ -15,6 +16,7 @@ export default {
       },
       serverError: '',
       isDisabled: true,
+      formName: formNames.CREATE,
     };
   },
   methods: {

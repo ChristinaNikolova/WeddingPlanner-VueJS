@@ -154,7 +154,7 @@ export default {
           label="Repeat Password"
         />
         <button :disabled="isDisabled" class="btn">
-          Login
+          Register
         </button>
       </form>
     </div>

@@ -1,5 +1,6 @@
 <script>
 import categoriesService from '../../../services/categories';
+import { formNames } from '../../../utils/constants/global';
 import CategoryForm from './Form.vue';
 
 export default {
@@ -12,6 +13,7 @@ export default {
       },
       serverError: '',
       isDisabled: true,
+      formName: formNames.CREATE,
     };
   },
   methods: {
