@@ -8,18 +8,21 @@ export default {
     name: {
       type: String,
       required: true,
+      default: '',
     },
     label: {
       type: String,
       required: true,
+      default: '',
     },
     rows: {
       type: String,
       required: true,
+      default: '',
     },
     errors: {
       type: Array,
-      default: () => ([]),
+      default: () => [],
     },
   },
   emits: ['update:modelValue'],

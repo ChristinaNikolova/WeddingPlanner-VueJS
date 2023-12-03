@@ -10,19 +10,24 @@ export default {
       required: true,
     },
     taskId: {
+      type: String,
       required: true,
+      default: '',
     },
     id: {
       type: String,
       required: true,
+      default: '',
     },
     title: {
       type: String,
       required: true,
+      default: '',
     },
     description: {
       type: String,
       required: true,
+      default: '',
     },
     progress: {
       type: Number,

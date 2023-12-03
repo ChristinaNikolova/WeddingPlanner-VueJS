@@ -8,18 +8,20 @@ export default {
     name: {
       type: String,
       required: true,
+      default: '',
     },
     label: {
       type: String,
       required: true,
+      default: '',
     },
     errors: {
       type: Array,
-      required: () => ([]),
+      required: () => [],
     },
     categories: {
       type: Array,
-      required: () => ([]),
+      required: () => [],
     },
   },
   emits: ['update:modelValue'],

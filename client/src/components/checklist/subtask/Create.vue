@@ -10,6 +10,7 @@ export default {
     taskId: {
       type: String,
       required: true,
+      default: '',
     },
   },
   emits: ['onCancelFormHandler', 'onFinish'],

@@ -4,18 +4,22 @@ export default {
     id: {
       type: String,
       required: true,
+      default: '',
     },
     title: {
       type: String,
       required: true,
+      default: '',
     },
     startTime: {
       type: String,
       required: true,
+      default: '',
     },
     endTime: {
       type: String,
       required: true,
+      default: '',
     },
     duration: {
       type: Number,

@@ -6,18 +6,22 @@ export default {
     taskId: {
       type: String,
       required: true,
+      default: '',
     },
     subtaskId: {
       type: String,
       required: true,
+      default: '',
     },
     id: {
       type: String,
       required: true,
+      default: '',
     },
     description: {
       type: String,
       required: true,
+      default: '',
     },
     isDone: {
       type: Boolean,

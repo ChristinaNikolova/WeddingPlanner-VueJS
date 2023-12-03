@@ -9,10 +9,12 @@ export default {
     plannerId: {
       type: String,
       required: true,
+      default: '',
     },
     eventId: {
       type: String,
       required: true,
+      default: '',
     },
   },
   emits: ['onCancelFormHandler', 'onFinish'],

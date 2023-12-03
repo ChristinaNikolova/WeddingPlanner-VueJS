@@ -11,10 +11,11 @@ export default {
     taskId: {
       type: String,
       required: true,
+      default: '',
     },
     subtasks: {
       type: Array,
-      default: () => ([]),
+      default: () => [],
     },
   },
   emits: ['onCancelFormHandler', 'onLoadTasks'],

@@ -9,10 +9,12 @@ export default {
     guestId: {
       type: String,
       required: true,
+      default: '',
     },
     plannerId: {
       type: String,
       required: true,
+      default: '',
     },
   },
   emits: ['onCancelFormHandler', 'onFinish'],

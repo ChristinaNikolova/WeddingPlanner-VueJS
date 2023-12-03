@@ -10,6 +10,7 @@ export default {
     plannerId: {
       type: String,
       required: true,
+      default: '',
     },
   },
   emits: ['onCancelFormHandler', 'onFinish'],

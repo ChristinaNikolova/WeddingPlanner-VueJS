@@ -10,18 +10,22 @@ export default {
     costId: {
       type: String,
       required: true,
+      default: '',
     },
     id: {
       type: String,
       required: true,
+      default: '',
     },
     title: {
       type: String,
       required: true,
+      default: '',
     },
     price: {
       type: String,
       required: true,
+      default: '',
     },
   },
   emits: ['onDeleteHandler', 'onEditHandler'],

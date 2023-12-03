@@ -4,6 +4,7 @@ export default {
     id: {
       type: String,
       required: true,
+      default: '',
     },
     description: {
       type: String,
@@ -13,6 +14,7 @@ export default {
     createdAt: {
       type: String,
       required: true,
+      default: '',
     },
     isEditIconHidden: {
       type: Boolean,

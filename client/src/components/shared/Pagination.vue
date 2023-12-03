@@ -14,7 +14,7 @@ export default {
     selectedCategory:
      {
        type: Object,
-       default: () => ({}),
+       default: () => {},
      },
   },
   emits: ['onClickHandler'],

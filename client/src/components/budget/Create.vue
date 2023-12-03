@@ -10,10 +10,12 @@ export default {
     plannerId: {
       type: String,
       required: true,
+      default: '',
     },
     category: {
       type: String,
       required: true,
+      default: '',
     },
   },
   emits: ['onCancelFormHandler', 'onFinish'],

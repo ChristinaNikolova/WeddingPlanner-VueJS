@@ -4,14 +4,17 @@ export default {
     id: {
       type: String,
       required: true,
+      default: '',
     },
     name: {
       type: String,
       required: true,
+      default: '',
     },
     image: {
       type: String,
       required: true,
+      default: '',
     },
   },
   emits: ['onDeleteHandler'],

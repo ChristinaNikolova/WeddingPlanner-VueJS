@@ -4,18 +4,22 @@ export default {
     id: {
       type: String,
       required: true,
+      default: '',
     },
     title: {
       type: String,
       required: true,
+      default: '',
     },
     shortContent: {
       type: String,
       required: true,
+      default: '',
     },
     image: {
       type: String,
       required: true,
+      default: '',
     },
   },
 };

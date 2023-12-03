@@ -9,6 +9,7 @@ export default {
     subtaskId: {
       type: String,
       required: true,
+      default: '',
     },
   },
   emits: ['onCancelFormHelperHandler', 'onFinish'],

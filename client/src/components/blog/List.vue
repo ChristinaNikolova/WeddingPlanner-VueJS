@@ -6,7 +6,7 @@ export default {
   props: {
     articles: {
       type: Array,
-      default: () => ([]),
+      default: () => [],
     },
   },
 };

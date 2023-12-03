@@ -3,10 +3,11 @@ export default {
   props: {
     classNames: {
       type: Array,
-      default: () => ([]),
+      default: () => [],
     },
     text: {
       type: String,
+      default: '',
     },
     isEmptyString: {
       type: Boolean,

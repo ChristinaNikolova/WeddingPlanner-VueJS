@@ -8,6 +8,7 @@ export default {
     name: {
       type: String,
       required: true,
+      default: '',
     },
     type: {
       type: String,
@@ -17,10 +18,11 @@ export default {
     label: {
       type: String,
       required: true,
+      default: '',
     },
     errors: {
       type: Array,
-      default: () => ([]),
+      default: () => [],
     },
     isReadonly: {
       Type: Boolean,

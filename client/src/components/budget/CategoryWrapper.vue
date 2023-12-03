@@ -11,6 +11,7 @@ export default {
     image: {
       type: String,
       required: true,
+      default: '',
     },
     categoryCosts: {
       type: String,

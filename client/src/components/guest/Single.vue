@@ -7,34 +7,42 @@ export default {
     id: {
       type: String,
       required: true,
+      default: '',
     },
     firstName: {
       type: String,
       required: true,
+      default: '',
     },
     lastName: {
       type: String,
       required: true,
+      default: '',
     },
     gender: {
       type: String,
       required: true,
+      default: '',
     },
     age: {
       type: String,
       required: true,
+      default: '',
     },
     role: {
       type: String,
       required: true,
+      default: '',
     },
     side: {
       type: String,
       required: true,
+      default: '',
     },
     table: {
       type: String,
       required: true,
+      default: '',
     },
     mainDish: {
       type: String,
