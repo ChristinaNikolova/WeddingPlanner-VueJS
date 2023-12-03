@@ -1,4 +1,3 @@
-[] todo emits or function
-[] todo check if functions needed!!!
+
 [] todo add good data
 [] todo add Readme
