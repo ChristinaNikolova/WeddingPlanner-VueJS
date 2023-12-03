@@ -20,7 +20,7 @@ export default {
     return {
       data: {
         title: '',
-        price: null,
+        price: '',
       },
       formName: formNames.UPDATE,
       isDisabled: false,

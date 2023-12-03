@@ -24,7 +24,7 @@ export default {
     return {
       data: {
         title: '',
-        price: null,
+        price: '',
       },
       serverError: '',
       formName: formNames.CREATE,

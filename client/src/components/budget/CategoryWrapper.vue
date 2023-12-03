@@ -13,7 +13,8 @@ export default {
       required: true,
     },
     categoryCosts: {
-      type: Function,
+      type: String,
+      default: '',
     },
   },
   methods: {

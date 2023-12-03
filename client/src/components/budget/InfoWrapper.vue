@@ -2,12 +2,12 @@
 export default {
   props: {
     budget: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '',
     },
     actualCosts: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '',
     },
   },
 };

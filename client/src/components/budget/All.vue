@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       plannerId: this.$route.params.plannerId,
-      budget: 0,
+      budget: '',
       categories: [],
       costs: [],
       costId: '',
