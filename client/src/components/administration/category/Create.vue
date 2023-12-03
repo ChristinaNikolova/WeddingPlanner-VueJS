@@ -32,7 +32,7 @@ export default {
         .catch(err => console.error(err));
     },
     checkIsDisabled(disable) {
-      this.isDisabled = disable;
+      this.isDisabled = !!disable;
     },
     onCancelFormHandler() {
       this.$router.push({ path: '/administration' });

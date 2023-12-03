@@ -46,7 +46,7 @@ export default {
         .catch(err => console.error(err));
     },
     checkIsDisabled(disable) {
-      this.isDisabled = disable;
+      this.isDisabled = !!disable;
     },
     cancelForm(e) {
       this.$emit('onCancelFormHandler', e);
