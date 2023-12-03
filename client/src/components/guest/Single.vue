@@ -43,11 +43,11 @@ export default {
     },
     confirmed: {
       type: Boolean,
-      required: false,
+      default: false,
     },
     isEditIconHidden: {
       type: Boolean,
-      required: false,
+      default: false,
     },
   },
   emits: ['onDeleteHandler', 'onShowFormHandler'],

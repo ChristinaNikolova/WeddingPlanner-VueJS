@@ -2,3 +2,4 @@
 [] todo check if functions needed!!!
 [] todo add default values here and checke types
 [] todo add good data
+[] todo add Readme

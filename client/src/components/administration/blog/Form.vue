@@ -10,7 +10,13 @@ export default {
   props: {
     initialData: {
       type: Object,
-      required: true,
+      default: () => ({
+        title: '',
+        content: '',
+        image: '',
+        jumboImage: '',
+        category: '',
+      }),
     },
     serverError: {
       type: Array,

@@ -10,6 +10,10 @@ export default {
     initialData: {
       type: Object,
       required: true,
+      default: () => ({
+        title: '',
+        price: '',
+      }),
     },
     serverError: {
       type: Array,

@@ -10,7 +10,12 @@ export default {
   props: {
     initialData: {
       type: Object,
-      required: true,
+      default: () => ({
+        title: '',
+        startTime: '',
+        endTime: '',
+        duration: '',
+      }),
     },
     serverError: {
       type: Array,

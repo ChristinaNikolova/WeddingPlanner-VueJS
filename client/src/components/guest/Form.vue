@@ -9,7 +9,17 @@ export default {
   props: {
     initialData: {
       type: Object,
-      required: true,
+      default: () => ({
+        firstName: '',
+        lastName: '',
+        age: 'adult',
+        role: '',
+        gender: 'male',
+        side: 'bride',
+        table: '',
+        mainDish: 'no info',
+        confirmed: 'no',
+      }),
     },
     serverError: {
       type: Array,

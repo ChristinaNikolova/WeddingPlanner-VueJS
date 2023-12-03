@@ -11,7 +11,10 @@ export default {
   props: {
     initialData: {
       type: Object,
-      required: true,
+      default: () => ({
+        name: '',
+        image: '',
+      }),
     },
     serverError: {
       type: Array,

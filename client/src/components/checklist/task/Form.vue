@@ -9,7 +9,10 @@ export default {
   props: {
     initialData: {
       type: Object,
-      required: true,
+      default: () => ({
+        title: '',
+        description: '',
+      }),
     },
     serverError: {
       type: Array,
