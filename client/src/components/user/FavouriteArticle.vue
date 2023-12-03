@@ -1,6 +1,7 @@
 <script>
 import usersService from '../../services/users';
 import { jumbo } from '../../utils/constants/image';
+import form from '../../utils/helpers/form';
 import List from '../blog/List.vue';
 
 export default {
@@ -18,6 +19,7 @@ export default {
       .then((res) => {
         this.favArticles = res;
         this.isLoading = false;
+        form.scrollToTop();
       })
       .catch(err => console.error(err));
   },
