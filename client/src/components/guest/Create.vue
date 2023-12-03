@@ -55,7 +55,7 @@ export default {
           this.data.gender = 'male';
           this.data.age = 'adult';
           this.data.side = 'bride';
-          this.data.role = null;
+          this.data.role = '';
           this.data.table = '';
           this.data.mainDish = 'no info';
           this.data.confirmed = 'no';
