@@ -20,7 +20,7 @@ export default {
     async onSubmitHandler(name, image) {
       await categoriesService
         .create(name, image)
-        .then(async (res) => {
+        .then((res) => {
           if (res.message) {
             this.serverError = res.message;
             return;

@@ -30,7 +30,7 @@ export default {
     async onSubmitHandler(name, image) {
       await categoriesService
         .update(this.id, name, image)
-        .then(async (res) => {
+        .then((res) => {
           if (res.message) {
             this.serverError = res.message;
             return;

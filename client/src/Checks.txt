@@ -1,11 +1,6 @@
 [] todo check if everywhere $event!!!
-[] todo check async/await
-[] todo check emits
-[] todo scroll to the top after form closed
 [] todo names on function => same convension
 [] todo emits or function
 [] todo check if functions needed!!!
 [] todo add default values here and checke types
-[] todo check all router added (at the end)
-[] todo router.replace
 [] todo add good data

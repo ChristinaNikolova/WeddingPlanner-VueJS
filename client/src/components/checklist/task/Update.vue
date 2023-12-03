@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     async onSubmitHandler(e, title, description) {
-      tasksService
+      await tasksService
         .update(this.taskId, title, description)
         .then((res) => {
           if (res.message) {

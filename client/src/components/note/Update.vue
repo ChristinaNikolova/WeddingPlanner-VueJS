@@ -38,7 +38,7 @@ export default {
     async onSubmitHandler(description) {
       await notesService
         .update(this.noteId, description)
-        .then(async (res) => {
+        .then((res) => {
           if (res.message) {
             this.serverError = res.message;
             return;

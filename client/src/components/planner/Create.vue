@@ -28,7 +28,7 @@ export default {
             this.serverError = res.message;
             return;
           }
-          this.$router.replace({ path: `/plan/${res._id}` });
+          this.$router.push({ path: `/plan/${res._id}` });
         })
         .catch(err => console.error(err));
     },

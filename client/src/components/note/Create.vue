@@ -35,7 +35,7 @@ export default {
     async onSubmitHandler(description) {
       await notesService
         .create(this.plannerId, description)
-        .then(async (res) => {
+        .then((res) => {
           if (res.message) {
             this.serverError = res.message;
             return;

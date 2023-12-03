@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     async onSubmitHandler(e, title, price) {
-      costsService
+      await costsService
         .update(this.costId, title, price)
         .then((res) => {
           if (res.message) {

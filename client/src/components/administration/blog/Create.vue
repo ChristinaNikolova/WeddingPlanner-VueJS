@@ -23,7 +23,7 @@ export default {
     async onSubmitHandler(title, content, image, jumboImage, category) {
       await articlesService
         .create(title, content, image, jumboImage, category)
-        .then(async (res) => {
+        .then((res) => {
           if (res.message) {
             this.serverError = res.message;
             return;

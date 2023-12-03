@@ -45,27 +45,6 @@ export default {
       return this.isDisabled;
     },
   },
-  methods: {
-    ...mapActions(useAuthStore, ['userLogin']),
-    async onSubmitHandler() {
-      const isValid = await this.v$.$validate();
-
-      if (!isValid) {
-        return;
-      }
-
-      await authService.register(this.data.firstName, this.data.lastName, this.data.email, this.data.password)
-        .then((data) => {
-          if (!data.accessToken) {
-            this.serverError = data.message;
-            return;
-          }
-          this.userLogin(data);
-          this.$router.push({ path: '/' });
-        })
-        .catch(err => console.error(err));
-    },
-  },
   validations() {
     return {
       data: {
@@ -93,6 +72,27 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    ...mapActions(useAuthStore, ['userLogin']),
+    async onSubmitHandler() {
+      const isValid = await this.v$.$validate();
+
+      if (!isValid) {
+        return;
+      }
+
+      await authService.register(this.data.firstName, this.data.lastName, this.data.email, this.data.password)
+        .then((data) => {
+          if (!data.accessToken) {
+            this.serverError = data.message;
+            return;
+          }
+          this.userLogin(data);
+          this.$router.push({ path: '/' });
+        })
+        .catch(err => console.error(err));
+    },
   },
 };
 </script>

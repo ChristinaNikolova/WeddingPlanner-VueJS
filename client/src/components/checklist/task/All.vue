@@ -21,7 +21,7 @@ export default {
     };
   },
   async created() {
-    this.loadTasks();
+    await this.loadTasks();
   },
   mounted() {
     this.$refs.tasksAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
