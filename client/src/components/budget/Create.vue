@@ -1,6 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import costsService from '../../services/costs';
+import { formNames } from '../../utils/constants/global';
 import CostForm from './Form.vue';
 
 export default {
@@ -12,10 +13,6 @@ export default {
     },
     category: {
       type: String,
-      required: true,
-    },
-    onCancelFormHandler: {
-      type: Function,
       required: true,
     },
   },
@@ -30,6 +27,8 @@ export default {
         price: null,
       },
       serverError: '',
+      formName: formNames.CREATE,
+      isDisabled: true,
     };
   },
 
@@ -52,6 +51,12 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    checkIsDisabled(disable) {
+      this.isDisabled = disable;
+    },
+    cancelForm(e) {
+      this.$emit('onCancelFormHandler', e);
+    },
   },
 };
 </script>
@@ -60,7 +65,15 @@ export default {
   <CostForm
     :initial-data="data"
     :server-error="serverError"
-    :on-cancel-form-handler="onCancelFormHandler"
     @on-submit-handler="onSubmitHandler"
-  />
+    @check-is-disabled="checkIsDisabled"
+  >
+    <template #button>
+      <FormButton
+        :form-name="formName"
+        :is-disabled="isDisabled"
+        @on-cancel-button-form-handler="cancelForm"
+      />
+    </template>
+  </CostForm>
 </template>

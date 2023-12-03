@@ -114,14 +114,14 @@ export default {
             v-if="costId && index === currentIndex"
             :planner-id="plannerId"
             :cost-id="costId"
-            :on-cancel-form-handler="onCancelFormHandler"
+            @on-cancel-form-handler="onCancelFormHandler"
             @on-finish="onFinish"
           />
           <Create
             v-if="!costId"
             :planner-id="plannerId"
             :category="cat.id"
-            :on-cancel-form-handler="onCancelFormHandler"
+            @on-cancel-form-handler="onCancelFormHandler"
             @on-finish="onFinish"
           />
           <div class="budget-main-current-category-costs-titles-wrapper">
