@@ -10,10 +10,6 @@ export default {
       type: String,
       required: true,
     },
-    onCancelFormHelperHandler: {
-      type: Function,
-      required: true,
-    },
   },
   emits: ['onCancelFormHelperHandler', 'onFinish'],
   data() {
@@ -49,6 +45,12 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    checkIsDisabled(disable) {
+      this.isDisabled = disable;
+    },
+    cancelForm(e) {
+      this.$emit('onCancelFormHelperHandler', e);
+    },
   },
 };
 </script>
@@ -57,9 +59,16 @@ export default {
   <SubtaskForm
     :initial-data="data"
     :server-error="serverError"
-    :form-name="formName"
     :initial-disabled="isDisabled"
-    :on-cancel-form-handler="onCancelFormHelperHandler"
+    @check-is-disabled="checkIsDisabled"
     @on-submit-handler="onSubmitHandler"
-  />
+  >
+    <template #button>
+      <FormButton
+        :form-name="formName"
+        :is-disabled="isDisabled"
+        @on-cancel-button-form-handler="cancelForm"
+      />
+    </template>
+  </SubtaskForm>
 </template>

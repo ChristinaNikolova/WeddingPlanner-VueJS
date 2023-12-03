@@ -1,6 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import subtasksService from '../../../services/subtasks';
+import { formNames } from '../../../utils/constants/global';
 import SubtaskForm from './Form.vue';
 
 export default {
@@ -8,10 +9,6 @@ export default {
   props: {
     taskId: {
       type: String,
-      required: true,
-    },
-    onCancelFormHandler: {
-      type: Function,
       required: true,
     },
   },
@@ -26,6 +23,8 @@ export default {
         description: '',
       },
       serverError: '',
+      isDisabled: true,
+      formName: formNames.CREATE,
     };
   },
   methods: {
@@ -46,6 +45,12 @@ export default {
         })
         .catch(err => console.error(err));
     },
+    checkIsDisabled(disable) {
+      this.isDisabled = disable;
+    },
+    cancelForm(e) {
+      this.$emit('onCancelFormHandler', e);
+    },
   },
 };
 </script>
@@ -54,7 +59,15 @@ export default {
   <SubtaskForm
     :initial-data="data"
     :server-error="serverError"
-    :on-cancel-form-handler="onCancelFormHandler"
     @on-submit-handler="onSubmitHandler"
-  />
+    @check-is-disabled="checkIsDisabled"
+  >
+    <template #button>
+      <FormButton
+        :form-name="formName"
+        :is-disabled="isDisabled"
+        @on-cancel-button-form-handler="cancelForm"
+      />
+    </template>
+  </SubtaskForm>
 </template>

@@ -76,13 +76,13 @@ export default {
       <Update
         v-if="subtaskId"
         :subtask-id="subtaskId"
-        :on-cancel-form-helper-handler="onCancelFormHelperHandler"
+        @on-cancel-form-helper-handler="onCancelFormHelperHandler"
         @on-finish="onFinish"
       />
       <Create
         v-else
         :task-id="taskId"
-        :on-cancel-form-handler="onCancelFormHandler"
+        @on-cancel-form-handler="onCancelFormHandler"
         @on-finish="onFinish"
       />
     </div>
