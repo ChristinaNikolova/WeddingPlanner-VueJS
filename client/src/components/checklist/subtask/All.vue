@@ -17,7 +17,7 @@ export default {
       default: () => ([]),
     },
   },
-  emits: ['onCancelFormHandler', 'onFinishTask'],
+  emits: ['onCancelFormHandler', 'onLoadTasks'],
   data() {
     return {
       subtaskId: '',
@@ -36,7 +36,7 @@ export default {
       await subtasksService
         .done(taskId, subtaskId)
         .then(() => {
-          this.$emit('onFinishTask');
+          this.$emit('onLoadTasks');
         })
         .catch(err => console.error(err));
     },
@@ -47,13 +47,13 @@ export default {
       subtasksService
         .deleteById(taskId, subtaskId)
         .then(() => {
-          this.$emit('onFinishTask');
+          this.$emit('onLoadTasks');
         })
         .catch(err => console.error(err));
     },
     async onFinish() {
       this.onCancelFormHelperHandler();
-      this.$emit('onFinishTask');
+      this.$emit('onLoadTasks');
     },
     onCancel(e) {
       this.$emit('onCancelFormHandler', e);

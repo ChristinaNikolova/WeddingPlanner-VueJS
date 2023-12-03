@@ -118,8 +118,8 @@ export default {
                     <AllSubtasks
                       :task-id="t.id"
                       :subtasks="t.subtasks"
+                      @on-load-tasks="loadTasks"
                       @on-cancel-form-handler="onCancelFormHandler"
-                      @on-finish-task="onFinish"
                     />
                   </template>
                 </SingleTask>
