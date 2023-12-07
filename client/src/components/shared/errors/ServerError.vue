@@ -1,17 +1,15 @@
-<script>
-export default {
-  props: {
-    errors: {
-      type: Array,
-      default: () => [],
-    },
+<script setup>
+const props = defineProps({
+  errors: {
+    type: Array,
+    default: () => [],
   },
-};
+});
 </script>
 
 <template>
   <div class="server-error-wrapper error-message">
-    <div v-for="(e, i) in errors" :key="i" class="server-error">
+    <div v-for="(e, i) in props.errors" :key="i" class="server-error">
       {{ e.msg }}
     </div>
   </div>

@@ -1,21 +1,19 @@
-<script>
-export default {
-  props: {
-    buttonText: {
-      type: String,
-      default: 'Button',
-    },
-    path: {
-      type: String,
-      default: '/',
-    },
+<script setup>
+const props = defineProps({
+  buttonText: {
+    type: String,
+    default: 'Button',
   },
-};
+  path: {
+    type: String,
+    default: '/',
+  },
+});
 </script>
 
 <template>
-  <router-link :to="path" class="btn back-btn">
-    {{ buttonText }}
+  <router-link :to="props.path" class="btn back-btn">
+    {{ props.buttonText }}
   </router-link>
 </template>
 

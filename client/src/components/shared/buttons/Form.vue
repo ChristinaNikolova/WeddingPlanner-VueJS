@@ -1,26 +1,24 @@
-<script>
-export default {
-  props: {
-    formName: {
-      type: String,
-      required: true,
-      default: 'Save',
-    },
-    isDisabled: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+const props = defineProps({
+  formName: {
+    type: String,
+    required: true,
+    default: 'Save',
   },
-  emits: ['onCancelButtonFormHandler'],
-};
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(['onCancelButtonFormHandler']);
 </script>
 
 <template>
   <div class="form-btns-wrapper">
-    <button :disabled="isDisabled" class="btn btn-center">
-      {{ formName }}
+    <button :disabled="props.isDisabled" class="btn btn-center">
+      {{ props.formName }}
     </button>
-    <button class="btn btn-center" type="button" @click="$emit('onCancelButtonFormHandler', $event, true)">
+    <button class="btn btn-center" type="button" @click="emit('onCancelButtonFormHandler', $event, true)">
       Cancel
     </button>
   </div>

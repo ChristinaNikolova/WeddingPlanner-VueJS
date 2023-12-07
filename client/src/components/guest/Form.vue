@@ -290,7 +290,7 @@ export default {
 
 <style scoped>
 .guest-form {
-  width: 24%;
+  width: 30%;
 }
 
 @media screen and (max-width: 1500px) {

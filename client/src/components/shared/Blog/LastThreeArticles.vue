@@ -1,23 +1,16 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import articlesService from '../../../services/articles';
 import LastSingleArticle from './LastSingleArticle.vue';
 
-export default {
-  components: {
-    LastSingleArticle,
-  },
-  data() {
-    return {
-      articles: [],
-    };
-  },
-  async created() {
-    await articlesService
-      .getLastThree()
-      .then(res => (this.articles = res))
-      .catch(err => console.error(err));
-  },
-};
+const articles = ref([]);
+
+onMounted(async () => {
+  await articlesService
+    .getLastThree()
+    .then(res => (articles.value = res))
+    .catch(err => console.error(err));
+});
 </script>
 
 <template>

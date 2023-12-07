@@ -1,19 +1,17 @@
-<script>
+<script setup>
 import { global } from '../../../utils/constants/error';
 
-export default {
-  props: {
-    error: {
-      type: String,
-      default: global.DEFAULT,
-    },
+const props = defineProps({
+  error: {
+    type: String,
+    default: global.DEFAULT,
   },
-};
+});
 </script>
 
 <template>
   <p class="client-error">
-    {{ error }}
+    {{ props.error }}
   </p>
 </template>
 

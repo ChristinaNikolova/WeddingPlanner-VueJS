@@ -1,14 +1,12 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import LastThreeArticles from './shared/Blog/LastThreeArticles.vue';
 
-export default {
-  components: {
-    LastThreeArticles,
-  },
-  mounted() {
-    this.$refs.homeRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  },
-};
+const homeRef = ref(null);
+
+onMounted(() => {
+  homeRef.value.scrollIntoView({ behavior: 'instant', block: 'start' });
+});
 </script>
 
 <template>

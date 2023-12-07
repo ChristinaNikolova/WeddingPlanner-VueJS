@@ -1,44 +1,42 @@
-<script>
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    title: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    shortContent: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    image: {
-      type: String,
-      required: true,
-      default: '',
-    },
+<script setup>
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
-};
+  title: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  shortContent: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  image: {
+    type: String,
+    required: true,
+    default: '',
+  },
+});
 </script>
 
 <template>
   <div class="last-three-articles-current-article-wrapper">
     <img
       class="last-three-articles-current-article-image img img-shadow"
-      :src="image"
-      :alt="title"
+      :src="props.image"
+      :alt="props.title"
     >
     <h5 class="last-three-articles-current-article-title">
-      {{ title }}
+      {{ props.title }}
     </h5>
     <p class="last-three-articles-current-article-short-content">
-      {{ shortContent }}
+      {{ props.shortContent }}
     </p>
-    <router-link class="btn" :to="`/blog/${id}`">
+    <router-link class="btn" :to="`/blog/${props.id}`">
       Read more
     </router-link>
   </div>

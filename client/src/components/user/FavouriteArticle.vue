@@ -1,29 +1,24 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import usersService from '../../services/users';
 import { jumbo } from '../../utils/constants/image';
 import form from '../../utils/helpers/form';
 import List from '../blog/List.vue';
 
-export default {
-  components: { List },
-  data() {
-    return {
-      pathToImage: jumbo.USER,
-      favArticles: [],
-      isLoading: true,
-    };
-  },
-  async created() {
-    await usersService
-      .getFav()
-      .then((res) => {
-        this.favArticles = res;
-        this.isLoading = false;
-        form.scrollToTop();
-      })
-      .catch(err => console.error(err));
-  },
-};
+const pathToImage = ref(jumbo.USER);
+const favArticles = ref([]);
+const isLoading = ref(true);
+
+onMounted(async () => {
+  await usersService
+    .getFav()
+    .then((res) => {
+      favArticles.value = res;
+      isLoading.value = false;
+      form.scrollToTop();
+    })
+    .catch(err => console.error(err));
+});
 </script>
 
 <template>

@@ -1,46 +1,38 @@
-<script>
+<script setup>
 import { directions } from '../../utils/constants/global';
 
-export default {
-  props: {
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    pagesCount: {
-      type: Number,
-      default: 1,
-    },
-    selectedCategory:
-     {
-       type: Object,
-       default: () => {},
-     },
+const props = defineProps({
+  currentPage: {
+    type: Number,
+    default: 1,
   },
-  emits: ['onClickHandler'],
-  data() {
-    return {
-      directions,
-    };
+  pagesCount: {
+    type: Number,
+    default: 1,
   },
-};
+  selectedCategory: {
+    type: Object,
+    default: () => {},
+  },
+});
+const emit = defineEmits(['onClickHandler']);
 </script>
 
 <template>
   <div class="pagination-wrapper">
     <router-link
-      v-if="currentPage !== 1"
+      v-if="props.currentPage !== 1"
       class="pagination"
-      :to="`/blog?page=${currentPage - 1}&category=${selectedCategory.name}`"
-      @click="$emit('onClickHandler', directions.PREV)"
+      :to="`/blog?page=${props.currentPage - 1}&category=${props.selectedCategory.name}`"
+      @click="emit('onClickHandler', directions.PREV)"
     >
       Newer posts
     </router-link>
     <router-link
-      v-if="currentPage !== pagesCount"
+      v-if="props.currentPage !== props.pagesCount"
       class="pagination"
-      :to="`/blog?page=${currentPage + 1}&category=${selectedCategory.name}`"
-      @click="$emit('onClickHandler', directions.NEXT)"
+      :to="`/blog?page=${props.currentPage + 1}&category=${props.selectedCategory.name}`"
+      @click="emit('onClickHandler', directions.NEXT)"
     >
       Older posts
     </router-link>

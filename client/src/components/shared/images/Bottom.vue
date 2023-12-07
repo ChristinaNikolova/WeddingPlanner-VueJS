@@ -1,39 +1,37 @@
-<script>
+<script setup>
 import { bottom } from '../../../utils/constants/image';
 
-export default {
-  props: {
-    first: {
-      type: String,
-      default: bottom.FIRST,
-    },
-    second: {
-      type: String,
-      default: bottom.SECOND,
-    },
-    third: {
-      type: String,
-      default: bottom.THIRD,
-    },
+const props = defineProps({
+  first: {
+    type: String,
+    default: bottom.FIRST,
   },
-};
+  second: {
+    type: String,
+    default: bottom.SECOND,
+  },
+  third: {
+    type: String,
+    default: bottom.THIRD,
+  },
+});
 </script>
 
 <template>
   <div class="bottom-img-wrapper">
     <img
       class="bottom-img img img-shadow"
-      :src="`./../../../img/${first}`"
+      :src="`./../../../img/${props.first}`"
       alt="wedding_image"
     >
     <img
       class="bottom-img img img-shadow"
-      :src="`./../../../img/${second}`"
+      :src="`./../../../img/${props.second}`"
       alt="wedding_image"
     >
     <img
       class="bottom-img img img-shadow"
-      :src="`./../../../img/${third}`"
+      :src="`./../../../img/${props.third}`"
       alt="wedding_image"
     >
   </div>

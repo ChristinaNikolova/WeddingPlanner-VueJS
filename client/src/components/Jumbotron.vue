@@ -1,23 +1,21 @@
-<script>
+<script setup>
 import { jumbo } from '../utils/constants/image.js';
 
-export default {
-  props: {
-    pathToImage: {
-      type: String,
-      default: jumbo.HOME,
-    },
-    isHomePage: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  pathToImage: {
+    type: String,
+    default: jumbo.HOME,
   },
-};
+  isHomePage: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <template>
-  <section class="jumbo" :style="{ 'background-image': `url(${pathToImage})` }">
-    <div v-if="isHomePage" class="jumbo-title-wrapper">
+  <section class="jumbo" :style="{ 'background-image': `url(${props.pathToImage})` }">
+    <div v-if="props.isHomePage" class="jumbo-title-wrapper">
       <h4 class="jumbo-sub-title">
         It's time to &hellip;
       </h4>
