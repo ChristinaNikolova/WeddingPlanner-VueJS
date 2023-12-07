@@ -1,44 +1,42 @@
-<script>
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    description: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    createdAt: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    isEditIconHidden: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onDeleteHandler', 'onShowFormHandler'],
-};
+  description: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  createdAt: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  isEditIconHidden: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(['onDeleteHandler', 'onShowFormHandler']);
 </script>
 
 <template>
   <div class="notes-all-info-wrapper">
     <div class="notes-all-info-left">
       <p class="notes-all-info">
-        {{ createdAt }}
+        {{ props.createdAt }}
       </p>
       <div class="notes-all-icon-wrapper">
-        <i v-if="!isEditIconHidden" class="fa-solid fa-pen" @click="$emit('onShowFormHandler', $event, id)" />
-        <i v-if="!isEditIconHidden" class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
+        <i v-if="!props.isEditIconHidden" class="fa-solid fa-pen" @click="emit('onShowFormHandler', $event, props.id)" />
+        <i v-if="!props.isEditIconHidden" class="fa-solid fa-trash" @click="emit('onDeleteHandler', props.id)" />
       </div>
     </div>
     <div class="notes-all-info-right">
       <p class="notes-all-description">
-        {{ description }}
+        {{ props.description }}
       </p>
     </div>
   </div>

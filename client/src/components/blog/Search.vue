@@ -1,33 +1,28 @@
-<script>
-export default {
-  props: {
-    isSearchIconClicked: {
-      type: Boolean,
-      default: false,
-    },
-    query: {
-      type: String,
-    },
+<script setup>
+import { ref } from 'vue';
+
+const props = defineProps({
+  isSearchIconClicked: {
+    type: Boolean,
+    default: false,
   },
-  emits: ['onSearchForm', 'onSearch'],
-  data() {
-    return {
-      searchedQuery: this.query,
-    };
+  query: {
+    type: String,
   },
-  methods: {
-    onShowHandler() {
-      this.searchedQuery = '';
-      this.$emit('onSearchForm');
-    },
-  },
+});
+const emit = defineEmits(['onSearchForm', 'onSearch']);
+const searchedQuery = ref(props.query);
+
+function onShowHandler() {
+  searchedQuery.value = '';
+  emit('onSearchForm');
 };
 </script>
 
 <template>
   <span class="articles-all-search-title">
     Search
-    <template v-if="isSearchIconClicked">
+    <template v-if="props.isSearchIconClicked">
       <AppInput
         v-model.trim="searchedQuery"
         name="search"
@@ -36,14 +31,14 @@ export default {
       />
       <i
         class="fa-solid fa-magnifying-glass"
-        @click="$emit('onSearch', $event, searchedQuery)"
+        @click="emit('onSearch', $event, searchedQuery)"
       />
       <i class="fa-solid fa-xmark" @click="onShowHandler" />
     </template>
     <i
       v-else
       class="fa-solid fa-magnifying-glass glass-position"
-      @click="$emit('onSearchForm')"
+      @click="emit('onSearchForm')"
     />
   </span>
 </template>

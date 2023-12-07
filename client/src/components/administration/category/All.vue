@@ -1,44 +1,39 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import categoriesService from '../../../services/categories';
 import Single from './Single.vue';
 
-export default {
-  components: { Single },
-  data() {
-    return {
-      categories: [],
-      serverError: [],
-      isLoading: true,
-    };
-  },
-  async created() {
-    await this.loadCategories();
-  },
-  methods: {
-    async onDeleteHandler(id) {
-      categoriesService
-        .deleteById(id)
-        .then(async (res) => {
-          if (res?.message) {
-            this.serverError = res.message;
-            return;
-          }
+const categories = ref([]);
+const serverError = ref([]);
+const isLoading = ref(true);
 
-          this.serverError = [];
-          await this.loadCategories();
-        })
-        .catch(err => console.error(err));
-    },
-    async loadCategories() {
-      await categoriesService
-        .all()
-        .then((res) => {
-          this.categories = res;
-          this.isLoading = false;
-        })
-        .catch(err => console.error(err));
-    },
-  },
+onMounted(async () => {
+  await loadCategories();
+});
+
+async function onDeleteHandler(id) {
+  categoriesService
+    .deleteById(id)
+    .then(async (res) => {
+      if (res?.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      await loadCategories();
+    })
+    .catch(err => console.error(err));
+};
+
+async function loadCategories() {
+  await categoriesService
+    .all()
+    .then((res) => {
+      categories.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
 };
 </script>
 

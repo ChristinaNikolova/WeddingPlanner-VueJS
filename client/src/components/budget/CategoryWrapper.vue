@@ -1,30 +1,27 @@
-<script>
+<script setup>
 import dropdown from '../../utils/helpers/dropdown';
 
-export default {
-  props: {
-    name: {
-      type: String,
-      required: true,
-      default: 'Category',
-    },
-    image: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    categoryCosts: {
-      type: String,
-      default: '',
-    },
+const props = defineProps({
+  name: {
+    type: String,
+    required: true,
+    default: 'Category',
   },
-  methods: {
-    onShowContent(e) {
-      const targetIcon = e.target;
-      const targetElement = targetIcon.parentElement.parentElement.parentElement.nextSibling;
-      dropdown.toggleWithTargetContent(targetElement, targetIcon);
-    },
+  image: {
+    type: String,
+    required: true,
+    default: '',
   },
+  categoryCosts: {
+    type: String,
+    default: '',
+  },
+});
+
+function onShowContent(e) {
+  const targetIcon = e.target;
+  const targetElement = targetIcon.parentElement.parentElement.parentElement.nextSibling;
+  dropdown.toggleWithTargetContent(targetElement, targetIcon);
 };
 </script>
 
@@ -33,16 +30,16 @@ export default {
     <div class="budget-main-current-category-info-left">
       <div class="budget-main-current-category-info">
         <i class="fa-solid fa-chevron-down" @click="onShowContent($event)" />
-        <img class="budget-main-current-category-info-image img" :src="image" :alt="name">
+        <img class="budget-main-current-category-info-image img" :src="props.image" :alt="props.name">
         <span class="budget-main-current-category-info-name">
-          {{ name }}
+          {{ props.name }}
         </span>
       </div>
     </div>
     <div class="budget-main-current-category-info-right">
       <span class="budget-main-current-category-info-right-title">Actual category:</span>
       <span class="budget-main-current-category-info-right-unit">$</span>
-      {{ categoryCosts }}
+      {{ props.categoryCosts }}
     </div>
   </div>
 </template>

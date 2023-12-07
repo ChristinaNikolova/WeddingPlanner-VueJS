@@ -1,65 +1,64 @@
-<script>
+<script setup>
+import { ref } from 'vue';
+
 import subtasksService from '../../../services/subtasks';
 import { addButtonTexts, styleNames } from '../../../utils/constants/global';
 import Create from './Create.vue';
 import SingleSubtask from './Single.vue';
 import Update from './Update.vue';
 
-export default {
-  components: { SingleSubtask, Update, Create },
-  props: {
-    taskId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    subtasks: {
-      type: Array,
-      default: () => [],
-    },
+const props = defineProps({
+  taskId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onLoadTasks'],
-  data() {
-    return {
-      subtaskId: '',
-      addButtonTexts,
-    };
+  subtasks: {
+    type: Array,
+    default: () => [],
   },
-  methods: {
-    onShowSubTaskFormHandler(e) {
-      const targetFormElement = e.target.parentElement.parentElement.parentElement.children[1].children[0];
-      targetFormElement.style.display = styleNames.FLEX;
-    },
-    onCancelFormHelperHandler() {
-      this.subtaskId = '';
-    },
-    async onDoneSubtask(taskId, subtaskId) {
-      await subtasksService
-        .done(taskId, subtaskId)
-        .then(() => {
-          this.$emit('onLoadTasks');
-        })
-        .catch(err => console.error(err));
-    },
-    onEditHandler(id) {
-      this.subtaskId = id;
-    },
-    onDeleteHandler(taskId, subtaskId) {
-      subtasksService
-        .deleteById(taskId, subtaskId)
-        .then(() => {
-          this.$emit('onLoadTasks');
-        })
-        .catch(err => console.error(err));
-    },
-    async onFinish() {
-      this.onCancelFormHelperHandler();
-      this.$emit('onLoadTasks');
-    },
-    onCancel(e) {
-      this.$emit('onCancelFormHandler', e);
-    },
-  },
+});
+const emit = defineEmits(['onCancelFormHandler', 'onLoadTasks']);
+const subtaskId = ref('');
+
+function onShowSubTaskFormHandler(e) {
+  const targetFormElement = e.target.parentElement.parentElement.parentElement.children[1].children[0];
+  targetFormElement.style.display = styleNames.FLEX;
+};
+
+function onCancelFormHelperHandler() {
+  subtaskId.value = '';
+};
+
+async function onDoneSubtask(taskId, subtaskId) {
+  await subtasksService
+    .done(taskId, subtaskId)
+    .then(() => {
+      emit('onLoadTasks');
+    })
+    .catch(err => console.error(err));
+};
+
+function onEditHandler(id) {
+  subtaskId.value = id;
+};
+
+function onDeleteHandler(taskId, subtaskId) {
+  subtasksService
+    .deleteById(taskId, subtaskId)
+    .then(() => {
+      emit('onLoadTasks');
+    })
+    .catch(err => console.error(err));
+};
+
+async function onFinish() {
+  onCancelFormHelperHandler();
+  emit('onLoadTasks');
+};
+
+function onCancel(e) {
+  emit('onCancelFormHandler', e);
 };
 </script>
 
@@ -77,17 +76,17 @@ export default {
       />
       <Create
         v-else
-        :task-id="taskId"
+        :task-id="props.taskId"
         @on-cancel-form-handler="onCancel"
         @on-finish="onFinish"
       />
     </div>
-    <template v-if="subtasks.length">
+    <template v-if="props.subtasks.length">
       <SingleSubtask
-        v-for="st in subtasks"
+        v-for="st in props.subtasks"
         :id="st.id"
         :key="st.id"
-        :task-id="taskId"
+        :task-id="props.taskId"
         :subtask-id="subtaskId"
         :description="st.description"
         :is-done="st.isDone"

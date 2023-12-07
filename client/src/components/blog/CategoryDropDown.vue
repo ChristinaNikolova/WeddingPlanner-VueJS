@@ -1,41 +1,36 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import categoriesService from '../../services/categories';
 import { classNames } from '../../utils/constants/global';
 import dropdown from '../../utils/helpers/dropdown';
 
-export default {
-  props: {
-    selectedCategoryName: {
-      type: String,
-    },
+const props = defineProps({
+  selectedCategoryName: {
+    type: String,
   },
-  emits: ['onCategoryHandler', 'onRemoveCategoryHandler'],
-  data() {
-    return {
-      categories: [],
-      classNames,
-    };
-  },
-  async created() {
-    await categoriesService
-      .all()
-      .then((res) => {
-        this.categories = res;
-      })
-      .catch(err => console.error(err));
-  },
-  methods: {
-    onToggleHandler(e) {
-      const dropdownElement = e.target.nextElementSibling;
-      dropdownElement.classList.contains(classNames.SHOW)
-        ? dropdown.toggle(dropdownElement, classNames.SHOW, classNames.HIDE)
-        : dropdown.toggle(dropdownElement, classNames.HIDE, classNames.SHOW);
-    },
-    onClickCategoryHandler(e) {
-      dropdown.toggle(e.target.parentElement, classNames.SHOW, classNames.HIDE);
-      this.$emit('onCategoryHandler', e);
-    },
-  },
+});
+const emit = defineEmits(['onCategoryHandler', 'onRemoveCategoryHandler']);
+const categories = ref([]);
+
+onMounted(async () => {
+  await categoriesService
+    .all()
+    .then((res) => {
+      categories.value = res;
+    })
+    .catch(err => console.error(err));
+});
+
+function onToggleHandler(e) {
+  const dropdownElement = e.target.nextElementSibling;
+  dropdownElement.classList.contains(classNames.SHOW)
+    ? dropdown.toggle(dropdownElement, classNames.SHOW, classNames.HIDE)
+    : dropdown.toggle(dropdownElement, classNames.HIDE, classNames.SHOW);
+};
+
+function onClickCategoryHandler(e) {
+  dropdown.toggle(e.target.parentElement, classNames.SHOW, classNames.HIDE);
+  emit('onCategoryHandler', e);
 };
 </script>
 
@@ -43,8 +38,8 @@ export default {
   <div>
     <span class="articles-all-category-drop-down">Category:</span>
     <button class="articles-all-category-drop-down-btn" @click="onToggleHandler">
-      {{ selectedCategoryName }}
-      <i v-if="selectedCategoryName !== 'all'" class="fa-solid fa-xmark" @click.stop="$emit('onRemoveCategoryHandler')" />
+      {{ props.selectedCategoryName }}
+      <i v-if="props.selectedCategoryName !== 'all'" class="fa-solid fa-xmark" @click.stop="$emit('onRemoveCategoryHandler')" />
     </button>
     <ul class="articles-all-category-drop-down-ul hide">
       <li

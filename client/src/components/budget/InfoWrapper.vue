@@ -1,16 +1,14 @@
-<script>
-export default {
-  props: {
-    budget: {
-      type: String,
-      default: '',
-    },
-    actualCosts: {
-      type: String,
-      default: '',
-    },
+<script setup>
+const props = defineProps({
+  budget: {
+    type: String,
+    default: '',
   },
-};
+  actualCosts: {
+    type: String,
+    default: '',
+  },
+});
 </script>
 
 <template>
@@ -18,12 +16,12 @@ export default {
     <p class="budget-info-target">
       <span class="budget-info-target-name">Budget:</span>
       <span class="budget-info-actual-unit">$</span>
-      {{ budget }}
+      {{ props.budget }}
     </p>
     <p class="budget-info-actual">
       <span class="budget-info-actual-name">Actual total:</span>
       <span class="budget-info-actual-unit">$</span>
-      {{ actualCosts }}
+      {{ props.actualCosts }}
     </p>
   </div>
 </template>

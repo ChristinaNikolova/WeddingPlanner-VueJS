@@ -1,53 +1,45 @@
-<script>
+<script setup>
 import { styleNames, tagNames } from '../../utils/constants/global';
 
-export default {
-  props: {
-    index: {
-      type: Number,
-      required: true,
-    },
-    costId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    title: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    price: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  index: {
+    type: Number,
+    required: true,
   },
-  emits: ['onDeleteHandler', 'onEditHandler'],
-  data() {
-    return {
-      styleNames,
-      tagNames,
-    };
+  costId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  methods: {
-    onMouseEnterHandler(e) {
-      if (e.target.nodeName !== tagNames.P) {
-        return;
-      }
-      e.target.children[0].style.display = styleNames.INLINE_BLOCK;
-    },
-    onMouseLeaveHandler() {
-      Array.from(document.getElementsByClassName('budget-main-current-category-current-cost-icons')).forEach((el) => {
-        el.style.display = styleNames.NONE;
-      });
-    },
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
+  title: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  price: {
+    type: String,
+    required: true,
+    default: '',
+  },
+});
+const emit = defineEmits(['onDeleteHandler', 'onEditHandler']);
+
+function onMouseEnterHandler(e) {
+  if (e.target.nodeName !== tagNames.P) {
+    return;
+  }
+  e.target.children[0].style.display = styleNames.INLINE_BLOCK;
+};
+
+function onMouseLeaveHandler() {
+  Array.from(document.getElementsByClassName('budget-main-current-category-current-cost-icons')).forEach((el) => {
+    el.style.display = styleNames.NONE;
+  });
 };
 </script>
 
@@ -58,15 +50,15 @@ export default {
       @mouseenter="onMouseEnterHandler"
       @mouseleave="onMouseLeaveHandler"
     >
-      {{ title }}
+      {{ props.title }}
       <span class="budget-main-current-category-current-cost-icons" :style="{ display: `${styleNames.NONE}` }">
-        <i v-if="!costId" class="fa-solid fa-pen" @click="$emit('onEditHandler', id, index)" />
-        <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
+        <i v-if="!props.costId" class="fa-solid fa-pen" @click="emit('onEditHandler', props.id, props.index)" />
+        <i class="fa-solid fa-trash" @click="emit('onDeleteHandler', props.id)" />
       </span>
     </p>
     <p class="budget-main-current-category-current-cost-price">
       <span class="budget-main-current-category-current-cost-price-unit">$</span>
-      {{ price }}
+      {{ props.price }}
     </p>
   </div>
 </template>

@@ -1,63 +1,61 @@
-<script>
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    className: {
-      type: String,
-    },
-    title: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    image: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    shortContent: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    createdAt: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    categoryName: {
-      type: String,
-      required: true,
-      default: '',
-    },
+<script setup>
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
-};
+  className: {
+    type: String,
+  },
+  title: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  image: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  shortContent: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  createdAt: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  categoryName: {
+    type: String,
+    required: true,
+    default: '',
+  },
+});
 </script>
 
 <template>
-  <article class="article-single" :style="{ flexDirection: `${className === 'left' ? 'row-reverse' : 'row'}` }">
+  <article class="article-single" :style="{ flexDirection: `${props.className === 'left' ? 'row-reverse' : 'row'}` }">
     <div class="article-single-content-wrapper">
       <h5 class="article-single-title">
-        {{ title }}
+        {{ props.title }}
       </h5>
       <p class="article-single-date">
-        {{ createdAt }}
+        {{ props.createdAt }}
       </p>
       <h6 class="article-single-category">
-        {{ categoryName }}
+        {{ props.categoryName }}
       </h6>
       <p class="article-single-short-content">
-        {{ shortContent }}
+        {{ props.shortContent }}
       </p>
-      <router-link class="btn" :to="`/blog/${id}`">
+      <router-link class="btn" :to="`/blog/${props.id}`">
         Read more
       </router-link>
     </div>
-    <img class="article-single-image img img-shadow" :src="image" :alt="title">
+    <img class="article-single-image img img-shadow" :src="props.image" :alt="props.title">
   </article>
 </template>
 

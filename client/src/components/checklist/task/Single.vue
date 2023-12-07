@@ -1,89 +1,82 @@
-<script>
+<script setup>
 import { styleNames, tagNames } from '../../../utils/constants/global';
 import dropdown from '../../../utils/helpers/dropdown';
 
-export default {
-  props: {
-    index: {
-      type: Number,
-      required: true,
-    },
-    taskId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    title: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    description: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    progress: {
-      type: Number,
-      required: true,
-    },
-    target: {
-      type: Number,
-      required: true,
-    },
+const props = defineProps({
+  index: {
+    type: Number,
+    required: true,
   },
-  emits: ['onDeleteHandler', 'onEditHandler'],
-  data() {
-    return {
-      styleNames,
-      tagNames,
-    };
+  taskId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  methods: {
-    onMouseEnterHandler(e) {
-      if (e.target.nodeName !== tagNames.H4) {
-        return;
-      }
-      e.target.children[0].style.display = styleNames.INLINE_BLOCK;
-    },
-    onMouseLeaveHandler() {
-      Array.from(document.getElementsByClassName('checklist-all-current-task-icons')).forEach((el) => {
-        el.style.display = styleNames.NONE;
-      });
-    },
-    onShowContent(e) {
-      const targetIcon = e.target;
-      const targetElement = targetIcon.parentElement.parentElement.parentElement.nextSibling;
-      dropdown.toggleWithTargetContent(targetElement, targetIcon);
-    },
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
+  title: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  description: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  progress: {
+    type: Number,
+    required: true,
+  },
+  target: {
+    type: Number,
+    required: true,
+  },
+});
+const emit = defineEmits(['onDeleteHandler', 'onEditHandler']);
+
+function onMouseEnterHandler(e) {
+  if (e.target.nodeName !== tagNames.H4) {
+    return;
+  }
+  e.target.children[0].style.display = styleNames.INLINE_BLOCK;
+};
+
+function onMouseLeaveHandler() {
+  Array.from(document.getElementsByClassName('checklist-all-current-task-icons')).forEach((el) => {
+    el.style.display = styleNames.NONE;
+  });
+};
+
+function onShowContent(e) {
+  const targetIcon = e.target;
+  const targetElement = targetIcon.parentElement.parentElement.parentElement.nextSibling;
+  dropdown.toggleWithTargetContent(targetElement, targetIcon);
 };
 </script>
 
 <template>
-  <div :key="id" class="checklist-all-current-task-wrapper">
+  <div :key="props.id" class="checklist-all-current-task-wrapper">
     <div class="checklist-all-current-task-header-wrapper">
       <h4
         class="checklist-all-current-task-header-title"
         @mouseenter="onMouseEnterHandler($event)"
         @mouseleave="onMouseLeaveHandler"
       >
-        {{ title }}
+        {{ props.title }}
         <span class="checklist-all-current-task-icons" :style="{ display: `${styleNames.NONE}` }">
-          <i v-if="!taskId" class="fa-solid fa-pen" @click="$emit('onEditHandler', id, index)" />
-          <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
+          <i v-if="!props.taskId" class="fa-solid fa-pen" @click="emit('onEditHandler', props.id, props.index)" />
+          <i class="fa-solid fa-trash" @click="emit('onDeleteHandler', props.id)" />
         </span>
       </h4>
       <div class="checklist-all-current-task-header-content-wrapper">
         <div class="checklist-all-current-task-header-content-progress-wrapper">
-          <span class="checklist-all-current-task-progress">{{ progress }}</span>
+          <span class="checklist-all-current-task-progress">{{ props.progress }}</span>
           <span class="checklist-all-current-task-delimiter">/</span>
-          <span class="checklist-all-current-task-target">{{ target }}</span>
+          <span class="checklist-all-current-task-target">{{ props.target }}</span>
         </div>
         <div class="checklist-all-current-task-header-content-icon-wrapper">
           <i class="fa-solid fa-chevron-down" @click="onShowContent" />
@@ -92,7 +85,7 @@ export default {
     </div>
     <div class="checklist-all-current-task-info-wrapper" :style="{ display: `${styleNames.BLOCK}` }">
       <p class="checklist-all-current-task-info-desc">
-        {{ description }}
+        {{ props.description }}
       </p>
       <slot name="allSubTasks" />
     </div>

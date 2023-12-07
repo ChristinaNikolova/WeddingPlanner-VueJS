@@ -1,22 +1,19 @@
-<script>
+<script setup>
 import Single from './Single.vue';
 
-export default {
-  components: { Single },
-  props: {
-    articles: {
-      type: Array,
-      default: () => [],
-    },
+const props = defineProps({
+  articles: {
+    type: Array,
+    default: () => [],
   },
-};
+});
 </script>
 
 <template>
-  <template v-if="articles.length">
+  <template v-if="props.articles.length">
     <div class="articles-list-blog">
       <Single
-        v-for="(a, i) in articles"
+        v-for="(a, i) in props.articles"
         :id="a.id"
         :key="a.id"
         :class-name="i % 2 === 0 ? 'left' : 'right'"

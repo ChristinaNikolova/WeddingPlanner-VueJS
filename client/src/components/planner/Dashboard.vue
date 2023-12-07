@@ -1,27 +1,20 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import plannersService from '../../services/planners';
 import Bottom from '../shared/images/Bottom.vue';
 
-export default {
-  components: {
-    Bottom,
-  },
-  data() {
-    return {
-      planners: [],
-      isLoading: true,
-    };
-  },
-  async created() {
-    await plannersService
-      .all()
-      .then((res) => {
-        this.planners = res;
-        this.isLoading = false;
-      })
-      .catch(err => console.error(err));
-  },
-};
+const planners = ref([]);
+const isLoading = ref(true);
+
+onMounted(async () => {
+  await plannersService
+    .all()
+    .then((res) => {
+      planners.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
+});
 </script>
 
 <template>

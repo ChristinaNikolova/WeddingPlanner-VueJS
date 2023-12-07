@@ -1,34 +1,32 @@
-<script>
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    name: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    image: {
-      type: String,
-      required: true,
-      default: '',
-    },
+<script setup>
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onDeleteHandler'],
-};
+  name: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  image: {
+    type: String,
+    required: true,
+    default: '',
+  },
+});
+const emit = defineEmits(['onDeleteHandler']);
 </script>
 
 <template>
   <li class="all-categories-li">
-    <img :src="image" :alt="name" class="all-categories-img img">
-    {{ name }}
-    <router-link :to="`/administration/categories/edit/${id}`">
+    <img :src="props.image" :alt="props.name" class="all-categories-img img">
+    {{ props.name }}
+    <router-link :to="`/administration/categories/edit/${props.id}`">
       <i class="fa-solid fa-pen" />
     </router-link>
-    <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
+    <i class="fa-solid fa-trash" @click="emit('onDeleteHandler', props.id)" />
   </li>
 </template>
 

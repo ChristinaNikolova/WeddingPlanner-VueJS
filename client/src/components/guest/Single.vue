@@ -1,118 +1,114 @@
-<script>
+<script setup>
+import { computed, ref } from 'vue';
 import { dishImages, personImages } from '../../utils/constants/image';
 import { dishes, genders, people } from '../../utils/constants/global';
 
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    firstName: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    lastName: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    gender: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    age: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    role: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    side: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    table: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    mainDish: {
-      type: String,
-      required: true,
-      default: 'no info',
-    },
-    confirmed: {
-      type: Boolean,
-      default: false,
-    },
-    isEditIconHidden: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onDeleteHandler', 'onShowFormHandler'],
-  data() {
-    return {
-      isHovering: false,
-    };
+  firstName: {
+    type: String,
+    required: true,
+    default: '',
   },
-  computed: {
-    getDishImage() {
-      let image = '';
-
-      if (this.mainDish === dishes.MEAT) {
-        image = dishImages.MEAT;
-      }
-      else if (this.mainDish === dishes.FISH) {
-        image = dishImages.FISH;
-      }
-      else if (this.mainDish === dishes.VEGGIES) {
-        image = dishImages.VEGGIES;
-      }
-
-      return image;
-    },
-    getPersonImage() {
-      let image = '';
-
-      if (this.age === people.ADULT && this.gender === genders.MALE) {
-        image = personImages.ADULT_MALE;
-      }
-      else if (this.age === people.ADULT && this.gender === genders.FEMALE) {
-        image = personImages.ADULT_FEMALE;
-      }
-      else if (this.age === people.CHILD && this.gender === genders.MALE) {
-        image = personImages.CHILD_MALE;
-      }
-      else if (this.age === people.CHILD && this.gender === genders.FEMALE) {
-        image = personImages.CHILD_FEMALE;
-      }
-      else if (this.age === people.BABY) {
-        image = personImages.BABY;
-      }
-
-      return image;
-    },
-    showDeleteIcon() {
-      return this.role !== 'bride' && this.role !== 'groom' && !this.isEditIconHidden;
-    },
+  lastName: {
+    type: String,
+    required: true,
+    default: '',
   },
-  methods: {
-    onMouseEnterHandler() {
-      this.isHovering = true;
-    },
-    onMouseLeaveHandler() {
-      this.isHovering = false;
-    },
+  gender: {
+    type: String,
+    required: true,
+    default: '',
   },
+  age: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  role: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  side: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  table: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  mainDish: {
+    type: String,
+    required: true,
+    default: 'no info',
+  },
+  confirmed: {
+    type: Boolean,
+    default: false,
+  },
+  isEditIconHidden: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(['onDeleteHandler', 'onShowFormHandler']);
+const isHovering = ref(false);
+
+const getDishImage = computed(() => {
+  let image = '';
+
+  if (props.mainDish === dishes.MEAT) {
+    image = dishImages.MEAT;
+  }
+  else if (props.mainDish === dishes.FISH) {
+    image = dishImages.FISH;
+  }
+  else if (props.mainDish === dishes.VEGGIES) {
+    image = dishImages.VEGGIES;
+  }
+
+  return image;
+});
+
+const getPersonImage = computed(() => {
+  let image = '';
+
+  if (props.age === people.ADULT && props.gender === genders.MALE) {
+    image = personImages.ADULT_MALE;
+  }
+  else if (props.age === people.ADULT && props.gender === genders.FEMALE) {
+    image = personImages.ADULT_FEMALE;
+  }
+  else if (props.age === people.CHILD && props.gender === genders.MALE) {
+    image = personImages.CHILD_MALE;
+  }
+  else if (props.age === people.CHILD && props.gender === genders.FEMALE) {
+    image = personImages.CHILD_FEMALE;
+  }
+  else if (props.age === people.BABY) {
+    image = personImages.BABY;
+  }
+
+  return image;
+});
+
+const showDeleteIcon = computed(() => {
+  return props.role !== 'bride' && props.role !== 'groom' && !props.isEditIconHidden;
+});
+
+function onMouseEnterHandler() {
+  isHovering.value = true;
+};
+
+function onMouseLeaveHandler() {
+  isHovering.value = false;
 };
 </script>
 
@@ -120,37 +116,37 @@ export default {
   <div class="guests-all-info-wrapper">
     <div class="guests-all-info-left">
       <p class="guests-all-role">
-        {{ role }}
+        {{ props.role }}
       </p>
       <p class="guests-all-name" @mouseenter="onMouseEnterHandler" @mouseleave="onMouseLeaveHandler">
-        {{ firstName }} {{ lastName }}
+        {{ props.firstName }} {{ props.lastName }}
         <span class="guests-all-image">
           <i :class="getPersonImage" />
         </span>
         <span v-if="isHovering" class="guests-all-icons">
-          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" @click="$emit('onShowFormHandler', $event, id)" />
-          <i v-if="showDeleteIcon" class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
+          <i v-if="!props.isEditIconHidden" class="fa-solid fa-pen" @click="emit('onShowFormHandler', $event, props.id)" />
+          <i v-if="showDeleteIcon" class="fa-solid fa-trash" @click="emit('onDeleteHandler', props.id)" />
         </span>
       </p>
       <p class="guests-all-side">
         <span class="guests-all-info-title">Side:</span>
-        {{ side }}
+        {{ props.side }}
       </p>
     </div>
     <div class="guests-all-info-right">
       <p class="guests-all-info">
         <span class="guests-all-info-title">Table:</span>
-        {{ table === '' ? 'no info' : table }}
+        {{ props.table === '' ? 'no info' : props.table }}
       </p>
       <p class="guests-all-info">
         <span class="guests-all-info-title">Confirmed:</span>
-        <i v-if="confirmed" class="fa-solid fa-check" />
+        <i v-if="props.confirmed" class="fa-solid fa-check" />
         <i v-else class="fa-solid fa-xmark" />
       </p>
       <p class="guests-all-info">
         <span class="guests-all-info-title">Dish:</span>
-        <template v-if="mainDish === 'no info'">
-          {{ mainDish }}
+        <template v-if="props.mainDish === 'no info'">
+          {{ props.mainDish }}
         </template>
         <i v-else :class="getDishImage" />
       </p>

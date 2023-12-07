@@ -1,79 +1,71 @@
-<script>
+<script setup>
+import { computed } from 'vue';
 import { styleNames, tagNames } from '../../../utils/constants/global';
 
-export default {
-  props: {
-    taskId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    subtaskId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    description: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    isDone: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  taskId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onDoneSubtask', 'onDeleteHandler', 'onEditHandler'],
-  data() {
-    return {
-      styleNames,
-      tagNames,
-    };
+  subtaskId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  computed: {
-    getStyles() {
-      return this.isDone
-        ? 'checklist-all-current-task-current-subtask checklist-all-current-task-current-subtask-heightlight'
-        : 'checklist-all-current-task-current-subtask';
-    },
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
-  methods: {
-    onMouseEnterHandler(e) {
-      if (e.target.nodeName !== tagNames.P) {
-        return;
-      }
-      e.target.children[0].style.display = styleNames.INLINE_BLOCK;
-    },
-    onMouseLeaveHandler() {
-      Array.from(document.getElementsByClassName('subtask-icons-wrapper')).forEach((el) => {
-        el.style.display = styleNames.NONE;
-      });
-    },
+  description: {
+    type: String,
+    required: true,
+    default: '',
   },
+  isDone: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(['onDoneSubtask', 'onDeleteHandler', 'onEditHandler']);
+
+const getStyles = computed(() => {
+  return props.isDone
+    ? 'checklist-all-current-task-current-subtask checklist-all-current-task-current-subtask-heightlight'
+    : 'checklist-all-current-task-current-subtask';
+});
+
+function onMouseEnterHandler(e) {
+  if (e.target.nodeName !== tagNames.P) {
+    return;
+  }
+  e.target.children[0].style.display = styleNames.INLINE_BLOCK;
+};
+
+function onMouseLeaveHandler() {
+  Array.from(document.getElementsByClassName('subtask-icons-wrapper')).forEach((el) => {
+    el.style.display = styleNames.NONE;
+  });
 };
 </script>
 
 <template>
-  <div :key="id" :class="getStyles">
-    <i v-if="isDone" class="fa-solid fa-square-check" @click="$emit('onDoneSubtask', taskId, id)" />
-    <i v-else class="fa-solid fa-square" @click="$emit('onDoneSubtask', taskId, id)" />
+  <div :key="props.id" :class="getStyles">
+    <i v-if="props.isDone" class="fa-solid fa-square-check" @click="emit('onDoneSubtask', props.taskId, props.id)" />
+    <i v-else class="fa-solid fa-square" @click="emit('onDoneSubtask', props.taskId, props.id)" />
     <p
       class="checklist-all-current-task-current-subtask-description"
       @mouseenter="onMouseEnterHandler"
       @mouseleave="onMouseLeaveHandler"
     >
-      {{ description }}
+      {{ props.description }}
       <span
         class="checklist-all-current-task-current-subtask-icons-wrapper subtask-icons-wrapper"
         :style="{ display: `${styleNames.NONE}` }"
       >
-        <i v-if="!subtaskId" class="fa-solid fa-pen" @click="$emit('onEditHandler', id)" />
-        <i class="fa-solid fa-trash" @click="$emit('onDeleteHandler', taskId, id)" />
+        <i v-if="!props.subtaskId" class="fa-solid fa-pen" @click="emit('onEditHandler', props.id)" />
+        <i class="fa-solid fa-trash" @click="emit('onDeleteHandler', props.taskId, props.id)" />
       </span>
     </p>
   </div>

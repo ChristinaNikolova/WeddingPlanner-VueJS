@@ -1,60 +1,55 @@
-<script>
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    title: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    startTime: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    endTime: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    duration: {
-      type: Number,
-      required: true,
-    },
-    isHighlighted: {
-      type: Boolean,
-      default: false,
-    },
-    isEditIconHidden: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+import { computed, ref } from 'vue';
+
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onDeleteHandler', 'onHeightlightHandler', 'onShowFormHandler'],
-  data() {
-    return {
-      isHovering: false,
-    };
+  title: {
+    type: String,
+    required: true,
+    default: '',
   },
-  computed: {
-    getStyles() {
-      return this.isHighlighted
-        ? 'events-all-info-wrapper event-all-heightlight'
-        : 'events-all-info-wrapper';
-    },
+  startTime: {
+    type: String,
+    required: true,
+    default: '',
   },
-  methods: {
-    onMouseEnterHandler() {
-      this.isHovering = true;
-    },
-    onMouseLeaveHandler() {
-      this.isHovering = false;
-    },
+  endTime: {
+    type: String,
+    required: true,
+    default: '',
   },
+  duration: {
+    type: Number,
+    required: true,
+  },
+  isHighlighted: {
+    type: Boolean,
+    default: false,
+  },
+  isEditIconHidden: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(['onDeleteHandler', 'onHeightlightHandler', 'onShowFormHandler']);
+const isHovering = ref(false);
+
+const getStyles = computed(() => {
+  return props.isHighlighted
+    ? 'events-all-info-wrapper event-all-heightlight'
+    : 'events-all-info-wrapper';
+});
+
+function onMouseEnterHandler() {
+  isHovering.value = true;
+};
+
+function onMouseLeaveHandler() {
+  isHovering.value = false;
 };
 </script>
 
@@ -63,26 +58,26 @@ export default {
     <div :class="getStyles" @mouseenter="onMouseEnterHandler" @mouseleave="onMouseLeaveHandler">
       <div class="events-all-info-left">
         <p class="events-all-time">
-          {{ startTime }} - {{ endTime }}
+          {{ props.startTime }} - {{ props.endTime }}
         </p>
         <p class="events-all-duration">
-          {{ duration }}
+          {{ props.duration }}
           <span class="events-all-duration-unit">minutes</span>
         </p>
       </div>
       <div class="events-all-info-right">
         <p class="events-all-title">
-          {{ title }}
+          {{ props.title }}
         </p>
         <span v-if="isHovering" class="events-all-icons">
 
-          <i v-if="!isEditIconHidden" class="fa-solid fa-pen" @click="$emit('onShowFormHandler', $event, id)" />
-          <i v-if="!isEditIconHidden" class="fa-solid fa-trash" @click="$emit('onDeleteHandler', id)" />
+          <i v-if="!props.isEditIconHidden" class="fa-solid fa-pen" @click="emit('onShowFormHandler', $event, props.id)" />
+          <i v-if="!props.isEditIconHidden" class="fa-solid fa-trash" @click="emit('onDeleteHandler', props.id)" />
         </span>
       </div>
       <div class="events-all-star-icons-wrapper">
-        <i v-if="isHighlighted" class="fa-solid fa-star" @click="$emit('onHeightlightHandler', id)" />
-        <i v-else class="fa-regular fa-star" @click="$emit('onHeightlightHandler', id)" />
+        <i v-if="props.isHighlighted" class="fa-solid fa-star" @click="emit('onHeightlightHandler', props.id)" />
+        <i v-else class="fa-regular fa-star" @click="emit('onHeightlightHandler', props.id)" />
       </div>
     </div>
   </div>
