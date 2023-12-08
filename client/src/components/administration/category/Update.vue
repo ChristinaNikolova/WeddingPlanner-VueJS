@@ -17,8 +17,8 @@ export default {
       isDisabled: false,
     };
   },
-  async created() {
-    await categoriesService
+  created() {
+    categoriesService
       .getById(this.id)
       .then((res) => {
         this.data.name = res.name;
@@ -27,8 +27,8 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(name, image) {
-      await categoriesService
+    onSubmitHandler(name, image) {
+      categoriesService
         .update(this.id, name, image)
         .then((res) => {
           if (res.message) {

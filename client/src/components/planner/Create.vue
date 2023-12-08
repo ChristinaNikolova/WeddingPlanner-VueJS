@@ -20,8 +20,8 @@ export default {
     };
   },
   methods: {
-    async onSubmitHandler(description, date, budget, location, bride, groom) {
-      await plannersService
+    onSubmitHandler(description, date, budget, location, bride, groom) {
+      plannersService
         .create(description, date, budget, location, bride, groom)
         .then((res) => {
           if (res.message) {

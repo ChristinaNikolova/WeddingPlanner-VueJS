@@ -20,8 +20,8 @@ export default {
       isDisabled: false,
     };
   },
-  async created() {
-    await articlesService
+  created() {
+    articlesService
       .getById(this.id)
       .then((res) => {
         this.data.title = res.title;
@@ -33,8 +33,8 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(title, content, image, jumboImage, category) {
-      await articlesService
+    onSubmitHandler(title, content, image, jumboImage, category) {
+      articlesService
         .update(this.id, title, content, image, jumboImage, category)
         .then((res) => {
           if (res.message) {

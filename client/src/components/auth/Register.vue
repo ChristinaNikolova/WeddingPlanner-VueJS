@@ -82,7 +82,7 @@ export default {
         return;
       }
 
-      await authService.register(this.data.firstName, this.data.lastName, this.data.email, this.data.password)
+      authService.register(this.data.firstName, this.data.lastName, this.data.email, this.data.password)
         .then((data) => {
           if (!data.accessToken) {
             this.serverError = data.message;

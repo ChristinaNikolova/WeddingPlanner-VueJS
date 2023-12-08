@@ -29,8 +29,8 @@ export default {
       serverError: [],
     };
   },
-  async created() {
-    await tasksService
+  created() {
+    tasksService
       .getById(this.planner, this.taskId)
       .then((res) => {
         this.data.title = res.title;
@@ -39,8 +39,8 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(e, title, description) {
-      await tasksService
+    onSubmitHandler(e, title, description) {
+      tasksService
         .update(this.taskId, title, description)
         .then((res) => {
           if (res.message) {

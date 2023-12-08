@@ -18,18 +18,18 @@ export default {
       isLoading: true,
     };
   },
-  async created() {
-    await this.loadGuests();
+  created() {
+    this.loadGuests();
   },
   methods: {
     onDeleteHandler(guestId) {
       guestsService
         .deleteById(guestId)
-        .then(async () => await this.loadGuests())
+        .then(() => this.loadGuests())
         .catch(err => console.error(err));
     },
-    async loadGuests() {
-      await guestsService
+    loadGuests() {
+      guestsService
         .all(this.plannerId)
         .then((res) => {
           this.guests = res;
@@ -47,9 +47,9 @@ export default {
       this.guestId = id || '';
       this.isEditIconHidden = !this.isEditIconHidden;
     },
-    async onFinish() {
+    onFinish() {
       this.onCancelFormHandler();
-      await this.loadGuests();
+      this.loadGuests();
     },
   },
 };

@@ -12,8 +12,8 @@ const props = defineProps({
 const emit = defineEmits(['onCategoryHandler', 'onRemoveCategoryHandler']);
 const categories = ref([]);
 
-onMounted(async () => {
-  await categoriesService
+onMounted(() => {
+  categoriesService
     .all()
     .then((res) => {
       categories.value = res;

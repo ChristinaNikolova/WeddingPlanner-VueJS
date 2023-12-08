@@ -20,8 +20,8 @@ export default {
       addButtonTexts,
     };
   },
-  async created() {
-    await this.loadTasks();
+  created() {
+    this.loadTasks();
   },
   mounted() {
     this.$refs.tasksAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -30,8 +30,8 @@ export default {
     isTask(time) {
       return this.tasks?.filter(t => t.timespan === time).length > 0;
     },
-    async loadTasks() {
-      await tasksService
+    loadTasks() {
+      tasksService
         .all(this.plannerId)
         .then(res => this.tasks = res)
         .catch(err => console.error(err));
@@ -39,7 +39,7 @@ export default {
     onDeleteHandler(id) {
       tasksService
         .deleteById(id)
-        .then(async () => await this.loadTasks())
+        .then(() => this.loadTasks())
         .catch(err => console.error(err));
     },
     onEditHandler(id, index) {
@@ -55,8 +55,8 @@ export default {
       this.taskId = '';
       this.currentIndex = '';
     },
-    async onFinish(e) {
-      await this.loadTasks();
+    onFinish(e) {
+      this.loadTasks();
       this.onCancelFormHandler(e);
     },
   },

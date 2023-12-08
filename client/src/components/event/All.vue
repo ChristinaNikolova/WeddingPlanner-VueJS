@@ -18,12 +18,12 @@ export default {
       isLoading: true,
     };
   },
-  async created() {
-    await this.loadEvents();
+  created() {
+    this.loadEvents();
   },
   methods: {
-    async loadEvents() {
-      await eventsService
+    loadEvents() {
+      eventsService
         .all(this.plannerId)
         .then((res) => {
           this.events = res;
@@ -34,16 +34,16 @@ export default {
     onDeleteHandler(id) {
       eventsService
         .deleteById(id)
-        .then(async () => {
-          await this.loadEvents();
+        .then(() => {
+          this.loadEvents();
         })
         .catch(err => console.error(err));
     },
-    async onHeightlightHandler(id) {
-      await eventsService
+    onHeightlightHandler(id) {
+      eventsService
         .heightlight(this.plannerId, id)
-        .then(async () => {
-          await this.loadEvents();
+        .then(() => {
+          this.loadEvents();
         })
         .catch(err => console.error(err));
     },
@@ -57,9 +57,9 @@ export default {
       this.eventId = '';
       this.isEditIconHidden = false;
     },
-    async onFinish() {
+    onFinish() {
       this.onCancelFormHandler();
-      await this.loadEvents();
+      this.loadEvents();
     },
   },
 };

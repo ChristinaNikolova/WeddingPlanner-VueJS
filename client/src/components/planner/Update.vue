@@ -22,8 +22,8 @@ export default {
       serverError: [],
     };
   },
-  async created() {
-    await plannersService
+  created() {
+    plannersService
       .getById(this.id)
       .then((res) => {
         this.data.description = res.description;
@@ -37,8 +37,8 @@ export default {
       }).catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(description, date, budget, location, bride, groom) {
-      await plannersService
+    onSubmitHandler(description, date, budget, location, bride, groom) {
+      plannersService
         .update(this.id, description, date, budget, location, bride, this.brideId, groom, this.groomId)
         .then((res) => {
           if (res.message) {

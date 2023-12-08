@@ -41,8 +41,8 @@ export default {
     };
   },
   methods: {
-    async onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
-      await guestsService
+    onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
+      guestsService
         .create(this.plannerId, firstName, lastName, gender, age, side, role, table, mainDish, confirmed)
         .then((res) => {
           if (res.message) {

@@ -35,8 +35,8 @@ export default {
   },
 
   methods: {
-    async onSubmitHandler(e, title, price) {
-      await costsService
+    onSubmitHandler(e, title, price) {
+      costsService
         .create(this.plannerId, title, price, this.category)
         .then((res) => {
           if (res.message) {

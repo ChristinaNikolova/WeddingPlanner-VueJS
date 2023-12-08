@@ -29,8 +29,8 @@ export default {
     };
   },
   methods: {
-    async onSubmitHandler(description) {
-      await subtasksService
+    onSubmitHandler(description) {
+      subtasksService
         .create(this.taskId, description)
         .then((res) => {
           if (res.message) {

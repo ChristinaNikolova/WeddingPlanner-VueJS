@@ -10,8 +10,8 @@ export default {
       isLoading: true,
     };
   },
-  async created() {
-    await plannersService
+  created() {
+    plannersService
       .getById(this.id)
       .then((res) => {
         this.planner = res;

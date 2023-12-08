@@ -33,8 +33,8 @@ export default {
     };
   },
   methods: {
-    async onSubmitHandler(description) {
-      await notesService
+    onSubmitHandler(description) {
+      notesService
         .create(this.plannerId, description)
         .then((res) => {
           if (res.message) {

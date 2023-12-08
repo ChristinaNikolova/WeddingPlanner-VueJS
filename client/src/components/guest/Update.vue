@@ -36,8 +36,8 @@ export default {
       isDisabled: false,
     };
   },
-  async created() {
-    await guestsService
+  created() {
+    guestsService
       .getById(this.plannerId, this.guestId)
       .then((res) => {
         this.data.firstName = res.firstName;
@@ -52,8 +52,8 @@ export default {
       }).catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
-      await guestsService
+    onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
+      guestsService
         .update(this.guestId, firstName, lastName, gender, age, side, role, table, mainDish, confirmed)
         .then((res) => {
           if (res.message) {

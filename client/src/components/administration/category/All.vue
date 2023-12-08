@@ -7,27 +7,27 @@ const categories = ref([]);
 const serverError = ref([]);
 const isLoading = ref(true);
 
-onMounted(async () => {
-  await loadCategories();
+onMounted(() => {
+  loadCategories();
 });
 
-async function onDeleteHandler(id) {
+function onDeleteHandler(id) {
   categoriesService
     .deleteById(id)
-    .then(async (res) => {
+    .then((res) => {
       if (res?.message) {
         serverError.value = res.message;
         return;
       }
 
       serverError.value = [];
-      await loadCategories();
+      loadCategories();
     })
     .catch(err => console.error(err));
 };
 
-async function loadCategories() {
-  await categoriesService
+function loadCategories() {
+  categoriesService
     .all()
     .then((res) => {
       categories.value = res;

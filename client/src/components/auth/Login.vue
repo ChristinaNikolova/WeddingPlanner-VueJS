@@ -45,7 +45,7 @@ export default {
         return;
       }
 
-      await authService.login(this.data.email, this.data.password)
+      authService.login(this.data.email, this.data.password)
         .then((data) => {
           if (!data.accessToken) {
             this.serverError = data.message;

@@ -18,12 +18,12 @@ export default {
       isLoading: true,
     };
   },
-  async created() {
-    await this.loadNotes();
+  created() {
+    this.loadNotes();
   },
   methods: {
-    async loadNotes() {
-      await notesService
+    loadNotes() {
+      notesService
         .all(this.plannerId)
         .then((res) => {
           this.notes = res;
@@ -34,8 +34,8 @@ export default {
     onDeleteHandler(id) {
       notesService
         .deleteById(id)
-        .then(async () => {
-          await this.loadNotes();
+        .then(() => {
+          this.loadNotes();
         })
         .catch(err => console.error(err));
     },
@@ -49,9 +49,9 @@ export default {
       this.noteId = '';
       this.isEditIconHidden = false;
     },
-    async onFinish() {
+    onFinish() {
       this.onCancelFormHandler();
-      await this.loadNotes();
+      this.loadNotes();
     },
   },
 };

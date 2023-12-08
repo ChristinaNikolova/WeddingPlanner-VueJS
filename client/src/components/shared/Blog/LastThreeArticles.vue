@@ -5,8 +5,8 @@ import LastSingleArticle from './LastSingleArticle.vue';
 
 const articles = ref([]);
 
-onMounted(async () => {
-  await articlesService
+onMounted(() => {
+  articlesService
     .getLastThree()
     .then(res => (articles.value = res))
     .catch(err => console.error(err));

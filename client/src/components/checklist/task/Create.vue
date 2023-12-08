@@ -31,9 +31,9 @@ export default {
     };
   },
   methods: {
-    async onSubmitHandler(e, title, description) {
+    onSubmitHandler(e, title, description) {
       this.timespan = e.target.parentElement.previousSibling.children[0].textContent;
-      await tasksService
+      tasksService
         .create(this.plannerId, title, description, this.timespan)
         .then((res) => {
           if (res.message) {

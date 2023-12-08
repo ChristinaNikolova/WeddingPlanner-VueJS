@@ -28,8 +28,8 @@ export default {
       isDisabled: false,
     };
   },
-  async created() {
-    await notesService
+  created() {
+    notesService
       .getById(this.plannerId, this.noteId)
       .then((res) => {
         this.data.description = res.description;
@@ -37,8 +37,8 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(description) {
-      await notesService
+    onSubmitHandler(description) {
+      notesService
         .update(this.noteId, description)
         .then((res) => {
           if (res.message) {

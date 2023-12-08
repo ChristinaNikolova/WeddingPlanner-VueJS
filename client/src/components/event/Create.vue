@@ -36,8 +36,8 @@ export default {
     };
   },
   methods: {
-    async onSubmitHandler(title, startTime, endTime, duration) {
-      await eventsService
+    onSubmitHandler(title, startTime, endTime, duration) {
+      eventsService
         .create(this.plannerId, title, startTime, endTime, duration)
         .then((res) => {
           if (res.message) {

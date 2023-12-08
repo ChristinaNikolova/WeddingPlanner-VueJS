@@ -6,8 +6,8 @@ import Bottom from '../shared/images/Bottom.vue';
 const planners = ref([]);
 const isLoading = ref(true);
 
-onMounted(async () => {
-  await plannersService
+onMounted(() => {
+  plannersService
     .all()
     .then((res) => {
       planners.value = res;

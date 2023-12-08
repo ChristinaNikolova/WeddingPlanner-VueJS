@@ -17,8 +17,8 @@ export default {
     };
   },
   methods: {
-    async onSubmitHandler(name, image) {
-      await categoriesService
+    onSubmitHandler(name, image) {
+      categoriesService
         .create(name, image)
         .then((res) => {
           if (res.message) {

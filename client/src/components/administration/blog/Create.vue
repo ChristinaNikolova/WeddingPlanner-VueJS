@@ -20,8 +20,8 @@ export default {
     };
   },
   methods: {
-    async onSubmitHandler(title, content, image, jumboImage, category) {
-      await articlesService
+    onSubmitHandler(title, content, image, jumboImage, category) {
+      articlesService
         .create(title, content, image, jumboImage, category)
         .then((res) => {
           if (res.message) {

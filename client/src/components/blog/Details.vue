@@ -20,15 +20,15 @@ export default {
     ...mapState(useAuthStore, ['userId', 'isAdmin']),
   },
   watch: {
-    async $route(newValue, oldValue) {
+    $route(newValue, oldValue) {
       if (oldValue.params.id !== newValue.params.id) {
         this.id = newValue.params.id;
-        await this.loadArticle();
+        this.loadArticle();
       }
     },
   },
-  async created() {
-    await this.loadArticle();
+  created() {
+    this.loadArticle();
   },
   methods: {
     onDeleteHandler() {
@@ -39,8 +39,8 @@ export default {
         })
         .catch(err => console.error(err));
     },
-    async like() {
-      await articlesService
+    like() {
+      articlesService
         .like(this.id)
         .then((res) => {
           this.isLiked = this.setIsLikedHelper(res.likes);
@@ -51,8 +51,8 @@ export default {
     setIsLikedHelper(likes) {
       return likes.includes(this.userId);
     },
-    async loadArticle() {
-      await articlesService
+    loadArticle() {
+      articlesService
         .getById(this.id)
         .then((res) => {
           this.article = res;

@@ -23,8 +23,8 @@ export default {
       serverError: [],
     };
   },
-  async created() {
-    await subtasksService
+  created() {
+    subtasksService
       .getById(this.subtaskId)
       .then((res) => {
         this.data.description = res.description;
@@ -32,8 +32,8 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(description) {
-      await subtasksService
+    onSubmitHandler(description) {
+      subtasksService
         .update(this.subtaskId, description)
         .then((res) => {
           if (res.message) {

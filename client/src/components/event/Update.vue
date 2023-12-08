@@ -31,8 +31,8 @@ export default {
       serverError: [],
     };
   },
-  async created() {
-    await eventsService
+  created() {
+    eventsService
       .getById(this.plannerId, this.eventId)
       .then((res) => {
         this.data.title = res.title;
@@ -42,8 +42,8 @@ export default {
       });
   },
   methods: {
-    async onSubmitHandler(title, startTime, endTime, duration) {
-      await eventsService
+    onSubmitHandler(title, startTime, endTime, duration) {
+      eventsService
         .update(this.eventId, title, startTime, endTime, duration)
         .then((res) => {
           if (res.message) {

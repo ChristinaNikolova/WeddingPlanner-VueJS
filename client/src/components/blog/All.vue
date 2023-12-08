@@ -28,27 +28,27 @@ export default {
     };
   },
   watch: {
-    async selectedCategory(newValue, oldValue) {
+    selectedCategory(newValue, oldValue) {
       if (newValue.id !== oldValue.id) {
         this.currentPage = 1;
-        await this.loadArticles();
+        this.loadArticles();
         this.getNewQuery();
       }
     },
-    async currentPage(newValue, oldValue) {
+    currentPage(newValue, oldValue) {
       if (newValue !== oldValue) {
-        await this.loadArticles();
+        this.loadArticles();
         this.getNewQuery();
       }
     },
-    async query() {
+    query() {
       this.currentPage = 1;
-      await this.loadArticles();
+      this.loadArticles();
       this.getNewQuery();
     },
   },
-  async created() {
-    await this.loadArticles();
+  created() {
+    this.loadArticles();
     form.scrollToTop();
   },
   methods: {
@@ -81,8 +81,8 @@ export default {
     getNewQuery() {
       this.$router.push(`/blog?page=${this.currentPage}&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
     },
-    async loadArticles() {
-      await articlesService
+    loadArticles() {
+      articlesService
         .all(this.currentPage, this.selectedCategory.id, this.query)
         .then((data) => {
           this.articles = data.articles;

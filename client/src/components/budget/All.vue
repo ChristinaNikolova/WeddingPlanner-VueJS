@@ -32,13 +32,13 @@ export default {
         .toFixed(2);
     },
   },
-  async created() {
-    await this.loadCosts();
-    await plannersService
+  created() {
+    this.loadCosts();
+    plannersService
       .getBudget(this.plannerId)
       .then(res => this.budget = res)
       .catch(err => console.error(err));
-    await categoriesService
+    categoriesService
       .all()
       .then((res) => {
         this.categories = res;
@@ -49,8 +49,8 @@ export default {
     !this.isLoading && this.$refs.costsAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
   },
   methods: {
-    async loadCosts() {
-      await costsService
+    loadCosts() {
+      costsService
         .all(this.plannerId)
         .then((res) => {
           this.costs = res;
@@ -70,7 +70,7 @@ export default {
     onDeleteHandler(id) {
       costsService
         .deleteById(id)
-        .then(async () => await this.loadCosts())
+        .then(() => this.loadCosts())
         .catch(err => console.error(err));
     },
     onEditHandler(id, index) {
@@ -86,8 +86,8 @@ export default {
     isCost(currentCategoryId) {
       return this.costs.filter(cost => cost.category === currentCategoryId).length > 0;
     },
-    async onFinish(e) {
-      await this.loadCosts();
+    onFinish(e) {
+      this.loadCosts();
       this.onCancelFormHandler(e);
     },
   },

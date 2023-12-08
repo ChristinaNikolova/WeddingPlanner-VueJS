@@ -30,8 +30,8 @@ function onCancelFormHelperHandler() {
   subtaskId.value = '';
 };
 
-async function onDoneSubtask(taskId, subtaskId) {
-  await subtasksService
+function onDoneSubtask(taskId, subtaskId) {
+  subtasksService
     .done(taskId, subtaskId)
     .then(() => {
       emit('onLoadTasks');
@@ -52,7 +52,7 @@ function onDeleteHandler(taskId, subtaskId) {
     .catch(err => console.error(err));
 };
 
-async function onFinish() {
+function onFinish() {
   onCancelFormHelperHandler();
   emit('onLoadTasks');
 };

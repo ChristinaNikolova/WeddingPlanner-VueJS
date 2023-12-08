@@ -29,8 +29,8 @@ export default {
       serverError: [],
     };
   },
-  async created() {
-    await costsService
+  created() {
+    costsService
       .getById(this.pannerId, this.costId)
       .then((res) => {
         this.data.title = res.title;
@@ -39,8 +39,8 @@ export default {
       .catch(err => console.error(err));
   },
   methods: {
-    async onSubmitHandler(e, title, price) {
-      await costsService
+    onSubmitHandler(e, title, price) {
+      costsService
         .update(this.costId, title, price)
         .then((res) => {
           if (res.message) {

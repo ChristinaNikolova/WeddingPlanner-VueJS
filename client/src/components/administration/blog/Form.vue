@@ -64,8 +64,8 @@ export default {
       return this.isDisabled;
     },
   },
-  async created() {
-    await categoriesService
+   created() {
+     categoriesService
       .all()
       .then(data => this.categories = data)
       .catch(err => console.error(err));

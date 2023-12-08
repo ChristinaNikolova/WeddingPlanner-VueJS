@@ -9,8 +9,8 @@ const pathToImage = ref(jumbo.USER);
 const favArticles = ref([]);
 const isLoading = ref(true);
 
-onMounted(async () => {
-  await usersService
+onMounted(() => {
+  usersService
     .getFav()
     .then((res) => {
       favArticles.value = res;
