@@ -15,12 +15,6 @@ import TaskAll from '../components/checklist/task/All.vue';
 import ArticlesAll from '../components/blog/All.vue';
 import ArticleDetails from '../components/blog/Details.vue';
 import FavouriteArticle from '../components/user/FavouriteArticle.vue';
-import AdminDashboard from '../components/administration/Dashboard.vue';
-import ArticleCreate from '../components/administration/blog/Create.vue';
-import ArticleUpdate from '../components/administration/blog/Update.vue';
-import CategoryAll from '../components/administration/category/All.vue';
-import CategoryCreate from '../components/administration/category/Create.vue';
-import CategoryUpdate from '../components/administration/category/Update.vue';
 import NotFound from '../components/NotFound.vue';
 import { isAdmin, isGuest, isUser } from '../guards/preGuards.js';
 
@@ -41,12 +35,12 @@ const routes = [
   { path: '/blog', component: ArticlesAll },
   { path: '/blog/:id', component: ArticleDetails, beforeEnter: isUser },
   { path: '/user/favourite-article', component: FavouriteArticle, beforeEnter: isUser },
-  { path: '/administration', component: AdminDashboard, beforeEnter: isAdmin },
-  { path: '/administration/articles/create', component: ArticleCreate, beforeEnter: isAdmin },
-  { path: '/administration/articles/edit/:id', component: ArticleUpdate, beforeEnter: isAdmin },
-  { path: '/administration/categories', component: CategoryAll, beforeEnter: isAdmin },
-  { path: '/administration/categories/create', component: CategoryCreate, beforeEnter: isAdmin },
-  { path: '/administration/categories/edit/:id', component: CategoryUpdate, beforeEnter: isAdmin },
+  { path: '/administration', component: () => import('../components/administration/Dashboard.vue'), beforeEnter: isAdmin },
+  { path: '/administration/articles/create', component: () => import('../components/administration/blog/Create.vue'), beforeEnter: isAdmin },
+  { path: '/administration/articles/edit/:id', component: () => import('../components/administration/blog/Update.vue'), beforeEnter: isAdmin },
+  { path: '/administration/categories', component: () => import('../components/administration/category/All.vue'), beforeEnter: isAdmin },
+  { path: '/administration/categories/create', component: () => import('../components/administration/category/Create.vue'), beforeEnter: isAdmin },
+  { path: '/administration/categories/edit/:id', component: () => import('../components/administration/category/Update.vue'), beforeEnter: isAdmin },
   { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 
