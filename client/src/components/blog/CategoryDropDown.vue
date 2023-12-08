@@ -37,7 +37,7 @@ function onClickCategoryHandler(e) {
 <template>
   <div>
     <span class="articles-all-category-drop-down">Category:</span>
-    <button class="articles-all-category-drop-down-btn" @click="onToggleHandler">
+    <button class="articles-all-category-drop-down-btn" type="button" @click="onToggleHandler">
       {{ props.selectedCategoryName }}
       <i v-if="props.selectedCategoryName !== 'all'" class="fa-solid fa-xmark" @click.stop="$emit('onRemoveCategoryHandler')" />
     </button>

@@ -153,7 +153,7 @@ export default {
           type="password"
           label="Repeat Password"
         />
-        <button :disabled="isDisabled" class="btn">
+        <button :disabled="isDisabled" class="btn" type="submit">
           Register
         </button>
       </form>

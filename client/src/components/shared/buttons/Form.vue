@@ -15,7 +15,7 @@ const emit = defineEmits(['onCancelButtonFormHandler']);
 
 <template>
   <div class="form-btns-wrapper">
-    <button :disabled="props.isDisabled" class="btn btn-center">
+    <button :disabled="props.isDisabled" class="btn btn-center" type="submit">
       {{ props.formName }}
     </button>
     <button class="btn btn-center" type="button" @click="emit('onCancelButtonFormHandler', $event, true)">

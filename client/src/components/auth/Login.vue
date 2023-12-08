@@ -106,7 +106,7 @@ export default {
           type="password"
           label="Password"
         />
-        <button :disabled="isDisabled" class="btn">
+        <button :disabled="isDisabled" class="btn" type="submit">
           Login
         </button>
       </form>
