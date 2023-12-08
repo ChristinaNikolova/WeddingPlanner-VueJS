@@ -1,53 +1,50 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import categoriesService from '../../../services/categories';
 import { formNames } from '../../../utils/constants/global';
 import CategoryForm from './Form.vue';
 
-export default {
-  components: { CategoryForm },
-  data() {
-    return {
-      data: {
-        name: '',
-        image: '',
-      },
-      id: this.$route.params.id,
-      formName: formNames.UPDATE,
-      serverError: [],
-      isDisabled: false,
-    };
-  },
-  created() {
-    categoriesService
-      .getById(this.id)
-      .then((res) => {
-        this.data.name = res.name;
-        this.data.image = res.image;
-      })
-      .catch(err => console.error(err));
-  },
-  methods: {
-    onSubmitHandler(name, image) {
-      categoriesService
-        .update(this.id, name, image)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+const route = useRoute();
+const router = useRouter();
+const data = ref({
+  name: '',
+  image: '',
+});
+const id = route.params.id;
+const formName = ref(formNames.UPDATE);
+const serverError = ref([]);
+const isDisabled = ref(false);
 
-          this.serverError = [];
-          this.$router.push({ path: '/administration/categories' });
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    onCancelFormHandler() {
-      this.$router.push({ path: '/administration/categories' });
-    },
-  },
+onMounted(() => {
+  categoriesService
+    .getById(id)
+    .then((res) => {
+      data.value.name = res.name;
+      data.value.image = res.image;
+    })
+    .catch(err => console.error(err));
+});
+
+function onSubmitHandler(name, image) {
+  categoriesService
+    .update(id, name, image)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      router.push({ path: '/administration/categories' });
+    })
+    .catch(err => console.error(err));
+};
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+function onCancelFormHandler() {
+  router.push({ path: '/administration/categories' });
 };
 </script>
 

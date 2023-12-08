@@ -1,41 +1,39 @@
-<script>
+<script setup>
+import { useRoute, useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
 import plannersService from '../../services/planners';
 
-export default {
-  data() {
-    return {
-      id: this.$route.params.id,
-      planner: {},
-      isHovering: false,
-      isLoading: true,
-    };
-  },
-  created() {
-    plannersService
-      .getById(this.id)
-      .then((res) => {
-        this.planner = res;
-        this.isLoading = false;
-      })
-      .catch(err => console.error(err));
-  },
-  mounted() {
-    !this.isLoading && this.$refs.plannerRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  },
-  methods: {
-    onDeleteHandler() {
-      plannersService
-        .deleteById(this.id)
-        .then(() => this.$router.push({ path: '/plan' }))
-        .catch(err => console.error(err));
-    },
-    onMouseEnter() {
-      this.isHovering = true;
-    },
-    onMouseLeave() {
-      this.isHovering = false;
-    },
-  },
+const route = useRoute();
+const router = useRouter();
+const id = route.params.id;
+const plannerRef = ref(null);
+const planner = ref({});
+const isHovering = ref(false);
+const isLoading = ref(true);
+
+onMounted(() => {
+  !isLoading.value && plannerRef.value.scrollIntoView({ behavior: 'instant', block: 'start' });
+  plannersService
+    .getById(id)
+    .then((res) => {
+      planner.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
+});
+
+function onDeleteHandler() {
+  plannersService
+    .deleteById(id)
+    .then(() => router.push({ path: '/plan' }))
+    .catch(err => console.error(err));
+};
+
+function onMouseEnter() {
+  isHovering.value = true;
+};
+function onMouseLeave() {
+  isHovering.value = false;
 };
 </script>
 

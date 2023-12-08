@@ -1,59 +1,56 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import articlesService from '../../../services/articles';
 import { formNames } from '../../../utils/constants/global';
 import ArticleForm from './Form.vue';
 
-export default {
-  components: { ArticleForm },
-  data() {
-    return {
-      data: {
-        title: '',
-        content: '',
-        image: '',
-        jumboImage: '',
-        category: '',
-      },
-      id: this.$route.params.id,
-      serverError: [],
-      formName: formNames.UPDATE,
-      isDisabled: false,
-    };
-  },
-  created() {
-    articlesService
-      .getById(this.id)
-      .then((res) => {
-        this.data.title = res.title;
-        this.data.content = res.content.join(' ');
-        this.data.image = res.image;
-        this.data.jumboImage = res.jumboImage;
-        this.data.category = res.category.id;
-      })
-      .catch(err => console.error(err));
-  },
-  methods: {
-    onSubmitHandler(title, content, image, jumboImage, category) {
-      articlesService
-        .update(this.id, title, content, image, jumboImage, category)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+const route = useRoute();
+const router = useRouter();
+const data = ref({
+  title: '',
+  content: '',
+  image: '',
+  jumboImage: '',
+  category: '',
+});
+const id = route.params.id;
+const serverError = ref([]);
+const formName = ref(formNames.UPDATE);
+const isDisabled = ref(false);
 
-          this.serverError = [];
-          this.$router.push({ path: `/blog/${res._id}` });
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    onCancelFormHandler() {
-      this.$router.push({ path: `/blog/${this.id}` });
-    },
-  },
+onMounted(() => {
+  articlesService
+    .getById(id)
+    .then((res) => {
+      data.value.title = res.title;
+      data.value.content = res.content.join(' ');
+      data.value.image = res.image;
+      data.value.jumboImage = res.jumboImage;
+      data.value.category = res.category.id;
+    })
+    .catch(err => console.error(err));
+});
+
+function onSubmitHandler(title, content, image, jumboImage, category) {
+  articlesService
+    .update(id, title, content, image, jumboImage, category)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      router.push({ path: `/blog/${res._id}` });
+    })
+    .catch(err => console.error(err));
+};
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+function onCancelFormHandler() {
+  router.push({ path: `/blog/${id}` });
 };
 </script>
 

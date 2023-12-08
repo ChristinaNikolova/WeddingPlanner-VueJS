@@ -1,46 +1,41 @@
-<script>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import articlesService from '../../../services/articles';
 import { formNames } from '../../../utils/constants/global';
 import ArticleForm from './Form.vue';
 
-export default {
-  components: { ArticleForm },
-  data() {
-    return {
-      data: {
-        title: '',
-        content: '',
-        image: '',
-        jumboImage: '',
-        category: '',
-      },
-      serverError: [],
-      isDisabled: true,
-      formName: formNames.CREATE,
-    };
-  },
-  methods: {
-    onSubmitHandler(title, content, image, jumboImage, category) {
-      articlesService
-        .create(title, content, image, jumboImage, category)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+const router = useRouter();
+const data = ref({
+  title: '',
+  content: '',
+  image: '',
+  jumboImage: '',
+  category: '',
+});
+const serverError = ref([]);
+const isDisabled = ref(true);
+const formName = ref(formNames.CREATE);
 
-          this.serverError = [];
-          this.$router.push({ path: `/blog/${res._id}` });
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    onCancelFormHandler() {
-      this.$router.push({ path: '/administration' });
-    },
-  },
+function onSubmitHandler(title, content, image, jumboImage, category) {
+  articlesService
+    .create(title, content, image, jumboImage, category)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      router.push({ path: `/blog/${res._id}` });
+    })
+    .catch(err => console.error(err));
+};
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+function onCancelFormHandler() {
+  router.push({ path: '/administration' });
 };
 </script>
 

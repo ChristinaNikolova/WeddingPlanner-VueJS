@@ -1,43 +1,38 @@
-<script>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import categoriesService from '../../../services/categories';
 import { formNames } from '../../../utils/constants/global';
 import CategoryForm from './Form.vue';
 
-export default {
-  components: { CategoryForm },
-  data() {
-    return {
-      data: {
-        name: '',
-        image: '',
-      },
-      serverError: [],
-      isDisabled: true,
-      formName: formNames.CREATE,
-    };
-  },
-  methods: {
-    onSubmitHandler(name, image) {
-      categoriesService
-        .create(name, image)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+const router = useRouter();
+const data = ref({
+  name: '',
+  image: '',
+});
+const serverError = ref([]);
+const isDisabled = ref(true);
+const formName = ref(formNames.CREATE);
 
-          this.serverError = [];
-          this.$router.push({ path: '/administration/categories' });
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    onCancelFormHandler() {
-      this.$router.push({ path: '/administration' });
-    },
-  },
+function onSubmitHandler(name, image) {
+  categoriesService
+    .create(name, image)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      router.push({ path: '/administration/categories' });
+    })
+    .catch(err => console.error(err));
+};
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+function onCancelFormHandler() {
+  router.push({ path: '/administration' });
 };
 </script>
 
