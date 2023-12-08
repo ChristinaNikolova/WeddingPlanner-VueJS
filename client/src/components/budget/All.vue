@@ -1,4 +1,6 @@
-<script>
+<script setup>
+import { computed, onMounted, onUpdated, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import costsService from '../../services/costs';
 import plannersService from '../../services/planners';
 import categoriesService from '../../services/categories';
@@ -10,87 +12,87 @@ import SingleCost from './Single.vue';
 import Create from './Create.vue';
 import Update from './Update.vue';
 
-export default {
-  components: { CategoryWrapper, InfoWrapper, SingleCost, Create, Update },
-  data() {
-    return {
-      plannerId: this.$route.params.plannerId,
-      budget: '',
-      categories: [],
-      costs: [],
-      costId: '',
-      currentIndex: null,
-      styleNames,
-      addButtonTexts,
-      isLoading: true,
-    };
-  },
-  computed: {
-    calculateActualCosts() {
-      return (this.costs
-        .reduce((acc, curr) => Number(curr.price) + acc, 0))
-        .toFixed(2);
-    },
-  },
-  created() {
-    this.loadCosts();
-    plannersService
-      .getBudget(this.plannerId)
-      .then(res => this.budget = res)
-      .catch(err => console.error(err));
-    categoriesService
-      .all()
-      .then((res) => {
-        this.categories = res;
-      })
-      .catch(err => console.error(err));
-  },
-  mounted() {
-    !this.isLoading && this.$refs.costsAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  },
-  methods: {
-    loadCosts() {
-      costsService
-        .all(this.plannerId)
-        .then((res) => {
-          this.costs = res;
-          this.isLoading = false;
-        })
-        .catch(err => console.error(err));
-    },
-    onCancelFormHandler(e) {
-      form.cancelForm(e.target);
-      this.costId = '';
-      this.currentIndex = null;
-    },
-    onShowFormHandler(e) {
-      const targetFormElement = e.target.parentElement.parentElement.children[0];
-      targetFormElement.style.display = styleNames.FLEX;
-    },
-    onDeleteHandler(id) {
-      costsService
-        .deleteById(id)
-        .then(() => this.loadCosts())
-        .catch(err => console.error(err));
-    },
-    onEditHandler(id, index) {
-      this.costId = id;
-      this.currentIndex = index;
-    },
-    calculateCategoryActualCosts(categoryId) {
-      return (this.costs
-        .filter(c => c.category === categoryId)
-        .reduce((acc, curr) => Number(curr.price) + acc, 0))
-        .toFixed(2);
-    },
-    isCost(currentCategoryId) {
-      return this.costs.filter(cost => cost.category === currentCategoryId).length > 0;
-    },
-    onFinish(e) {
-      this.loadCosts();
-      this.onCancelFormHandler(e);
-    },
-  },
+const route = useRoute();
+const plannerId = route.params.plannerId;
+const costsAllRef = ref(null);
+const budget = ref('');
+const categories = ref([]);
+const costs = ref([]);
+const costId = ref('');
+const currentIndex = ref(null);
+const isLoading = ref(true);
+
+onMounted(() => {
+  loadCosts();
+  plannersService
+    .getBudget(plannerId)
+    .then(res => budget.value = res)
+    .catch(err => console.error(err));
+  categoriesService
+    .all()
+    .then((res) => {
+      categories.value = res;
+    })
+    .catch(err => console.error(err));
+});
+
+onUpdated(() => {
+  !isLoading.value && costsAllRef.value.scrollIntoView({ behavior: 'instant', block: 'start' });
+});
+
+const calculateActualCosts = computed(() => {
+  return (costs.value
+    .reduce((acc, curr) => Number(curr.price) + acc, 0))
+    .toFixed(2);
+});
+
+function loadCosts(e) {
+  costsService
+    .all(plannerId)
+    .then((res) => {
+      costs.value = res;
+      isLoading.value = false;
+      e && onCancelFormHandler(e);
+    })
+    .catch(err => console.error(err));
+};
+
+function onCancelFormHandler(e) {
+  form.cancelForm(e.target);
+  costId.value = '';
+  currentIndex.value = null;
+};
+
+function onShowFormHandler(e) {
+  const targetFormElement = e.target.parentElement.parentElement.children[0];
+  targetFormElement.style.display = styleNames.FLEX;
+};
+
+function onDeleteHandler(id) {
+  costsService
+    .deleteById(id)
+    .then(() => loadCosts())
+    .catch(err => console.error(err));
+};
+
+function onEditHandler(id, index) {
+  costId.value = id;
+  currentIndex.value = index;
+};
+
+function calculateCategoryActualCosts(categoryId) {
+  return (costs.value
+    .filter(c => c.category === categoryId)
+    .reduce((acc, curr) => Number(curr.price) + acc, 0))
+    .toFixed(2);
+};
+
+function isCost(currentCategoryId) {
+  return costs.value.filter(cost => cost.category === currentCategoryId).length > 0;
+};
+
+function onFinish(e) {
+  loadCosts(e);
 };
 </script>
 

@@ -1,64 +1,60 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import { formNames } from '../../utils/constants/global';
 import costsService from '../../services/costs';
 import CostForm from './Form.vue';
 
-export default {
-  components: { CostForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    costId: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  data() {
-    return {
-      data: {
-        title: '',
-        price: '',
-      },
-      formName: formNames.UPDATE,
-      isDisabled: false,
-      serverError: [],
-    };
+  costId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  created() {
-    costsService
-      .getById(this.pannerId, this.costId)
-      .then((res) => {
-        this.data.title = res.title;
-        this.data.price = res.price;
-      })
-      .catch(err => console.error(err));
-  },
-  methods: {
-    onSubmitHandler(e, title, price) {
-      costsService
-        .update(this.costId, title, price)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
-          this.serverError = [];
-          this.$emit('onFinish', e);
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm(e) {
-      this.$emit('onCancelFormHandler', e);
-    },
-  },
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const data = ref({
+  title: '',
+  price: '',
+});
+const formName = ref(formNames.UPDATE);
+const isDisabled = ref(false);
+const serverError = ref([]);
+
+onMounted(() => {
+  costsService
+    .getById(props.plannerId, props.costId)
+    .then((res) => {
+      data.value.title = res.title;
+      data.value.price = res.price;
+    })
+    .catch(err => console.error(err));
+});
+
+function onSubmitHandler(e, title, price) {
+  costsService
+    .update(props.costId, title, price)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+      serverError.value = [];
+      emit('onFinish', e);
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm(e) {
+  emit('onCancelFormHandler', e);
 };
 </script>
 

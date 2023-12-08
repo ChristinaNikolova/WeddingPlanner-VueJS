@@ -1,65 +1,58 @@
-<script>
+<script setup>
+import { nextTick, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import costsService from '../../services/costs';
 import { formNames } from '../../utils/constants/global';
 import CostForm from './Form.vue';
 
-export default {
-  components: { CostForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    category: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  setup() {
-    return { v$: useVuelidate() };
+  category: {
+    type: String,
+    required: true,
+    default: '',
   },
-  data() {
-    return {
-      data: {
-        title: '',
-        price: '',
-      },
-      serverError: [],
-      formName: formNames.CREATE,
-      isDisabled: true,
-    };
-  },
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const v$ = useVuelidate();
+const data = ref({
+  title: '',
+  price: '',
+});
+const serverError = ref([]);
+const formName = ref(formNames.CREATE);
+const isDisabled = ref(true);
 
-  methods: {
-    onSubmitHandler(e, title, price) {
-      costsService
-        .create(this.plannerId, title, price, this.category)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+function onSubmitHandler(e, title, price) {
+  costsService
+    .create(props.plannerId, title, price, props.category)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
 
-          this.data.title = '';
-          this.data.price = '';
-          this.$nextTick(() => { this.v$.$reset(); });
+      data.value.title = '';
+      data.value.price = '';
+      nextTick(() => {
+        v$.value.$reset();
+      });
 
-          this.serverError = [];
-          this.$emit('onFinish', e);
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm(e) {
-      this.$emit('onCancelFormHandler', e);
-    },
-  },
+      serverError.value = [];
+      emit('onFinish', e);
+    })
+    .catch(err => console.error(err));
+};
+function checkIsDisabled(disable) {
+  console.log('create', disable);
+  isDisabled.value = !!disable;
+};
+function cancelForm(e) {
+  emit('onCancelFormHandler', e);
 };
 </script>
 
