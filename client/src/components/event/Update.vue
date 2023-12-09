@@ -1,68 +1,64 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import eventsService from '../../services/events';
 import { formNames } from '../../utils/constants/global';
 import EventForm from './Form.vue';
 
-export default {
-  components: { EventForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    eventId: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  data() {
-    return {
-      data: {
-        title: '',
-        startTime: '',
-        endTime: '',
-        duration: '',
-      },
-      formName: formNames.UPDATE,
-      isDisabled: false,
-      serverError: [],
-    };
+  eventId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  created() {
-    eventsService
-      .getById(this.plannerId, this.eventId)
-      .then((res) => {
-        this.data.title = res.title;
-        this.data.startTime = res.startTime;
-        this.data.endTime = res.endTime;
-        this.data.duration = res.duration;
-      });
-  },
-  methods: {
-    onSubmitHandler(title, startTime, endTime, duration) {
-      eventsService
-        .update(this.eventId, title, startTime, endTime, duration)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const data = ref({
+  title: '',
+  startTime: '',
+  endTime: '',
+  duration: '',
+});
+const formName = ref(formNames.UPDATE);
+const isDisabled = ref(false);
+const serverError = ref([]);
 
-          this.serverError = [];
-          this.$emit('onFinish');
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm() {
-      this.$emit('onCancelFormHandler');
-    },
-  },
+onMounted(() => {
+  eventsService
+    .getById(props.plannerId, props.eventId)
+    .then((res) => {
+      data.value.title = res.title;
+      data.value.startTime = res.startTime;
+      data.value.endTime = res.endTime;
+      data.value.duration = res.duration;
+    });
+});
+
+function onSubmitHandler(title, startTime, endTime, duration) {
+  eventsService
+    .update(props.eventId, title, startTime, endTime, duration)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      emit('onFinish');
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm() {
+  emit('onCancelFormHandler');
 };
 </script>
 

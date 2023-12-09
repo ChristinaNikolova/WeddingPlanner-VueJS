@@ -1,74 +1,67 @@
-<script>
+<script setup>
+import { nextTick, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import eventsService from '../../services/events';
 import { formNames } from '../../utils/constants/global';
 import EventForm from './Form.vue';
 
-export default {
-  components: { EventForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    isHidden: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
+  isHidden: {
+    type: Boolean,
+    default: false,
   },
-  data() {
-    return {
-      data: {
-        title: '',
-        startTime: '',
-        endTime: '',
-        duration: '',
-      },
-      serverError: [],
-      isDisabled: true,
-      formName: formNames.CREATE,
-    };
-  },
-  methods: {
-    onSubmitHandler(title, startTime, endTime, duration) {
-      eventsService
-        .create(this.plannerId, title, startTime, endTime, duration)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const v$ = useVuelidate();
 
-          this.data.title = '';
-          this.data.startTime = '';
-          this.data.endTime = '';
-          this.data.duration = '';
-          this.$nextTick(() => { this.v$.$reset(); });
+const data = ref({
+  title: '',
+  startTime: '',
+  endTime: '',
+  duration: '',
+});
+const serverError = ref([]);
+const isDisabled = ref(true);
+const formName = ref(formNames.CREATE);
 
-          this.serverError = [];
-          this.$emit('onFinish');
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm() {
-      this.$emit('onCancelFormHandler');
-    },
-  },
+function onSubmitHandler(title, startTime, endTime, duration) {
+  eventsService
+    .create(props.plannerId, title, startTime, endTime, duration)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      data.value.title = '';
+      data.value.startTime = '';
+      data.value.endTime = '';
+      data.value.duration = '';
+      nextTick(() => { v$.value.$reset(); });
+
+      serverError.value = [];
+      emit('onFinish');
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm() {
+  emit('onCancelFormHandler');
 };
 </script>
 
 <template>
   <EventForm
-    v-if="!isHidden"
+    v-if="!props.isHidden"
     :initial-data="data"
     :server-error="serverError"
     @on-submit-handler="onSubmitHandler"

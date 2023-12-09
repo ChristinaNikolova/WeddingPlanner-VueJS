@@ -1,73 +1,83 @@
-<script>
+<script setup>
+import { onMounted, onUpdated, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import eventsService from '../../services/events';
 import { addButtonTexts } from '../../utils/constants/global';
 import Create from './Create.vue';
 import SingleEvent from './Single.vue';
 import Update from './Update.vue';
 
-export default {
-  components: { SingleEvent, Update, Create },
-  data() {
-    return {
-      plannerId: this.$route.params.plannerId,
-      eventId: '',
-      events: [],
-      isHidden: true,
-      isEditIconHidden: false,
-      addButtonTexts,
-      isLoading: true,
-    };
-  },
-  created() {
-    this.loadEvents();
-  },
-  methods: {
-    loadEvents() {
-      eventsService
-        .all(this.plannerId)
-        .then((res) => {
-          this.events = res;
-          this.isLoading = false;
-        })
-        .catch(err => console.error(err));
-    },
-    onDeleteHandler(id) {
-      eventsService
-        .deleteById(id)
-        .then(() => {
-          this.loadEvents();
-        })
-        .catch(err => console.error(err));
-    },
-    onHeightlightHandler(id) {
-      eventsService
-        .heightlight(this.plannerId, id)
-        .then(() => {
-          this.loadEvents();
-        })
-        .catch(err => console.error(err));
-    },
-    onShowFormHandler(e, id) {
-      this.isHidden = !this.isHidden;
-      this.eventId = id || '';
-      this.isEditIconHidden = !this.isEditIconHidden;
-    },
-    onCancelFormHandler() {
-      this.isHidden = true;
-      this.eventId = '';
-      this.isEditIconHidden = false;
-    },
-    onFinish() {
-      this.onCancelFormHandler();
-      this.loadEvents();
-    },
-  },
+const route = useRoute();
+const plannerId = route.params.plannerId;
+const allEvents = ref(null);
+const eventId = ref('');
+const events = ref([]);
+const isHidden = ref(true);
+const isEditIconHidden = ref(false);
+const isLoading = ref(true);
+
+onMounted(() => {
+  loadEvents();
+});
+
+onUpdated(() => {
+  allEvents.value.scrollIntoView({ behavior: 'instant', block: 'start' });
+});
+
+function loadEvents() {
+  eventsService
+    .all(plannerId)
+    .then((res) => {
+      events.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
+};
+
+function onDeleteHandler(id) {
+  eventsService
+    .deleteById(id)
+    .then(() => {
+      loadEvents();
+    })
+    .catch(err => console.error(err));
+};
+
+function onHeightlightHandler(id) {
+  eventsService
+    .heightlight(plannerId, id)
+    .then(() => {
+      loadEvents();
+    })
+    .catch(err => console.error(err));
+};
+
+function onShowFormHandler(e, id) {
+  isHidden.value = !isHidden.value;
+  eventId.value = id || '';
+  isEditIconHidden.value = !isEditIconHidden.value;
+};
+
+function onCancelFormHandler() {
+  isHidden.value = true;
+  eventId.value = '';
+  isEditIconHidden.value = false;
+};
+
+function onFinish() {
+  onCancelFormHandler();
+  loadEvents();
 };
 </script>
 
 <template>
   <Loading v-if="isLoading" />
-  <section v-else id="events-all" class="section-planner section-background">
+  <section
+    v-else
+    id="events-all"
+    ref="allEvents"
+    class="section-planner section-background"
+  >
     <div class="section-title-wrapper">
       <h2 class="section-title">
         The big day
