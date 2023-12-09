@@ -72,7 +72,7 @@ async function onSubmitHandler() {
         serverError.value = res.message;
         return;
       }
-      store.userLogin(data);
+      store.userLogin(res);
       router.push({ path: '/' });
     })
     .catch(err => console.error(err));

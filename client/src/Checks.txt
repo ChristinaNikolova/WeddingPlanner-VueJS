@@ -7,7 +7,5 @@
 [] todo scroll to form
 [] todo check form names
 [] check hancelFormHandler for the budget
-[] check for todo in code
-[] check all budget components again
-[] todo ref or const!!!!
 [] rodo check ref everywhere
+[] todo check data vs res
