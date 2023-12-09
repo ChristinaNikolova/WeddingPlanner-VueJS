@@ -29,7 +29,7 @@ WeddingPlanner can be used to plan and organize your wedding day.
     - see list of the notes.
     - add, update and delete notes.
       
-#### :white_check_mark: Admin futures: 
+#### Admin futures: 
 
     - all user's futures.
     - admin's dashboard:  
