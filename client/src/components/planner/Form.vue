@@ -1,105 +1,89 @@
-<script>
+<script setup>
+import { computed, reactive, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, minValue, required } from '@vuelidate/validators';
-import { global, planner as plannerErrors } from '../../utils/constants/error';
-import { planner as plannerModels } from '../../utils/constants/model';
+import { planner as errors, global } from '../../utils/constants/error';
+import { planner as models } from '../../utils/constants/model';
 import planner from '../../utils/validators/planner';
 
-export default {
-  props: {
-    initialData: {
-      description: '',
-      date: '',
-      budget: null,
-      location: '',
-      bride: '',
-      groom: '',
-    },
-    serverError: {
-      type: Array,
-    },
-    formName: {
-      type: String,
-      default: 'Create',
-    },
+const props = defineProps({
+  initialData: {
+    description: '',
+    date: '',
+    budget: null,
+    location: '',
+    bride: '',
+    groom: '',
   },
-  emits: ['onSubmitHandler'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
+  serverError: {
+    type: Array,
   },
-  data() {
-    return {
-      data: this.initialData,
-      isDisabled: true,
-      errors: plannerErrors,
-      models: plannerModels,
-      global,
-    };
+  formName: {
+    type: String,
+    default: 'Create',
   },
-  watch: {
-    data: {
-      handler() {
-        this.isDisabled = this.v$.data.description.$invalid
-          || this.v$.data.date.$invalid
-          || this.v$.data.budget.$invalid
-          || this.v$.data.location.$invalid
-          || this.v$.data.bride.$invalid
-          || this.v$.data.groom.$invalid;
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError.length;
-      return this.isDisabled;
-    },
-  },
-  validations() {
-    return {
-      data: {
-        description: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(global.DESC(this.models.DESCRIPTION_MIN_LEN, this.models.DESCRIPTION_MAX_LEN), minLength(this.models.DESCRIPTION_MIN_LEN)),
-          maxLength: helpers.withMessage(global.DESC(this.models.DESCRIPTION_MIN_LEN, this.models.DESCRIPTION_MAX_LEN), maxLength(this.models.DESCRIPTION_MAX_LEN)),
-        },
-        date: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          validDate: helpers.withMessage(this.errors.DATE, planner.validDate),
-        },
-        budget: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minValue: helpers.withMessage(this.errors.BUDGET, minValue(this.models.BUDGET_MIN)),
-        },
-        location: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(this.errors.LOCATION(this.models.LOCATION_MIN_LEN, this.models.LOCATION_MAX_LEN), minLength(this.models.LOCATION_MIN_LEN)),
-          maxLength: helpers.withMessage(this.errors.LOCATION(this.models.LOCATION_MIN_LEN, this.models.LOCATION_MAX_LEN), maxLength(this.models.LOCATION_MAX_LEN)),
-        },
-        bride: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          hasTwoNames: helpers.withMessage(this.errors.NAME, planner.hasTwoNames),
-        },
-        groom: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          hasTwoNames: helpers.withMessage(this.errors.NAME, planner.hasTwoNames),
-        },
-      },
-    };
-  },
-  methods: {
-    onCancelFormHandler() {
-      this.$router.push({ path: '/plan' });
-    },
-    async onSubmitFormHandler() {
-      const isValid = await this.v$.$validate();
-      if (!isValid) {
-        return;
-      }
+});
+const emit = defineEmits(['onSubmitHandler']);
+const router = useRouter();
+const data = reactive(props.initialData);
+const isDisabled = ref(true);
 
-      this.$emit('onSubmitHandler', this.data.description, this.data.date, this.data.budget, this.data.location, this.data.bride, this.data.groom);
-    },
+const rules = computed(() => ({
+  description: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(global.DESC(models.DESCRIPTION_MIN_LEN, models.DESCRIPTION_MAX_LEN), minLength(models.DESCRIPTION_MIN_LEN)),
+    maxLength: helpers.withMessage(global.DESC(models.DESCRIPTION_MIN_LEN, models.DESCRIPTION_MAX_LEN), maxLength(models.DESCRIPTION_MAX_LEN)),
   },
+  date: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    validDate: helpers.withMessage(errors.DATE, planner.validDate),
+  },
+  budget: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minValue: helpers.withMessage(errors.BUDGET, minValue(models.BUDGET_MIN)),
+  },
+  location: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(errors.LOCATION(models.LOCATION_MIN_LEN, models.LOCATION_MAX_LEN), minLength(models.LOCATION_MIN_LEN)),
+    maxLength: helpers.withMessage(errors.LOCATION(models.LOCATION_MIN_LEN, models.LOCATION_MAX_LEN), maxLength(models.LOCATION_MAX_LEN)),
+  },
+  bride: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    hasTwoNames: helpers.withMessage(errors.NAME, planner.hasTwoNames),
+  },
+  groom: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    hasTwoNames: helpers.withMessage(errors.NAME, planner.hasTwoNames),
+  },
+}));
+
+const v$ = useVuelidate(rules, data);
+
+watch(data, () => {
+  isDisabled.value = v$.value.description.$invalid
+  || v$.value.date.$invalid
+  || v$.value.budget.$invalid
+  || v$.value.location.$invalid
+  || v$.value.bride.$invalid
+  || v$.value.groom.$invalid;
+}, { deep: true });
+
+watch(props.serverError, () => {
+  isDisabled.value = props.serverError.length;
+});
+
+function onCancelFormHandler() {
+  router.push({ path: '/plan' });
+};
+
+async function onSubmitFormHandler() {
+  const isValid = await v$.value.$validate();
+  if (!isValid) {
+    return;
+  }
+
+  emit('onSubmitHandler', data.description, data.date, data.budget, data.location, data.bride, data.groom);
 };
 </script>
 
@@ -114,43 +98,43 @@ export default {
     <div class="form-wrapper-center">
       <form class="form-width" @submit.prevent="onSubmitFormHandler">
         <AppTextArea
-          v-model.trim="v$.data.description.$model"
-          :errors="v$?.data.description.$errors"
+          v-model.trim="v$.description.$model"
+          :errors="v$?.description.$errors"
           name="description"
           rows="8"
           label="Description"
         />
         <AppInput
-          v-model.trim="v$.data.date.$model"
-          :errors="v$?.data.date.$errors"
+          v-model.trim="v$.date.$model"
+          :errors="v$?.date.$errors"
           name="date"
           type="text"
           label="Date"
         />
         <AppInput
-          v-model.trim="v$.data.budget.$model"
-          :errors="v$?.data.budget.$errors"
+          v-model.trim="v$.budget.$model"
+          :errors="v$?.budget.$errors"
           name="budget"
           type="number"
           label="Budget"
         />
         <AppInput
-          v-model.trim="v$.data.location.$model"
-          :errors="v$?.data.location.$errors"
+          v-model.trim="v$.location.$model"
+          :errors="v$?.location.$errors"
           name="location"
           type="text"
           label="Location"
         />
         <AppInput
-          v-model.trim="v$.data.bride.$model"
-          :errors="v$?.data.bride.$errors"
+          v-model.trim="v$.bride.$model"
+          :errors="v$?.bride.$errors"
           name="bride"
           type="text"
           label="Bride"
         />
         <AppInput
-          v-model.trim="v$.data.groom.$model"
-          :errors="v$?.data.groom.$errors"
+          v-model.trim="v$.groom.$model"
+          :errors="v$?.groom.$errors"
           name="groom"
           type="text"
           label="Groom"

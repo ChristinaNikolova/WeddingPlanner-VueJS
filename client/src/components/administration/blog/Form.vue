@@ -1,154 +1,137 @@
-<script>
+<script setup>
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
-import { article as articleModels } from '../../../utils/constants/model';
-import { article as articleErrors, global } from '../../../utils/constants/error';
+import { article as models } from '../../../utils/constants/model';
+import { article as errors, global } from '../../../utils/constants/error';
 import { formNames } from '../../../utils/constants/global';
 import categoriesService from '../../../services/categories';
 
-export default {
-  props: {
-    initialData: {
-      type: Object,
-      default: () => ({
-        title: '',
-        content: '',
-        image: '',
-        jumboImage: '',
-        category: '',
-      }),
-    },
-    serverError: {
-      type: Array,
-    },
-    formName: {
-      type: String,
-      default: formNames.CREATE,
-    },
-    initialDisabled: {
-      type: Boolean,
-      default: true,
-    },
+const props = defineProps({
+  initialData: {
+    type: Object,
+    default: () => ({
+      title: '',
+      content: '',
+      image: '',
+      jumboImage: '',
+      category: '',
+    }),
   },
-  emits: ['onSubmitHandler', 'checkIsDisabled'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
+  serverError: {
+    type: Array,
   },
-  data() {
-    return {
-      data: this.initialData,
-      isDisabled: this.initialDisabled,
-      categories: [],
-      models: articleModels,
-      errors: articleErrors,
-      global,
-    };
+  formName: {
+    type: String,
+    default: formNames.CREATE,
   },
-  watch: {
-    data: {
-      handler() {
-        this.isDisabled = this.v$.data.title.$invalid
-          || this.v$.data.content.$invalid
-          || this.v$.data.image.$invalid
-          || this.v$.data.jumboImage.$invalid
-          || this.v$.data.category.$invalid;
-        this.$emit('checkIsDisabled', this.isDisabled);
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError.length;
-      this.$emit('checkIsDisabled', this.isDisabled);
-      return this.isDisabled;
-    },
+  initialDisabled: {
+    type: Boolean,
+    default: true,
   },
-   created() {
-     categoriesService
-      .all()
-      .then(data => this.categories = data)
-      .catch(err => console.error(err));
-  },
-  validations() {
-    return {
-      data: {
-        title: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(global.TITLE(this.models.TITLE_MIN_LEN, this.models.TITLE_MAX_LEN), minLength(this.models.TITLE_MIN_LEN)),
-          maxLength: helpers.withMessage(global.TITLE(this.models.TITLE_MIN_LEN, this.models.TITLE_MAX_LEN), maxLength(this.models.TITLE_MAX_LEN)),
-        },
-        content: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(this.errors.CONTENT(this.models.CONTENT_MIN_LEN, this.models.CONTENT_MAX_LEN), minLength(this.models.CONTENT_MIN_LEN)),
-          maxLength: helpers.withMessage(this.errors.CONTENT(this.models.CONTENT_MIN_LEN, this.models.CONTENT_MAX_LEN), maxLength(this.models.CONTENT_MAX_LEN)),
-        },
-        image: {
-          required: helpers.withMessage(global.REQUIRED, required),
-        },
-        jumboImage: {
-          required: helpers.withMessage(global.REQUIRED, required),
-        },
-        category: {
-          required: helpers.withMessage(this.errors.CATEGORY, required),
-        },
-      },
-    };
-  },
-  methods: {
-    async onSubmitFormHandler() {
-      const isValid = await this.v$.$validate();
-      if (!isValid) {
-        return;
-      }
+});
+const emit = defineEmits(['onSubmitHandler', 'checkIsDisabled']);
+const data = reactive(props.initialData);
+const isDisabled = ref(props.initialDisabled);
+const categories = ref([]);
 
-      this.$emit('onSubmitHandler', this.data.title, this.data.content, this.data.image, this.data.jumboImage, this.data.category);
-    },
+const rules = computed(() => ({
+  title: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(global.TITLE(models.TITLE_MIN_LEN, models.TITLE_MAX_LEN), minLength(models.TITLE_MIN_LEN)),
+    maxLength: helpers.withMessage(global.TITLE(models.TITLE_MIN_LEN, models.TITLE_MAX_LEN), maxLength(models.TITLE_MAX_LEN)),
   },
+  content: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(errors.CONTENT(models.CONTENT_MIN_LEN, models.CONTENT_MAX_LEN), minLength(models.CONTENT_MIN_LEN)),
+    maxLength: helpers.withMessage(errors.CONTENT(models.CONTENT_MIN_LEN, models.CONTENT_MAX_LEN), maxLength(models.CONTENT_MAX_LEN)),
+  },
+  image: {
+    required: helpers.withMessage(global.REQUIRED, required),
+  },
+  jumboImage: {
+    required: helpers.withMessage(global.REQUIRED, required),
+  },
+  category: {
+    required: helpers.withMessage(errors.CATEGORY, required),
+  },
+}));
+
+const v$ = useVuelidate(rules, data);
+
+watch(data, () => {
+  isDisabled.value = v$.value.title.$invalid
+  || v$.value.content.$invalid
+  || v$.value.image.$invalid
+  || v$.value.jumboImage.$invalid
+  || v$.value.category.$invalid;
+  emit('checkIsDisabled', isDisabled.value);
+}, { deep: true });
+
+watch(props.serverError, () => {
+  isDisabled.value = props.serverError.length;
+  emit('checkIsDisabled', isDisabled.value);
+});
+
+onMounted(() => {
+  categoriesService
+    .all()
+    .then(res => categories.value = res)
+    .catch(err => console.error(err));
+});
+
+async function onSubmitFormHandler() {
+  const isValid = await v$.value.$validate();
+
+  if (!isValid) {
+    return;
+  }
+
+  emit('onSubmitHandler', data.title, data.content, data.image, data.jumboImage, data.category);
 };
 </script>
 
 <template>
   <section class="section-background">
-    <ServerError v-if="serverError.length" :errors="serverError" />
+    <ServerError v-if="props.serverError.length" :errors="props.serverError" />
     <div class="section-title-wrapper">
       <h2 class="section-title">
-        {{ formName }} Article
+        {{ props.formName }} Article
       </h2>
     </div>
     <div class="form-wrapper-center">
       <form class="form-width" @submit.prevent="onSubmitFormHandler">
         <AppInput
-          v-model.trim="v$.data.title.$model"
-          :errors="v$?.data.title.$errors"
+          v-model.trim="v$.title.$model"
+          :errors="v$?.title.$errors"
           name="title"
           type="text"
           label="Title"
         />
         <AppTextArea
-          v-model.trim="v$.data.content.$model"
-          :errors="v$?.data.content.$errors"
+          v-model.trim="v$.content.$model"
+          :errors="v$?.content.$errors"
           name="content"
           rows="16"
           label="Content"
         />
         <AppInput
-          v-model.trim="v$.data.image.$model"
-          :errors="v$?.data.image.$errors"
+          v-model.trim="v$.image.$model"
+          :errors="v$?.image.$errors"
           name="image"
           type="url"
           label="Image"
         />
         <AppInput
-          v-model.trim="v$.data.jumboImage.$model"
-          :errors="v$?.data.jumboImage.$errors"
+          v-model.trim="v$.jumboImage.$model"
+          :errors="v$?.jumboImage.$errors"
           name="jumboImage"
           type="url"
           label="Jumbo Image"
         />
         <AppSelect
-          v-model.trim="v$.data.category.$model"
-          :errors="v$?.data.category.$errors"
+          v-model.trim="v$.category.$model"
+          :errors="v$?.category.$errors"
           name="category"
           label="Category"
           :categories="categories"
