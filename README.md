@@ -85,7 +85,7 @@ MongoDB needs to be installed.
  #### To start the client: 
  
     - npm install
-    - npm run start
+    - npm run dev
 
 ## :star2: Inspirations
 
