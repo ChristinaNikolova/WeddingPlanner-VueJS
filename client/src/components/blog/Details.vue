@@ -1,69 +1,63 @@
-<script>
-import { mapState } from 'pinia';
+<script setup>
+import { onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import articlesService from '../../services/articles';
 import form from '../../utils/helpers/form';
 import LastThreeArticles from '../shared/Blog/LastThreeArticles.vue';
 import { useAuthStore } from '../../store/auth';
 
-export default {
-  components: { LastThreeArticles },
-  data() {
-    return {
-      id: this.$route.params.id,
-      article: {},
-      likeCounts: 0,
-      isLiked: false,
-      isLoading: true,
-    };
-  },
-  computed: {
-    ...mapState(useAuthStore, ['userId', 'isAdmin']),
-  },
-  watch: {
-    $route(newValue, oldValue) {
-      if (oldValue.params.id !== newValue.params.id) {
-        this.id = newValue.params.id;
-        this.loadArticle();
-      }
-    },
-  },
-  created() {
-    this.loadArticle();
-  },
-  methods: {
-    onDeleteHandler() {
-      articlesService
-        .deleteById(this.id)
-        .then(() => {
-          this.$router.push('/blog?page=1&category=all&categoryId=default');
-        })
-        .catch(err => console.error(err));
-    },
-    like() {
-      articlesService
-        .like(this.id)
-        .then((res) => {
-          this.isLiked = this.setIsLikedHelper(res.likes);
-          this.likeCounts = res.likes.length;
-        })
-        .catch(err => console.error(err));
-    },
-    setIsLikedHelper(likes) {
-      return likes.includes(this.userId);
-    },
-    loadArticle() {
-      articlesService
-        .getById(this.id)
-        .then((res) => {
-          this.article = res;
-          this.likeCounts = res.likes.length;
-          this.isLiked = this.setIsLikedHelper(res.likes);
-          this.isLoading = false;
-          form.scrollToTop();
-        })
-        .catch(err => console.error(err));
-    },
-  },
+const store = useAuthStore();
+const route = useRoute();
+const router = useRouter();
+let id = route.params.id;
+const article = ref({});
+const likeCounts = ref(0);
+const isLiked = ref(false);
+const isLoading = ref(true);
+
+onMounted(() => {
+  loadArticle();
+});
+
+watch(route, (newValue) => {
+  id = newValue.params.id;
+  loadArticle();
+});
+
+function onDeleteHandler() {
+  articlesService
+    .deleteById(id)
+    .then(() => {
+      router.push('/blog?page=1&category=all&categoryId=default');
+    })
+    .catch(err => console.error(err));
+};
+
+function setIsLikedHelper(likes) {
+  return likes.includes(store.userId);
+};
+
+function like() {
+  articlesService
+    .like(id)
+    .then((res) => {
+      isLiked.value = setIsLikedHelper(res.likes);
+      likeCounts.value = res.likes.length;
+    })
+    .catch(err => console.error(err));
+};
+
+function loadArticle() {
+  articlesService
+    .getById(id)
+    .then((res) => {
+      article.value = res;
+      likeCounts.value = res.likes.length;
+      isLiked.value = setIsLikedHelper(res.likes);
+      isLoading.value = false;
+      form.scrollToTop();
+    })
+    .catch(err => console.error(err));
 };
 </script>
 
@@ -97,7 +91,7 @@ export default {
             <i v-if="isLiked" class="fa-solid fa-heart" @click="like" />
             <i v-else class="fa-regular fa-heart" @click="like" />
           </li>
-          <li v-if="isAdmin" class="article-details-li">
+          <li v-if="store.isAdmin" class="article-details-li">
             <router-link :to="`/administration/articles/edit/${id}`">
               <i class="fa-solid fa-pen" />
             </router-link>

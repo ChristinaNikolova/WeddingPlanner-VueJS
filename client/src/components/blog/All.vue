@@ -1,4 +1,6 @@
-<script>
+<script setup>
+import { onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { jumbo } from '../../utils/constants/image';
 import { directions } from '../../utils/constants/global';
 import articlesService from '../../services/articles';
@@ -8,92 +10,103 @@ import CategoryDropDown from './CategoryDropDown.vue';
 import List from './List.vue';
 import Search from './Search.vue';
 
-export default {
-  components: { CategoryDropDown, List, Pagination, Search },
-  data() {
-    return {
-      directions,
-      pathToImage: jumbo.BLOG,
-      articles: [],
-      currentPage: this.$route?.query?.page ? Number(this.$route.query.page) : 1,
-      selectedCategory: {
-        id: this.$route?.query?.categoryId ? this.$route.query.categoryId : 'default',
-        name: this.$route?.query?.category ? this.$route.query.category : 'all',
-      },
-      pagesCount: 1,
-      isSearchIconClicked: false,
-      query: '',
-      isSearched: false,
-      isLoading: true,
-    };
-  },
-  watch: {
-    selectedCategory(newValue, oldValue) {
-      if (newValue.id !== oldValue.id) {
-        this.currentPage = 1;
-        this.loadArticles();
-        this.getNewQuery();
-      }
-    },
-    currentPage(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        this.loadArticles();
-        this.getNewQuery();
-      }
-    },
-    query() {
-      this.currentPage = 1;
-      this.loadArticles();
-      this.getNewQuery();
-    },
-  },
-  created() {
-    this.loadArticles();
-    form.scrollToTop();
-  },
-  methods: {
-    onPaginationHandler(direction) {
-      const value = direction === this.directions.PREV ? -1 : 1;
-      this.currentPage = this.currentPage + value;
-      form.scrollToTop();
-    },
-    onSearchForm() {
-      this.isSearchIconClicked = !this.isSearchIconClicked;
-      this.isSearched = false;
-      this.query = '';
-    },
-    onSearch(e, searchedQuery) {
-      this.isSearched = true;
-      this.query = searchedQuery;
-    },
-    onCategoryHandler(e) {
-      this.selectedCategory = {
-        id: e.target.id,
-        name: e.target.textContent,
-      };
-    },
-    onRemoveCategoryHandler() {
-      this.selectedCategory = {
-        id: 'default',
-        name: 'all',
-      };
-    },
-    getNewQuery() {
-      this.$router.push(`/blog?page=${this.currentPage}&category=${this.selectedCategory.name}&categoryId=${this.selectedCategory.id}`);
-    },
-    loadArticles() {
-      articlesService
-        .all(this.currentPage, this.selectedCategory.id, this.query)
-        .then((data) => {
-          this.articles = data.articles;
-          this.currentPage = Number(data.currentPage);
-          this.pagesCount = data.pagesCount;
-          this.isSearched = false;
-          this.isLoading = false;
-        })
-        .catch(err => console.error(err));
-    },
-  },
+const route = useRoute();
+const router = useRouter();
+const pathToImage = jumbo.BLOG;
+const articles = ref([]);
+const currentPage = ref(route?.query?.page ? Number(route.query.page) : 1);
+const selectedCategory = ref({
+  id: route?.query?.categoryId ? route.query.categoryId : 'default',
+  name: route?.query?.category ? route.query.category : 'all',
+});
+const pagesCount = ref(1);
+const isSearchIconClicked = ref(false);
+const query = ref('');
+const isSearched = ref(false);
+const isLoading = ref(true);
+
+onMounted(() => {
+  loadArticles();
+  form.scrollToTop();
+});
+
+watch(selectedCategory, (newValue, oldValue) => {
+  if (newValue.id !== oldValue.id) {
+    currentPage.value = 1;
+    loadArticles();
+    getNewQuery();
+  }
+});
+
+watch(currentPage, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    loadArticles();
+    getNewQuery();
+  }
+});
+
+watch(query, () => {
+  currentPage.value = 1;
+  loadArticles();
+  getNewQuery();
+});
+
+watch(route, (newValue) => {
+  if (newValue.fullPath === '/blog?page=1&category=all') {
+    currentPage.value = 1;
+    onSearchForm();
+    onRemoveCategoryHandler();
+    getNewQuery();
+    loadArticles();
+  }
+});
+
+function onPaginationHandler(direction) {
+  const value = direction === directions.PREV ? -1 : 1;
+  currentPage.value = currentPage.value + value;
+  form.scrollToTop();
+};
+
+function onSearchForm() {
+  isSearchIconClicked.value = !isSearchIconClicked.value;
+  isSearched.value = false;
+  query.value = '';
+};
+
+function onSearch(e, searchedQuery) {
+  isSearched.value = true;
+  query.value = searchedQuery;
+};
+
+function onCategoryHandler(e) {
+  selectedCategory.value = {
+    id: e.target.id,
+    name: e.target.textContent,
+  };
+};
+
+function onRemoveCategoryHandler() {
+  selectedCategory.value = {
+    id: 'default',
+    name: 'all',
+  };
+};
+
+function getNewQuery() {
+  router.push(`/blog?page=${currentPage.value}&category=${selectedCategory.value.name}&categoryId=${selectedCategory.value.id}`);
+};
+
+function loadArticles() {
+  articlesService
+    .all(currentPage.value, selectedCategory.value.id, query.value)
+    .then((data) => {
+      articles.value = data.articles;
+      currentPage.value = Number(data.currentPage);
+      pagesCount.value = data.pagesCount;
+      isSearched.value = false;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
 };
 </script>
 

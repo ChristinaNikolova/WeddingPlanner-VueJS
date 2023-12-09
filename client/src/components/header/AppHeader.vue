@@ -48,7 +48,7 @@ export default {
           </router-link>
         </li>
         <li class="header-nav-li secondary">
-          <router-link to="/blog">
+          <router-link to="/blog?page=1&category=all">
             Wedding's blog
           </router-link>
         </li>
