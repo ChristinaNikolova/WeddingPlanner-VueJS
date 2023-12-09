@@ -1,51 +1,48 @@
-<script>
-export default {
-  props: {
-    modelValue: {
-      type: String,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    label: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    rows: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
+<script setup>
+const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
   },
-  emits: ['update:modelValue'],
-  methods: {
-    onInput($event) {
-      const { value } = $event.target;
-      this.$emit('update:modelValue', value);
-    },
+  name: {
+    type: String,
+    required: true,
+    default: '',
   },
+  label: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  rows: {
+    type: String,
+    required: true,
+    default: '',
+  },
+  errors: {
+    type: Array,
+    default: () => [],
+  },
+});
+const emit = defineEmits(['update:modelValue']);
+
+function onInput($event) {
+  const { value } = $event.target;
+  emit('update:modelValue', value);
 };
 </script>
 
 <template>
   <div class="form-wrapper">
-    <label class="label" :for="name">{{ label }}</label>
+    <label class="label" :for="props.name">{{ props.label }}</label>
     <textarea
-      :id="name"
+      :id="props.name"
       class="input"
-      :name="name"
-      :rows="rows"
-      :value="modelValue"
+      :name="props.name"
+      :rows="props.rows"
+      :value="props.modelValue"
       @input="onInput"
     />
-    <ClientError v-for="error of errors" :key="error.$uid" :error="error.$message" />
+    <ClientError v-for="error of props.errors" :key="error.$uid" :error="error.$message" />
   </div>
 </template>
