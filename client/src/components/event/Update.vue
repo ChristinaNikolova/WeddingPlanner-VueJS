@@ -17,13 +17,13 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const formName = formNames.UPDATE;
 const data = ref({
   title: '',
   startTime: '',
   endTime: '',
   duration: '',
 });
-const formName = ref(formNames.UPDATE);
 const isDisabled = ref(false);
 const serverError = ref([]);
 

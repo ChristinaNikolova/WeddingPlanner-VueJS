@@ -19,12 +19,12 @@ const props = defineProps({
 });
 const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
 const v$ = useVuelidate();
+const formName = formNames.CREATE;
 const data = ref({
   title: '',
   price: '',
 });
 const serverError = ref([]);
-const formName = ref(formNames.CREATE);
 const isDisabled = ref(true);
 
 function onSubmitHandler(e, title, price) {

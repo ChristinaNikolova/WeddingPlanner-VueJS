@@ -17,6 +17,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const formName = formNames.UPDATE;
 const data = ref({
   firstName: '',
   lastName: '',
@@ -29,7 +30,6 @@ const data = ref({
   confirmed: 'no',
 });
 const serverError = ref([]);
-const formName = ref(formNames.UPDATE);
 const isDisabled = ref(false);
 
 onMounted(() => {

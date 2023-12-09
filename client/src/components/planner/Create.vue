@@ -6,6 +6,7 @@ import { formNames } from '../../utils/constants/global';
 import PlannerForm from './Form.vue';
 
 const router = useRouter();
+const formName = formNames.CREATE;
 const data = ref({
   description: '',
   date: '',
@@ -15,7 +16,6 @@ const data = ref({
   groom: '',
 });
 const serverError = ref([]);
-const formName = ref(formNames.CREATE);
 
 function onSubmitHandler(description, date, budget, location, bride, groom) {
   plannersService

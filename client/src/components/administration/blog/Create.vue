@@ -6,6 +6,7 @@ import { formNames } from '../../../utils/constants/global';
 import ArticleForm from './Form.vue';
 
 const router = useRouter();
+const formName = formNames.CREATE;
 const data = ref({
   title: '',
   content: '',
@@ -15,7 +16,6 @@ const data = ref({
 });
 const serverError = ref([]);
 const isDisabled = ref(true);
-const formName = ref(formNames.CREATE);
 
 function onSubmitHandler(title, content, image, jumboImage, category) {
   articlesService

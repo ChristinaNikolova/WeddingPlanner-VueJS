@@ -7,6 +7,7 @@ import ArticleForm from './Form.vue';
 
 const route = useRoute();
 const router = useRouter();
+const formName = formNames.UPDATE;
 const data = ref({
   title: '',
   content: '',
@@ -16,7 +17,6 @@ const data = ref({
 });
 const id = route.params.id;
 const serverError = ref([]);
-const formName = ref(formNames.UPDATE);
 const isDisabled = ref(false);
 
 onMounted(() => {

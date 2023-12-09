@@ -6,13 +6,13 @@ import { formNames } from '../../../utils/constants/global';
 import CategoryForm from './Form.vue';
 
 const router = useRouter();
+const formName = formNames.CREATE;
 const data = ref({
   name: '',
   image: '',
 });
 const serverError = ref([]);
 const isDisabled = ref(true);
-const formName = ref(formNames.CREATE);
 
 function onSubmitHandler(name, image) {
   categoriesService

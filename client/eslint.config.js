@@ -21,5 +21,6 @@ export default antfu({
     'curly': 'off',
     'no-console': 'off',
     'style/semi': ['error', 'always'],
+    'no-case-declarations': 'off',
   },
 });

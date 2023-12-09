@@ -7,12 +7,12 @@ import CategoryForm from './Form.vue';
 
 const route = useRoute();
 const router = useRouter();
+const id = route.params.id;
+const formName = formNames.UPDATE;
 const data = ref({
   name: '',
   image: '',
 });
-const id = route.params.id;
-const formName = ref(formNames.UPDATE);
 const serverError = ref([]);
 const isDisabled = ref(false);
 

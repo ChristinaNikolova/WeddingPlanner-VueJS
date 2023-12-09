@@ -18,6 +18,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
 const v$ = useVuelidate();
+const formName = formNames.CREATE;
 const data = ref({
   firstName: '',
   lastName: '',
@@ -31,7 +32,6 @@ const data = ref({
 });
 const serverError = ref([]);
 const isDisabled = ref(true);
-const formName = ref(formNames.CREATE);
 
 function onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
   guestsService
