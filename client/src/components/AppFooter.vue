@@ -1,12 +1,7 @@
-<script>
-import { mapState } from 'pinia';
+<script setup>
 import { useAuthStore } from '../store/auth';
 
-export default {
-  computed: {
-    ...mapState(useAuthStore, ['isAuthenticated']),
-  },
-};
+const store = useAuthStore();
 </script>
 
 <template>
@@ -30,7 +25,7 @@ export default {
             Wedding's blog
           </router-link>
         </li>
-        <template v-if="isAuthenticated">
+        <template v-if="store.isAuthenticated">
           <li class="footer-nav-li">
             <router-link to="/user/favourite-article">
               Favourite

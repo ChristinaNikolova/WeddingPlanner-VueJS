@@ -1,40 +1,37 @@
-<script>
-import { mapState } from 'pinia';
+<script setup>
+import { onMounted, onUnmounted } from 'vue';
 import { useAuthStore } from '../../store/auth';
 import { styleNames } from '../../utils/constants/global';
 import HamburgerHeader from './HamburgerHeader.vue';
 
-export default {
-  components: { HamburgerHeader },
-  computed: {
-    ...mapState(useAuthStore, ['isAuthenticated', 'isAdmin']),
-  },
-  mounted() {
-    window.addEventListener('resize', this.setInitialCssStyles);
-  },
-  unmounted() {
-    window.removeEventListener('resize', this.setInitialCssStyles);
-  },
-  methods: {
-    showMenu() {
-      const ulHamburgerElement = document.getElementsByClassName('header-nav-ul-hamburger')[0];
-      const ulElement = document.getElementsByTagName('ul')[0];
-      if (ulHamburgerElement.style.display === styleNames.NONE) {
-        ulHamburgerElement.style.display = styleNames.BLOCK;
-        ulElement.style.height = 'unset';
-        ulElement.style.marginBottom = '12px';
-        document.getElementsByTagName('header')[0].style.height = 'unset';
-      }
-      else {
-        this.setInitialCssStyles();
-      }
-    },
-    setInitialCssStyles() {
-      document.getElementsByClassName('header-nav-ul-hamburger')[0].style.display = styleNames.NONE;
-      document.getElementsByTagName('ul')[0].style.height = '16vh';
-      document.getElementsByTagName('header')[0].style.height = '16vh';
-    },
-  },
+const store = useAuthStore();
+
+onMounted(() => {
+  window.addEventListener('resize', setInitialCssStyles);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', setInitialCssStyles);
+});
+
+function showMenu() {
+  const ulHamburgerElement = document.getElementsByClassName('header-nav-ul-hamburger')[0];
+  const ulElement = document.getElementsByTagName('ul')[0];
+  if (ulHamburgerElement.style.display === styleNames.NONE) {
+    ulHamburgerElement.style.display = styleNames.BLOCK;
+    ulElement.style.height = 'unset';
+    ulElement.style.marginBottom = '12px';
+    document.getElementsByTagName('header')[0].style.height = 'unset';
+  }
+  else {
+    setInitialCssStyles();
+  }
+};
+
+function setInitialCssStyles() {
+  document.getElementsByClassName('header-nav-ul-hamburger')[0].style.display = styleNames.NONE;
+  document.getElementsByTagName('ul')[0].style.height = '16vh';
+  document.getElementsByTagName('header')[0].style.height = '16vh';
 };
 </script>
 
@@ -57,13 +54,13 @@ export default {
             Wedding Planner
           </router-link>
         </li>
-        <template v-if="isAuthenticated">
+        <template v-if="store.isAuthenticated">
           <li class="header-nav-li secondary">
             <router-link to="/user/favourite-article">
               Favourite
             </router-link>
           </li>
-          <li v-if="isAdmin" class="header-nav-li secondary">
+          <li v-if="store.isAdmin" class="header-nav-li secondary">
             <router-link to="/administration">
               Administration
             </router-link>
