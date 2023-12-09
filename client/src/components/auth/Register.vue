@@ -1,99 +1,81 @@
-<script>
+<script setup>
+import { computed, reactive, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { email, helpers, maxLength, minLength, required, sameAs } from '@vuelidate/validators';
-import { mapActions } from 'pinia';
 import authService from '../../services/auth';
-import { auth as authErrors, global } from '../../utils/constants/error';
-import { auth as authModels } from '../../utils/constants/model';
+import { auth as errors, global } from '../../utils/constants/error';
+import { auth as models } from '../../utils/constants/model';
 import { useAuthStore } from '../../store/auth';
 
-export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      data: {
-        email: '',
-        firstName: '',
-        lastName: '',
-        password: '',
-        repass: '',
-      },
-      isDisabled: true,
-      serverError: [],
-      errors: authErrors,
-      models: authModels,
-      globalErrors: global,
-    };
-  },
-  watch: {
-    data: {
-      handler() {
-        this.isDisabled = this.v$.data.firstName.$invalid
-          || this.v$.data.lastName.$invalid
-          || this.v$.data.email.$invalid
-          || this.v$.data.password.$invalid
-          || this.v$.data.repass.$invalid;
+const store = useAuthStore();
+const router = useRouter();
+const data = reactive({
+  email: '',
+  firstName: '',
+  lastName: '',
+  password: '',
+  repass: '',
+});
+const isDisabled = ref(true);
+const serverError = ref([]);
 
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError.length;
-      return this.isDisabled;
-    },
+const rules = computed(() => ({
+  firstName: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), minLength(models.NAME_MIN_LEN)),
+    maxLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), maxLength(models.NAME_MAX_LEN)),
   },
-  validations() {
-    return {
-      data: {
-        firstName: {
-          required: helpers.withMessage(this.globalErrors.REQUIRED, required),
-          minLength: helpers.withMessage(this.globalErrors.NAME(this.models.NAME_MIN_LEN, this.models.NAME_MAX_LEN), minLength(this.models.NAME_MIN_LEN)),
-          maxLength: helpers.withMessage(this.globalErrors.NAME(this.models.NAME_MIN_LEN, this.models.NAME_MAX_LEN), maxLength(this.models.NAME_MAX_LEN)),
-        },
-        lastName: {
-          required: helpers.withMessage(this.globalErrors.REQUIRED, required),
-          minLength: helpers.withMessage(this.globalErrors.NAME(this.models.NAME_MIN_LEN, this.models.NAME_MAX_LEN), minLength(this.models.NAME_MIN_LEN)),
-          maxLength: helpers.withMessage(this.globalErrors.NAME(this.models.NAME_MIN_LEN, this.models.NAME_MAX_LEN), maxLength(this.models.NAME_MAX_LEN)),
-        },
-        email: {
-          required: helpers.withMessage(this.globalErrors.REQUIRED, required),
-          email: helpers.withMessage(this.errors.EMAIL, email),
-        },
-        password: {
-          required: helpers.withMessage(this.globalErrors.REQUIRED, required),
-          minLength: helpers.withMessage(this.errors.PASSWORD(this.models.PASSWORD_MIN_LEN, this.models.PASSWORD_MAX_LEN), minLength(this.models.PASSWORD_MIN_LEN)),
-          maxLength: helpers.withMessage(this.errors.PASSWORD(this.models.PASSWORD_MIN_LEN, this.models.PASSWORD_MAX_LEN), maxLength(this.models.PASSWORD_MAX_LEN)),
-        },
-        repass: {
-          sameAs: helpers.withMessage(this.errors.REPEAT_PASSWORD, sameAs(this.data.password)),
-        },
-      },
-    };
+  lastName: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), minLength(models.NAME_MIN_LEN)),
+    maxLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), maxLength(models.NAME_MAX_LEN)),
   },
-  methods: {
-    ...mapActions(useAuthStore, ['userLogin']),
-    async onSubmitHandler() {
-      const isValid = await this.v$.$validate();
+  email: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    email: helpers.withMessage(errors.EMAIL, email),
+  },
+  password: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(errors.PASSWORD(models.PASSWORD_MIN_LEN, models.PASSWORD_MAX_LEN), minLength(models.PASSWORD_MIN_LEN)),
+    maxLength: helpers.withMessage(errors.PASSWORD(models.PASSWORD_MIN_LEN, models.PASSWORD_MAX_LEN), maxLength(models.PASSWORD_MAX_LEN)),
+  },
+  repass: {
+    sameAs: helpers.withMessage(errors.REPEAT_PASSWORD, sameAs(data.password)),
+  },
+}));
 
-      if (!isValid) {
+const v$ = useVuelidate(rules, data);
+
+watch(data, () => {
+  isDisabled.value = v$.value.email.$invalid
+  || v$.value.firstName.$invalid
+  || v$.value.lastName.$invalid
+  || v$.value.password.$invalid
+  || v$.value.repass.$invalid;
+}, { deep: true });
+
+watch(serverError, () => {
+  isDisabled.value = serverError.value.length;
+});
+
+async function onSubmitHandler() {
+  const isValid = await v$.value.$validate();
+
+  if (!isValid) {
+    return;
+  }
+
+  authService.register(data.firstName, data.lastName, data.email, data.password)
+    .then((res) => {
+      if (!res.accessToken) {
+        serverError.value = res.message;
         return;
       }
-
-      authService.register(this.data.firstName, this.data.lastName, this.data.email, this.data.password)
-        .then((data) => {
-          if (!data.accessToken) {
-            this.serverError = data.message;
-            return;
-          }
-          this.userLogin(data);
-          this.$router.push({ path: '/' });
-        })
-        .catch(err => console.error(err));
-    },
-  },
+      store.userLogin(data);
+      router.push({ path: '/' });
+    })
+    .catch(err => console.error(err));
 };
 </script>
 
@@ -119,36 +101,36 @@ export default {
       >
       <form class="auth-form" @submit.prevent="onSubmitHandler">
         <AppInput
-          v-model.trim="v$.data.firstName.$model"
-          :errors="v$?.data.firstName.$errors"
+          v-model.trim="v$.firstName.$model"
+          :errors="v$?.firstName.$errors"
           name="firstName"
           type="text"
           label="First Name"
         />
         <AppInput
-          v-model.trim="v$.data.lastName.$model"
-          :errors="v$?.data.lastName.$errors"
+          v-model.trim="v$.lastName.$model"
+          :errors="v$?.lastName.$errors"
           name="lastName"
           type="text"
           label="Last Name"
         />
         <AppInput
-          v-model.trim="v$.data.email.$model"
-          :errors="v$?.data.email.$errors"
+          v-model.trim="v$.email.$model"
+          :errors="v$?.email.$errors"
           name="email"
           type="email"
           label="Email"
         />
         <AppInput
-          v-model.trim="v$.data.password.$model"
-          :errors="v$?.data.password.$errors"
+          v-model.trim="v$.password.$model"
+          :errors="v$?.password.$errors"
           name="password"
           type="password"
           label="Password"
         />
         <AppInput
-          v-model.trim="v$.data.repass.$model"
-          :errors="v$?.data.repass.$errors"
+          v-model.trim="v$.repass.$model"
+          :errors="v$?.repass.$errors"
           name="repass"
           type="password"
           label="Repeat Password"

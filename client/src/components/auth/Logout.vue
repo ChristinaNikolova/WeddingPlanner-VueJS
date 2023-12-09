@@ -1,21 +1,20 @@
-<script>
-import { mapActions } from 'pinia';
+<script setup>
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../store/auth';
 import authService from '../../services/auth';
 
-export default {
-  created() {
-    authService.logout()
-      .then(() => {
-        this.userLogout();
-        this.$router.push({ path: '/' });
-      })
-      .catch(err => console.error(err));
-  },
-  methods: {
-    ...mapActions(useAuthStore, ['userLogout']),
-  },
-};
+const store = useAuthStore();
+const router = useRouter();
+
+onMounted(() => {
+  authService.logout()
+    .then(() => {
+      store.userLogout();
+      router.push({ path: '/' });
+    })
+    .catch(err => console.error(err));
+});
 </script>
 
 <template>

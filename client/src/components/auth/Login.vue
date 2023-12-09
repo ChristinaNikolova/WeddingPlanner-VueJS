@@ -1,78 +1,62 @@
-<script>
-import { mapActions } from 'pinia';
+<script setup>
+import { computed, reactive, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { email, helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import authService from '../../services/auth';
-import { auth as authErrors, global } from '../../utils/constants/error';
-import { auth as authModels } from '../../utils/constants/model';
+import { auth as errors, global } from '../../utils/constants/error';
+import { auth as models } from '../../utils/constants/model';
 import { useAuthStore } from '../../store/auth';
 
-export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      data: {
-        email: '',
-        password: '',
-      },
-      isDisabled: true,
-      serverError: [],
-      errors: authErrors,
-      models: authModels,
-    };
-  },
-  watch: {
-    data: {
-      handler() {
-        this.isDisabled = this.v$.data.email.$invalid || this.v$.data.password.$invalid;
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError.length;
-      return this.isDisabled;
-    },
-  },
-  methods: {
-    ...mapActions(useAuthStore, ['userLogin']),
-    async onSubmitHandler() {
-      const isValid = await this.v$.$validate();
+const store = useAuthStore();
+const router = useRouter();
 
-      if (!isValid) {
+const data = reactive({
+  email: '',
+  password: '',
+});
+const isDisabled = ref(true);
+const serverError = ref([]);
+
+const rules = computed(() => ({
+  email: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    email: helpers.withMessage(errors.EMAIL, email),
+  },
+  password: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(errors.PASSWORD(models.PASSWORD_MIN_LEN, models.PASSWORD_MAX_LEN), minLength(models.PASSWORD_MIN_LEN)),
+    maxLength: helpers.withMessage(errors.PASSWORD(models.PASSWORD_MIN_LEN, models.PASSWORD_MAX_LEN), maxLength(models.PASSWORD_MAX_LEN)),
+  },
+}));
+
+const v$ = useVuelidate(rules, data);
+
+watch(data, () => {
+  isDisabled.value = v$.value.email.$invalid || v$.value.password.$invalid;
+}, { deep: true });
+
+watch(serverError, () => {
+  isDisabled.value = serverError.value.length;
+});
+
+async function onSubmitHandler() {
+  const isValid = await v$.value.$validate();
+
+  if (!isValid) {
+    return;
+  }
+
+  authService.login(data.email, data.password)
+    .then((res) => {
+      if (!res.accessToken) {
+        serverError.value = res.message;
         return;
       }
-
-      authService.login(this.data.email, this.data.password)
-        .then((data) => {
-          if (!data.accessToken) {
-            this.serverError = data.message;
-            return;
-          }
-
-          this.userLogin(data);
-          this.$router.push({ path: '/' });
-        })
-        .catch(err => console.error(err));
-    },
-  },
-  validations() {
-    return {
-      data: {
-        email: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          email: helpers.withMessage(this.errors.EMAIL, email),
-        },
-        password: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(this.errors.PASSWORD(this.models.PASSWORD_MIN_LEN, this.models.PASSWORD_MAX_LEN), minLength(this.models.PASSWORD_MIN_LEN)),
-          maxLength: helpers.withMessage(this.errors.PASSWORD(this.models.PASSWORD_MIN_LEN, this.models.PASSWORD_MAX_LEN), maxLength(this.models.PASSWORD_MAX_LEN)),
-        },
-      },
-    };
-  },
+      store.userLogin(data);
+      router.push({ path: '/' });
+    })
+    .catch(err => console.error(err));
 };
 </script>
 
@@ -93,15 +77,15 @@ export default {
     <div class="login-content-wrapper">
       <form class="auth-form" @submit.prevent="onSubmitHandler">
         <AppInput
-          v-model.trim="v$.data.email.$model"
-          :errors="v$?.data.email.$errors"
+          v-model.trim="v$.email.$model"
+          :errors="v$?.email.$errors"
           name="email"
           type="email"
           label="Email"
         />
         <AppInput
-          v-model.trim="v$.data.password.$model"
-          :errors="v$?.data.password.$errors"
+          v-model.trim="v$.password.$model"
+          :errors="v$?.password.$errors"
           name="password"
           type="password"
           label="Password"
