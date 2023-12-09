@@ -4,7 +4,7 @@ WeddingPlanner is a SPA created with Express.js with VueJS template.
 ## :memo: Description
 WeddingPlanner can be used to plan and organize your wedding day.
 
-#### :white_check_mark: Users futures: 
+#### Users futures: 
 
     - register as regular user, login and logout. 
     - see the blog.
