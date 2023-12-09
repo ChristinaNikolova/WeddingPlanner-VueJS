@@ -99,10 +99,10 @@ function getNewQuery() {
 function loadArticles() {
   articlesService
     .all(currentPage.value, selectedCategory.value.id, query.value)
-    .then((data) => {
-      articles.value = data.articles;
-      currentPage.value = Number(data.currentPage);
-      pagesCount.value = data.pagesCount;
+    .then((res) => {
+      articles.value = res.articles;
+      currentPage.value = Number(res.currentPage);
+      pagesCount.value = res.pagesCount;
       isSearched.value = false;
       isLoading.value = false;
     })

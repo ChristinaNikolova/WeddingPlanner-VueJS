@@ -2,10 +2,7 @@
 [] todo add good data
 [] todo add Readme
 [] todo cleanup components
-[] todo check if all composition API
 [] todo remove isLoading  + scrollTo... and check if updated is correct
 [] todo scroll to form
-[] todo check form names
-[] rodo check ref everywhere
-[] todo check data vs res
 [] todo use composable 
+[] rodo check ref/const everywhere
