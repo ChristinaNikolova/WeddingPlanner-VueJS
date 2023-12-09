@@ -1,61 +1,54 @@
-<script>
+<script setup>
+import { nextTick, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import tasksService from '../../../services/tasks';
 import { formNames } from '../../../utils/constants/global';
 import TaskForm from './Form.vue';
 
-export default {
-  components: { TaskForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
-  },
-  data() {
-    return {
-      data: {
-        title: '',
-        description: '',
-      },
-      serverError: [],
-      timespan: '',
-      isDisabled: true,
-      formName: formNames.CREATE,
-    };
-  },
-  methods: {
-    onSubmitHandler(e, title, description) {
-      this.timespan = e.target.parentElement.previousSibling.children[0].textContent;
-      tasksService
-        .create(this.plannerId, title, description, this.timespan)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
-          this.data.title = '';
-          this.data.description = '';
-          this.$nextTick(() => { this.v$.$reset(); });
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const v$ = useVuelidate();
+const formName = formNames.CREATE;
+const data = ref({
+  title: '',
+  description: '',
+});
+const serverError = ref([]);
+const timespan = ref('');
+const isDisabled = ref(true);
 
-          this.serverError = [];
-          this.$emit('onFinish', e);
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm(e) {
-      this.$emit('onCancelFormHandler', e);
-    },
-  },
+function onSubmitHandler(e, title, description) {
+  timespan.value = e.target.parentElement.previousSibling.children[0].textContent;
+  tasksService
+    .create(props.plannerId, title, description, timespan.value)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      data.value.title = '';
+      data.value.description = '';
+      nextTick(() => { v$.value.$reset(); });
+
+      serverError.value = [];
+      emit('onFinish', e);
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm(e) {
+  emit('onCancelFormHandler', e);
 };
 </script>
 

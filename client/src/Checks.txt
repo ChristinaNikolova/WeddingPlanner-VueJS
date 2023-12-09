@@ -3,3 +3,11 @@
 [] todo add Readme
 [] todo cleanup components
 [] todo check if all composition API
+[] todo remove isLoading  + scrollTo... and check if updated is correct
+[] todo scroll to form
+[] todo check form names
+[] check hancelFormHandler for the budget
+[] check for todo in code
+[] check all budget components again
+[] todo ref or const!!!!
+[] rodo check ref everywhere

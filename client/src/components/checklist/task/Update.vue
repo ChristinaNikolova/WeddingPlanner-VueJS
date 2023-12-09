@@ -1,64 +1,60 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import tasksService from '../../../services/tasks';
 import { formNames } from '../../../utils/constants/global';
 import TaskForm from './Form.vue';
 
-export default {
-  components: { TaskForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    taskId: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  data() {
-    return {
-      data: {
-        title: '',
-        description: '',
-      },
-      formName: formNames.UPDATE,
-      isDisabled: false,
-      serverError: [],
-    };
+  taskId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  created() {
-    tasksService
-      .getById(this.planner, this.taskId)
-      .then((res) => {
-        this.data.title = res.title;
-        this.data.description = res.description;
-      })
-      .catch(err => console.error(err));
-  },
-  methods: {
-    onSubmitHandler(e, title, description) {
-      tasksService
-        .update(this.taskId, title, description)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
-          this.serverError = [];
-          this.$emit('onFinish', e);
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm(e) {
-      this.$emit('onCancelFormHandler', e);
-    },
-  },
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const formName = formNames.UPDATE;
+const data = ref({
+  title: '',
+  description: '',
+});
+const isDisabled = ref(false);
+const serverError = ref([]);
+
+onMounted(() => {
+  tasksService
+    .getById(props.plannerId, props.taskId)
+    .then((res) => {
+      data.value.title = res.title;
+      data.value.description = res.description;
+    })
+    .catch(err => console.error(err));
+});
+
+function onSubmitHandler(e, title, description) {
+  tasksService
+    .update(props.taskId, title, description)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+      serverError.value = [];
+      emit('onFinish', e);
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm(e) {
+  emit('onCancelFormHandler', e);
 };
 </script>
 

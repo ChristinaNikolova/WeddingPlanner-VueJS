@@ -1,4 +1,6 @@
-<script>
+<script setup>
+import { onMounted, onUpdated, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import tasksService from '../../../services/tasks';
 import { addButtonTexts, styleNames, timespans } from '../../../utils/constants/global';
 import form from '../../../utils/helpers/form';
@@ -7,59 +9,58 @@ import Create from './Create.vue';
 import SingleTask from './Single.vue';
 import Update from './Update.vue';
 
-export default {
-  components: { SingleTask, Create, Update, AllSubtasks },
-  data() {
-    return {
-      plannerId: this.$route.params.plannerId,
-      taskId: '',
-      tasks: [],
-      currentIndex: '',
-      timespan: '',
-      timespans,
-      addButtonTexts,
-    };
-  },
-  created() {
-    this.loadTasks();
-  },
-  mounted() {
-    this.$refs.tasksAllRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  },
-  methods: {
-    isTask(time) {
-      return this.tasks?.filter(t => t.timespan === time).length > 0;
-    },
-    loadTasks() {
-      tasksService
-        .all(this.plannerId)
-        .then(res => this.tasks = res)
-        .catch(err => console.error(err));
-    },
-    onDeleteHandler(id) {
-      tasksService
-        .deleteById(id)
-        .then(() => this.loadTasks())
-        .catch(err => console.error(err));
-    },
-    onEditHandler(id, index) {
-      this.taskId = id;
-      this.currentIndex = index;
-    },
-    onShowTaskFormHandler(e) {
-      const targetFormElement = e.target.parentElement.parentElement.nextSibling;
-      targetFormElement.style.display = styleNames.FLEX;
-    },
-    onCancelFormHandler(e) {
-      form.cancelForm(e.target);
-      this.taskId = '';
-      this.currentIndex = '';
-    },
-    onFinish(e) {
-      this.loadTasks();
-      this.onCancelFormHandler(e);
-    },
-  },
+const route = useRoute();
+const plannerId = route.params.plannerId;
+const tasksAllRef = ref(null);
+const taskId = ref('');
+const tasks = ref([]);
+const currentIndex = ref('');
+
+onMounted(() => {
+  loadTasks();
+});
+
+onUpdated(() => {
+  tasksAllRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+function isTask(time) {
+  return tasks?.value.filter(t => t.timespan === time).length > 0;
+};
+
+function loadTasks() {
+  tasksService
+    .all(plannerId)
+    .then(res => tasks.value = res)
+    .catch(err => console.error(err));
+};
+
+function onDeleteHandler(id) {
+  tasksService
+    .deleteById(id)
+    .then(() => loadTasks())
+    .catch(err => console.error(err));
+};
+
+function onEditHandler(id, index) {
+  taskId.value = id;
+  currentIndex.value = index;
+};
+
+function onShowTaskFormHandler(e) {
+  const targetFormElement = e.target.parentElement.parentElement.nextSibling;
+  targetFormElement.style.display = styleNames.FLEX;
+};
+
+function onCancelFormHandler(e) {
+  form.cancelForm(e.target);
+  taskId.value = '';
+  currentIndex.value = '';
+};
+
+function onFinish(e) {
+  loadTasks();
+  onCancelFormHandler(e);
 };
 </script>
 

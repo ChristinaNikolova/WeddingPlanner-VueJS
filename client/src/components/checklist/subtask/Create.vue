@@ -1,58 +1,50 @@
-<script>
+<script setup>
+import { nextTick, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import subtasksService from '../../../services/subtasks';
 import { formNames } from '../../../utils/constants/global';
 import SubtaskForm from './Form.vue';
 
-export default {
-  components: { SubtaskForm },
-  props: {
-    taskId: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  taskId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
-  },
-  data() {
-    return {
-      data: {
-        description: '',
-      },
-      serverError: [],
-      isDisabled: true,
-      formName: formNames.CREATE,
-    };
-  },
-  methods: {
-    onSubmitHandler(description) {
-      subtasksService
-        .create(this.taskId, description)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const v$ = useVuelidate();
+const formName = formNames.CREATE;
+const data = ref({
+  description: '',
+});
+const serverError = ref([]);
+const isDisabled = ref(true);
 
-          this.data.description = '';
-          this.$nextTick(() => { this.v$.$reset(); });
+function onSubmitHandler(description) {
+  subtasksService
+    .create(props.taskId, description)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
 
-          this.serverError = [];
-          this.$emit('onFinish');
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm(e) {
-      this.$emit('onCancelFormHandler', e);
-    },
-  },
+      data.value.description = '';
+      nextTick(() => { v$.value.$reset(); });
+
+      serverError.value = [];
+      emit('onFinish');
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm(e) {
+  emit('onCancelFormHandler', e);
 };
 </script>
 

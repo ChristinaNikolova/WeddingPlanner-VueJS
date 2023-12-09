@@ -1,58 +1,54 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import { formNames } from '../../../utils/constants/global';
 import subtasksService from '../../../services/subtasks';
 import SubtaskForm from './Form.vue';
 
-export default {
-  components: { SubtaskForm },
-  props: {
-    subtaskId: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  subtaskId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHelperHandler', 'onFinish'],
-  data() {
-    return {
-      data: {
-        description: '',
-      },
-      formName: formNames.UPDATE,
-      isDisabled: false,
-      serverError: [],
-    };
-  },
-  created() {
-    subtasksService
-      .getById(this.subtaskId)
-      .then((res) => {
-        this.data.description = res.description;
-      })
-      .catch(err => console.error(err));
-  },
-  methods: {
-    onSubmitHandler(description) {
-      subtasksService
-        .update(this.subtaskId, description)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+});
+const emit = defineEmits(['onCancelFormHelperHandler', 'onFinish']);
+const formName = formNames.UPDATE;
+const data = ref({
+  description: '',
+});
+const isDisabled = ref(false);
+const serverError = ref([]);
 
-          this.serverError = [];
-          this.$emit('onFinish');
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm(e) {
-      this.$emit('onCancelFormHelperHandler', e);
-    },
-  },
+onMounted(() => {
+  subtasksService
+    .getById(props.subtaskId)
+    .then((res) => {
+      data.value.description = res.description;
+    })
+    .catch(err => console.error(err));
+});
+
+function onSubmitHandler(description) {
+  subtasksService
+    .update(props.subtaskId, description)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      emit('onFinish');
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm(e) {
+  emit('onCancelFormHelperHandler', e);
 };
 </script>
 

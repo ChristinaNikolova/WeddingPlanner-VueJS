@@ -48,7 +48,6 @@ function onSubmitHandler(e, title, price) {
     .catch(err => console.error(err));
 };
 function checkIsDisabled(disable) {
-  console.log('create', disable);
   isDisabled.value = !!disable;
 };
 function cancelForm(e) {
