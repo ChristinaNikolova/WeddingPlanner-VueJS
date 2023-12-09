@@ -1,59 +1,58 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import notesService from '../../services/notes';
 import { addButtonTexts } from '../../utils/constants/global';
 import Create from './Create.vue';
 import SingleNote from './Single.vue';
 import Update from './Update.vue';
 
-export default {
-  components: { SingleNote, Create, Update },
-  data() {
-    return {
-      plannerId: this.$route.params.plannerId,
-      noteId: '',
-      notes: [],
-      isHidden: true,
-      isEditIconHidden: false,
-      addButtonTexts,
-      isLoading: true,
-    };
-  },
-  created() {
-    this.loadNotes();
-  },
-  methods: {
-    loadNotes() {
-      notesService
-        .all(this.plannerId)
-        .then((res) => {
-          this.notes = res;
-          this.isLoading = false;
-        })
-        .catch(err => console.error(err));
-    },
-    onDeleteHandler(id) {
-      notesService
-        .deleteById(id)
-        .then(() => {
-          this.loadNotes();
-        })
-        .catch(err => console.error(err));
-    },
-    onShowFormHandler(e, id) {
-      this.isHidden = !this.isHidden;
-      this.noteId = id || '';
-      this.isEditIconHidden = !this.isEditIconHidden;
-    },
-    onCancelFormHandler() {
-      this.isHidden = true;
-      this.noteId = '';
-      this.isEditIconHidden = false;
-    },
-    onFinish() {
-      this.onCancelFormHandler();
-      this.loadNotes();
-    },
-  },
+const route = useRoute();
+const plannerId = route.params.plannerId;
+const noteId = ref('');
+const notes = ref([]);
+const isHidden = ref(true);
+const isEditIconHidden = ref(false);
+const isLoading = ref(true);
+
+onMounted(() => {
+  loadNotes();
+});
+
+function loadNotes() {
+  notesService
+    .all(plannerId)
+    .then((res) => {
+      notes.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
+};
+
+function onDeleteHandler(id) {
+  notesService
+    .deleteById(id)
+    .then(() => {
+      loadNotes();
+    })
+    .catch(err => console.error(err));
+}
+
+function onShowFormHandler(e, id) {
+  isHidden.value = !isHidden.value;
+  noteId.value = id || '';
+  isEditIconHidden.value = !isEditIconHidden.value;
+};
+
+function onCancelFormHandler() {
+  isHidden.value = true;
+  noteId.value = '';
+  isEditIconHidden.value = false;
+};
+
+function onFinish() {
+  onCancelFormHandler();
+  loadNotes();
 };
 </script>
 

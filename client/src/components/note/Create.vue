@@ -1,68 +1,60 @@
-<script>
+<script setup>
+import { nextTick, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import notesService from '../../services/notes';
 import { formNames } from '../../utils/constants/global';
 import NoteForm from './Form.vue';
 
-export default {
-  components: { NoteForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    isHidden: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
+  isHidden: {
+    type: Boolean,
+    default: false,
   },
-  data() {
-    return {
-      data: {
-        description: '',
-      },
-      serverError: [],
-      isDisabled: true,
-      formName: formNames.CREATE,
-    };
-  },
-  methods: {
-    onSubmitHandler(description) {
-      notesService
-        .create(this.plannerId, description)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const formName = formNames.CREATE;
+const v$ = useVuelidate();
+const data = ref({
+  description: '',
+});
+const serverError = ref([]);
+const isDisabled = ref(true);
 
-          this.data.description = '';
-          this.$nextTick(() => { this.v$.$reset(); });
+function onSubmitHandler(description) {
+  notesService
+    .create(props.plannerId, description)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
 
-          this.serverError = [];
-          this.$emit('onFinish');
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm() {
-      this.$emit('onCancelFormHandler');
-    },
-  },
+      data.value.description = '';
+      nextTick(() => { v$.value.$reset(); });
+
+      serverError.value = [];
+      emit('onFinish');
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm() {
+  emit('onCancelFormHandler');
 };
 </script>
 
 <template>
   <NoteForm
-    v-if="!isHidden"
+    v-if="!props.isHidden"
     :initial-data="data"
     :server-error="serverError"
     @on-submit-handler="onSubmitHandler"

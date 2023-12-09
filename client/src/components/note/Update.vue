@@ -1,63 +1,59 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import { formNames } from '../../utils/constants/global';
 import notesService from '../../services/notes';
 import NoteForm from './Form.vue';
 
-export default {
-  components: { NoteForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    noteId: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  data() {
-    return {
-      data: {
-        description: '',
-      },
-      serverError: [],
-      formName: formNames.UPDATE,
-      isDisabled: false,
-    };
+  noteId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  created() {
-    notesService
-      .getById(this.plannerId, this.noteId)
-      .then((res) => {
-        this.data.description = res.description;
-      })
-      .catch(err => console.error(err));
-  },
-  methods: {
-    onSubmitHandler(description) {
-      notesService
-        .update(this.noteId, description)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const formName = formNames.UPDATE;
+const data = ref({
+  description: '',
+});
+const serverError = ref([]);
+const isDisabled = ref(false);
 
-          this.serverError = [];
-          this.$emit('onFinish');
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm() {
-      this.$emit('onCancelFormHandler');
-    },
-  },
+onMounted(() => {
+  notesService
+    .getById(props.plannerId, props.noteId)
+    .then((res) => {
+      data.value.description = res.description;
+    })
+    .catch(err => console.error(err));
+});
+
+function onSubmitHandler(description) {
+  notesService
+    .update(props.noteId, description)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      emit('onFinish');
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm() {
+  emit('onCancelFormHandler');
 };
 </script>
 
