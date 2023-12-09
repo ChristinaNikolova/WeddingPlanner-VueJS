@@ -1,105 +1,89 @@
-<script>
+<script setup>
+import { computed, onMounted, ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import { roles } from '../../utils/constants/global';
 import { global } from '../../utils/constants/error';
-import { guest as guestModel } from '../../utils/constants/model';
+import { guest as models } from '../../utils/constants/model';
 
-export default {
-  props: {
-    initialData: {
-      type: Object,
-      default: () => ({
-        firstName: '',
-        lastName: '',
-        age: 'adult',
-        role: '',
-        gender: 'male',
-        side: 'bride',
-        table: '',
-        mainDish: 'no info',
-        confirmed: 'no',
-      }),
-    },
-    serverError: {
-      type: Array,
-    },
-    initialDisabled: {
-      type: Boolean,
-      default: true,
-    },
+const props = defineProps({
+  initialData: {
+    type: Object,
+    default: () => ({
+      firstName: '',
+      lastName: '',
+      age: 'adult',
+      role: '',
+      gender: 'male',
+      side: 'bride',
+      table: '',
+      mainDish: 'no info',
+      confirmed: 'no',
+    }),
   },
-  emits: ['onSubmitHandler', 'checkIsDisabled'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
+  serverError: {
+    type: Array,
   },
-  data() {
-    return {
-      data: this.initialData,
-      isDisabled: this.initialDisabled,
-      models: guestModel,
-      global,
-      roles,
-    };
+  initialDisabled: {
+    type: Boolean,
+    default: true,
   },
-  watch: {
-    data: {
-      handler() {
-        this.isDisabled = this.v$.data.firstName.$invalid
-          || this.v$.data.lastName.$invalid
-          || this.v$.data.role.$invalid;
-        this.$emit('checkIsDisabled', this.isDisabled);
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError.length;
-      this.$emit('checkIsDisabled', this.isDisabled);
-      return this.isDisabled;
-    },
-  },
-  validations() {
-    return {
-      data: {
-        firstName: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(global.NAME(this.models.NAME_MIN_LEN, this.models.NAME_MAX_LEN), minLength(this.models.NAME_MIN_LEN)),
-          maxLength: helpers.withMessage(global.NAME(this.models.NAME_MIN_LEN, this.models.NAME_MAX_LEN), maxLength(this.models.NAME_MAX_LEN)),
-        },
-        lastName: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(global.NAME(this.models.NAME_MIN_LEN, this.models.NAME_MAX_LEN), minLength(this.models.NAME_MIN_LEN)),
-          maxLength: helpers.withMessage(global.NAME(this.models.NAME_MIN_LEN, this.models.NAME_MAX_LEN), maxLength(this.models.NAME_MAX_LEN)),
-        },
-        role: {
-          required: helpers.withMessage(global.REQUIRED, required),
-        },
-        table: {},
-      },
-    };
-  },
-  mounted() {
-    this.$refs.formRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  },
-  methods: {
-    async onSubmitFormHandler() {
-      const isValid = await this.v$.$validate();
-      if (!isValid) {
-        return;
-      }
+});
+const emit = defineEmits(['onSubmitHandler', 'checkIsDisabled']);
+const formRef = ref(null);
+const data = ref(props.initialData);
+const isDisabled = ref(props.initialDisabled);
 
-      this.$emit('onSubmitHandler', this.data.firstName, this.data.lastName, this.data.gender, this.data.age, this.data.side, this.data.role, this.data.table, this.data.mainDish, this.data.confirmed);
+const rules = computed(() => ({
+  data: {
+    firstName: {
+      required: helpers.withMessage(global.REQUIRED, required),
+      minLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), minLength(models.NAME_MIN_LEN)),
+      maxLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), maxLength(models.NAME_MAX_LEN)),
     },
+    lastName: {
+      required: helpers.withMessage(global.REQUIRED, required),
+      minLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), minLength(models.NAME_MIN_LEN)),
+      maxLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), maxLength(models.NAME_MAX_LEN)),
+    },
+    role: {
+      required: helpers.withMessage(global.REQUIRED, required),
+    },
+    table: {},
   },
+}));
+
+const v$ = useVuelidate(rules, { data });
+
+watch(data, () => {
+  isDisabled.value = v$.value.data.firstName.$invalid || v$.value.data.lastName.$invalid || v$.value.data.role.$invalid;
+  emit('checkIsDisabled', isDisabled.value);
+}, { deep: true });
+
+watch(props.serverError, () => {
+  isDisabled.value = props.serverError.length;
+  emit('checkIsDisabled', isDisabled.value);
+});
+
+onMounted(() => {
+  formRef.value.scrollIntoView({ behavior: 'smooth', block: 'end' });
+});
+
+async function onSubmitFormHandler() {
+  const isValid = await v$.value.$validate();
+
+  if (!isValid) {
+    return;
+  }
+
+  emit('onSubmitHandler', data.value.firstName, data.value.lastName, data.value.gender, data.value.age, data.value.side, data.value.role, data.value.table, data.value.mainDish, data.value.confirmed);
 };
 </script>
 
 <template>
   <div ref="formRef" class="form-wrapper-center">
     <form class="guest-form form-error-message-width" @submit.prevent="onSubmitFormHandler">
-      <ServerError v-if="serverError.length" :errors="serverError" />
+      <ServerError v-if="props.serverError.length" :errors="props.serverError" />
       <AppInput
         v-model.trim="v$.data.firstName.$model"
         :errors="v$?.data.firstName.$errors"

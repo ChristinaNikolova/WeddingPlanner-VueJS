@@ -1,106 +1,90 @@
-<script>
+<script setup>
+import { computed, onMounted, ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
-import { event as eventError, global } from '../../utils/constants/error';
-import { event as eventModel } from '../../utils/constants/model';
+import { event as errors, global } from '../../utils/constants/error';
+import { event as models } from '../../utils/constants/model';
 import datetime from '../../utils/helpers/datetime';
 import event from '../../utils/validators/event';
 
-export default {
-  props: {
-    initialData: {
-      type: Object,
-      default: () => ({
-        title: '',
-        startTime: '',
-        endTime: '',
-        duration: '',
-      }),
-    },
-    serverError: {
-      type: Array,
-    },
-    initialDisabled: {
-      type: Boolean,
-      default: true,
-    },
+const props = defineProps({
+  initialData: {
+    type: Object,
+    default: () => ({
+      title: '',
+      startTime: '',
+      endTime: '',
+      duration: '',
+    }),
   },
-  emits: ['onSubmitHandler', 'checkIsDisabled'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
+  serverError: {
+    type: Array,
   },
-  data() {
-    return {
-      data: this.initialData,
-      isDisabled: this.initialDisabled,
-      models: eventModel,
-      errors: eventError,
-      global,
-    };
+  initialDisabled: {
+    type: Boolean,
+    default: true,
   },
-  watch: {
-    data: {
-      handler() {
-        const [hours, minutes] = datetime.getDifference(this.data.startTime, this.data.endTime);
-        this.data.duration = `${hours}:${minutes}`;
+});
+const emit = defineEmits(['onSubmitHandler', 'checkIsDisabled']);
+const formRef = ref(null);
+const data = ref(props.initialData);
+const isDisabled = ref(props.initialDisabled);
 
-        this.isDisabled = this.v$.data.title.$invalid
-          || this.v$.data.startTime.$invalid
-          || this.v$.data.endTime.$invalid
-          || this.v$.data.duration.$invalid;
-        this.$emit('checkIsDisabled', this.isDisabled);
+const rules = computed(() => ({
+  data: {
+    title: {
+      required: helpers.withMessage(global.REQUIRED, required),
+      minLength: helpers.withMessage(global.TITLE(models.TITLE_MIN_LEN, models.TITLE_MAX_LEN), minLength(models.TITLE_MIN_LEN)),
+      maxLength: helpers.withMessage(global.TITLE(models.TITLE_MIN_LEN, models.TITLE_MAX_LEN), maxLength(models.TITLE_MAX_LEN)),
+    },
+    startTime: {
+      required: helpers.withMessage(global.REQUIRED, required),
+    },
+    endTime: {
+      required: helpers.withMessage(global.REQUIRED, required),
+    },
+    duration: {
+      validTime: helpers.withMessage(errors.TIME, event.validTime),
+    },
+  },
+}));
 
-        return this.isDisabled;
-      },
-      deep: true,
-    },
-    serverError() {
-      this.isDisabled = this.serverError.length;
-      this.$emit('checkIsDisabled', this.isDisabled);
-      return this.isDisabled;
-    },
-  },
-  validations() {
-    return {
-      data: {
-        title: {
-          required: helpers.withMessage(global.REQUIRED, required),
-          minLength: helpers.withMessage(global.TITLE(this.models.TITLE_MIN_LEN, this.models.TITLE_MAX_LEN), minLength(this.models.TITLE_MIN_LEN)),
-          maxLength: helpers.withMessage(global.TITLE(this.models.TITLE_MIN_LEN, this.models.TITLE_MAX_LEN), maxLength(this.models.TITLE_MAX_LEN)),
-        },
-        startTime: {
-          required: helpers.withMessage(global.REQUIRED, required),
-        },
-        endTime: {
-          required: helpers.withMessage(global.REQUIRED, required),
-        },
-        duration: {
-          validTime: helpers.withMessage(this.errors.TIME, event.validTime),
-        },
-      },
-    };
-  },
-  mounted() {
-    this.$refs.formRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  },
-  methods: {
-    async  onSubmitFormHandler() {
-      const isValid = await this.v$.$validate();
-      if (!isValid) {
-        return;
-      }
+const v$ = useVuelidate(rules, { data });
 
-      this.$emit('onSubmitHandler', this.data.title, this.data.startTime, this.data.endTime, this.data.duration);
-    },
-  },
+watch(data, () => {
+  const [hours, minutes] = datetime.getDifference(data.value.startTime, data.value.endTime);
+  data.value.duration = `${hours}:${minutes}`;
+
+  isDisabled.value = v$.value.data.title.$invalid
+  || v$.value.data.startTime.$invalid
+  || v$.value.data.endTime.$invalid
+  || v$.value.data.duration.$invalid;
+  emit('checkIsDisabled', isDisabled.value);
+}, { deep: true });
+
+watch(props.serverError, () => {
+  isDisabled.value = props.serverError.length;
+  emit('checkIsDisabled', isDisabled.value);
+});
+
+onMounted(() => {
+  formRef.value.scrollIntoView({ behavior: 'smooth', block: 'end' });
+});
+
+async function onSubmitFormHandler() {
+  const isValid = await v$.value.$validate();
+  if (!isValid) {
+    return;
+  }
+
+  emit('onSubmitHandler', data.value.title, data.value.startTime, data.value.endTime, data.value.duration);
 };
 </script>
 
 <template>
   <div ref="formRef" class="form-wrapper-center">
     <form class="event-form form-error-message-width" @submit.prevent="onSubmitFormHandler">
-      <ServerError v-if="serverError.length" :errors="serverError" />
+      <ServerError v-if="props.serverError.length" :errors="props.serverError" />
       <AppInput
         v-model.trim="v$.data.title.$model"
         :errors="v$?.data.title.$errors"
