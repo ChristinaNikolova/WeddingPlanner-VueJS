@@ -1,78 +1,74 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
 import guestsService from '../../services/guests';
 import { formNames } from '../../utils/constants/global';
 import GuestForm from './Form.vue';
 
-export default {
-  components: { GuestForm },
-  props: {
-    guestId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
+const props = defineProps({
+  guestId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  data() {
-    return {
-      data: {
-        firstName: '',
-        lastName: '',
-        age: 'adult',
-        role: '',
-        gender: 'male',
-        side: 'bride',
-        table: '',
-        mainDish: 'no info',
-        confirmed: 'no',
-      },
-      serverError: [],
-      formName: formNames.UPDATE,
-      isDisabled: false,
-    };
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  created() {
-    guestsService
-      .getById(this.plannerId, this.guestId)
-      .then((res) => {
-        this.data.firstName = res.firstName;
-        this.data.lastName = res.lastName;
-        this.data.age = res.age;
-        this.data.role = res.role;
-        this.data.gender = res.gender;
-        this.data.side = res.side;
-        this.data.table = res.table;
-        this.data.mainDish = res.mainDish;
-        this.data.confirmed = res.confirmed ? 'yes' : 'no';
-      }).catch(err => console.error(err));
-  },
-  methods: {
-    onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
-      guestsService
-        .update(this.guestId, firstName, lastName, gender, age, side, role, table, mainDish, confirmed)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const data = ref({
+  firstName: '',
+  lastName: '',
+  age: 'adult',
+  role: '',
+  gender: 'male',
+  side: 'bride',
+  table: '',
+  mainDish: 'no info',
+  confirmed: 'no',
+});
+const serverError = ref([]);
+const formName = ref(formNames.UPDATE);
+const isDisabled = ref(false);
 
-          this.serverError = [];
-          this.$emit('onFinish');
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm() {
-      this.$emit('onCancelFormHandler');
-    },
-  },
+onMounted(() => {
+  guestsService
+    .getById(props.plannerId, props.guestId)
+    .then((res) => {
+      data.value.firstName = res.firstName;
+      data.value.lastName = res.lastName;
+      data.value.age = res.age;
+      data.value.role = res.role;
+      data.value.gender = res.gender;
+      data.value.side = res.side;
+      data.value.table = res.table;
+      data.value.mainDish = res.mainDish;
+      data.value.confirmed = res.confirmed ? 'yes' : 'no';
+    }).catch(err => console.error(err));
+});
+
+function onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
+  guestsService
+    .update(props.guestId, firstName, lastName, gender, age, side, role, table, mainDish, confirmed)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+
+      serverError.value = [];
+      emit('onFinish');
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm() {
+  emit('onCancelFormHandler');
 };
 </script>
 

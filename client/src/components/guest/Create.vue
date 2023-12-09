@@ -1,84 +1,76 @@
-<script>
+<script setup>
+import { nextTick, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import guestsService from '../../services/guests';
 import { formNames } from '../../utils/constants/global';
 import GuestForm from './Form.vue';
 
-export default {
-  components: { GuestForm },
-  props: {
-    plannerId: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    isHidden: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  plannerId: {
+    type: String,
+    required: true,
+    default: '',
   },
-  emits: ['onCancelFormHandler', 'onFinish'],
-  setup() {
-    return { v$: useVuelidate(),
-    };
+  isHidden: {
+    type: Boolean,
+    default: false,
   },
-  data() {
-    return {
-      data: {
-        firstName: '',
-        lastName: '',
-        age: 'adult',
-        role: '',
-        gender: 'male',
-        side: 'bride',
-        table: '',
-        mainDish: 'no info',
-        confirmed: 'no',
-      },
-      serverError: [],
-      isDisabled: true,
-      formName: formNames.CREATE,
-    };
-  },
-  methods: {
-    onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
-      guestsService
-        .create(this.plannerId, firstName, lastName, gender, age, side, role, table, mainDish, confirmed)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
+});
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const v$ = useVuelidate();
+const data = ref({
+  firstName: '',
+  lastName: '',
+  age: 'adult',
+  role: '',
+  gender: 'male',
+  side: 'bride',
+  table: '',
+  mainDish: 'no info',
+  confirmed: 'no',
+});
+const serverError = ref([]);
+const isDisabled = ref(true);
+const formName = ref(formNames.CREATE);
 
-          this.data.firstName = '';
-          this.data.lastName = '';
-          this.data.gender = 'male';
-          this.data.age = 'adult';
-          this.data.side = 'bride';
-          this.data.role = '';
-          this.data.table = '';
-          this.data.mainDish = 'no info';
-          this.data.confirmed = 'no';
-          this.$nextTick(() => { this.v$.$reset(); });
+function onSubmitHandler(firstName, lastName, gender, age, side, role, table, mainDish, confirmed) {
+  guestsService
+    .create(props.plannerId, firstName, lastName, gender, age, side, role, table, mainDish, confirmed)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
 
-          this.serverError = [];
-          this.$emit('onFinish');
-        })
-        .catch(err => console.error(err));
-    },
-    checkIsDisabled(disable) {
-      this.isDisabled = !!disable;
-    },
-    cancelForm() {
-      this.$emit('onCancelFormHandler');
-    },
-  },
+      data.value.firstName = '';
+      data.value.lastName = '';
+      data.value.gender = 'male';
+      data.value.age = 'adult';
+      data.value.side = 'bride';
+      data.value.role = '';
+      data.value.table = '';
+      data.value.mainDish = 'no info';
+      data.value.confirmed = 'no';
+      nextTick(() => { v$.value.$reset(); });
+
+      serverError.value = [];
+      emit('onFinish');
+    })
+    .catch(err => console.error(err));
+};
+
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
+};
+
+function cancelForm() {
+  emit('onCancelFormHandler');
 };
 </script>
 
 <template>
   <GuestForm
-    v-if="!isHidden"
+    v-if="!props.isHidden"
     :initial-data="data"
     :server-error="serverError"
     @on-submit-handler="onSubmitHandler"

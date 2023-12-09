@@ -1,63 +1,72 @@
-<script>
+<script setup>
+import { onMounted, onUpdated, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import guestsService from '../../services/guests';
 import { addButtonTexts } from '../../utils/constants/global';
 import Create from './Create.vue';
 import SingleGuest from './Single.vue';
 import Update from './Update.vue';
 
-export default {
-  components: { SingleGuest, Update, Create },
-  data() {
-    return {
-      plannerId: this.$route.params.plannerId,
-      guestId: '',
-      guests: [],
-      isHidden: true,
-      isEditIconHidden: false,
-      addButtonTexts,
-      isLoading: true,
-    };
-  },
-  created() {
-    this.loadGuests();
-  },
-  methods: {
-    onDeleteHandler(guestId) {
-      guestsService
-        .deleteById(guestId)
-        .then(() => this.loadGuests())
-        .catch(err => console.error(err));
-    },
-    loadGuests() {
-      guestsService
-        .all(this.plannerId)
-        .then((res) => {
-          this.guests = res;
-          this.isLoading = false;
-        })
-        .catch(err => console.error(err));
-    },
-    onCancelFormHandler() {
-      this.isHidden = true;
-      this.isEditIconHidden = false;
-      this.guestId = '';
-    },
-    onShowFormHandler(e, id) {
-      this.isHidden = !this.isHidden;
-      this.guestId = id || '';
-      this.isEditIconHidden = !this.isEditIconHidden;
-    },
-    onFinish() {
-      this.onCancelFormHandler();
-      this.loadGuests();
-    },
-  },
+const route = useRoute();
+const plannerId = route.params.plannerId;
+const allGuests = ref(null);
+const guestId = ref('');
+const guests = ref([]);
+const isHidden = ref(true);
+const isEditIconHidden = ref(false);
+const isLoading = ref(true);
+
+onMounted(() => {
+  loadGuests();
+});
+
+onUpdated(() => {
+  allGuests.value.scrollIntoView({ behavior: 'instant', block: 'start' });
+});
+
+function onDeleteHandler(guestId) {
+  guestsService
+    .deleteById(guestId)
+    .then(() => loadGuests())
+    .catch(err => console.error(err));
+};
+
+function loadGuests() {
+  guestsService
+    .all(plannerId)
+    .then((res) => {
+      guests.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
+};
+
+function onCancelFormHandler() {
+  isHidden.value = true;
+  isEditIconHidden.value = false;
+  guestId.value = '';
+};
+
+function onShowFormHandler(e, id) {
+  isHidden.value = !isHidden.value;
+  guestId.value = id || '';
+  isEditIconHidden.value = !isEditIconHidden.value;
+};
+
+function onFinish() {
+  onCancelFormHandler();
+  loadGuests();
 };
 </script>
 
 <template>
   <Loading v-if="isLoading" />
-  <section v-else id="guests-all" class="section-planner section-background">
+  <section
+    v-else
+    id="guests-all"
+    ref="allGuests"
+    class="section-planner section-background"
+  >
     <div class="section-title-wrapper">
       <h2 class="section-title">
         Guests

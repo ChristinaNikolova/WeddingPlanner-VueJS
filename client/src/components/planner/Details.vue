@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUpdated, ref } from 'vue';
 import plannersService from '../../services/planners';
 
 const route = useRoute();
@@ -12,7 +12,6 @@ const isHovering = ref(false);
 const isLoading = ref(true);
 
 onMounted(() => {
-  !isLoading.value && plannerRef.value.scrollIntoView({ behavior: 'instant', block: 'start' });
   plannersService
     .getById(id)
     .then((res) => {
@@ -20,6 +19,10 @@ onMounted(() => {
       isLoading.value = false;
     })
     .catch(err => console.error(err));
+});
+
+onUpdated(() => {
+  plannerRef.value.scrollIntoView({ behavior: 'instant', block: 'start' });
 });
 
 function onDeleteHandler() {
