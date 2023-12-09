@@ -4,7 +4,7 @@ WeddingPlanner is a SPA created with Express.js with VueJS template.
 ## :memo: Description
 WeddingPlanner can be used to plan and organize your wedding day.
 
-#### :white_check_mark: Users futures: 
+#### Users futures: 
 
     - register as regular user, login and logout. 
     - see the blog.
@@ -29,7 +29,7 @@ WeddingPlanner can be used to plan and organize your wedding day.
     - see list of the notes.
     - add, update and delete notes.
       
-#### :white_check_mark: Admin futures: 
+#### Admin futures: 
 
     - all user's futures.
     - admin's dashboard:  
@@ -85,7 +85,7 @@ MongoDB needs to be installed.
  #### To start the client: 
  
     - npm install
-    - npm run start
+    - npm run dev
 
 ## :star2: Inspirations
 
