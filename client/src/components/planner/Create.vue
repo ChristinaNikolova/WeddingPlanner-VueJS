@@ -1,38 +1,33 @@
-<script>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import plannersService from '../../services/planners';
 import { formNames } from '../../utils/constants/global';
 import PlannerForm from './Form.vue';
 
-export default {
-  components: { PlannerForm },
-  data() {
-    return {
-      data: {
-        description: '',
-        date: '',
-        budget: '',
-        location: '',
-        bride: '',
-        groom: '',
-      },
-      serverError: [],
-      formName: formNames.CREATE,
-    };
-  },
-  methods: {
-    onSubmitHandler(description, date, budget, location, bride, groom) {
-      plannersService
-        .create(description, date, budget, location, bride, groom)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
-          this.$router.push({ path: `/plan/${res._id}` });
-        })
-        .catch(err => console.error(err));
-    },
-  },
+const router = useRouter();
+const data = ref({
+  description: '',
+  date: '',
+  budget: '',
+  location: '',
+  bride: '',
+  groom: '',
+});
+const serverError = ref([]);
+const formName = ref(formNames.CREATE);
+
+function onSubmitHandler(description, date, budget, location, bride, groom) {
+  plannersService
+    .create(description, date, budget, location, bride, groom)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+      router.push({ path: `/plan/${res._id}` });
+    })
+    .catch(err => console.error(err));
 };
 </script>
 

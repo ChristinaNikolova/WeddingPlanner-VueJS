@@ -1,55 +1,53 @@
-<script>
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import plannersService from '../../services/planners';
 import { formNames } from '../../utils/constants/global';
 import PlannerForm from './Form.vue';
 
-export default {
-  components: { PlannerForm },
-  data() {
-    return {
-      data: {
-        description: '',
-        date: '',
-        budget: '',
-        location: '',
-        bride: '',
-        groom: '',
-      },
-      brideId: '',
-      groomId: '',
-      formName: formNames.UPDATE,
-      id: this.$route.params.id,
-      serverError: [],
-    };
-  },
-  created() {
-    plannersService
-      .getById(this.id)
-      .then((res) => {
-        this.data.description = res.description;
-        this.data.date = res.date;
-        this.data.budget = res.budget;
-        this.data.location = res.location;
-        this.data.bride = res.bride;
-        this.brideId = res.brideId;
-        this.data.groom = res.groom;
-        this.groomId = res.groomId;
-      }).catch(err => console.error(err));
-  },
-  methods: {
-    onSubmitHandler(description, date, budget, location, bride, groom) {
-      plannersService
-        .update(this.id, description, date, budget, location, bride, this.brideId, groom, this.groomId)
-        .then((res) => {
-          if (res.message) {
-            this.serverError = res.message;
-            return;
-          }
-          this.$router.push({ path: '/plan' });
-        })
-        .catch(err => console.error(err));
-    },
-  },
+const formName = formNames.UPDATE;
+
+const route = useRoute();
+const router = useRouter();
+const id = route.params.id;
+const data = ref({
+  description: '',
+  date: '',
+  budget: '',
+  location: '',
+  bride: '',
+  groom: '',
+});
+const brideId = ref('');
+const groomId = ref('');
+const serverError = ref([]);
+
+onMounted(() => {
+  plannersService
+    .getById(id)
+    .then((res) => {
+      data.value.description = res.description;
+      data.value.date = res.date;
+      data.value.budget = res.budget;
+      data.value.location = res.location;
+      data.value.bride = res.bride;
+      brideId.value = res.brideId;
+      data.value.groom = res.groom;
+      groomId.value = res.groomId;
+    }).catch(err => console.error(err));
+});
+
+function onSubmitHandler(description, date, budget, location, bride, groom) {
+  plannersService
+    .update(id, description, date, budget, location, bride, brideId.value, groom, groomId.value)
+    .then((res) => {
+      if (res.message) {
+        serverError.value = res.message;
+        return;
+      }
+      router.push({ path: '/plan' });
+    })
+    .catch(err => console.error(err));
 };
 </script>
 
