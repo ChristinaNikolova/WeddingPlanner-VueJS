@@ -7,6 +7,7 @@ import ArticleForm from './Form.vue';
 
 const route = useRoute();
 const router = useRouter();
+const id = route.params.id;
 const formName = formNames.UPDATE;
 const data = ref({
   title: '',
@@ -15,7 +16,6 @@ const data = ref({
   jumboImage: '',
   category: '',
 });
-const id = route.params.id;
 const serverError = ref([]);
 const isDisabled = ref(false);
 
@@ -46,9 +46,11 @@ function onSubmitHandler(title, content, image, jumboImage, category) {
     })
     .catch(err => console.error(err));
 };
+
 function checkIsDisabled(disable) {
   isDisabled.value = !!disable;
 };
+
 function onCancelFormHandler() {
   router.push({ path: `/blog/${id}` });
 };

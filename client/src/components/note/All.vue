@@ -44,7 +44,7 @@ function onDeleteHandler(id) {
       loadNotes();
     })
     .catch(err => console.error(err));
-}
+};
 
 function onShowFormHandler(e, id) {
   isHidden.value = !isHidden.value;

@@ -30,6 +30,7 @@ function onDeleteHandler() {
 function onMouseEnter() {
   isHovering.value = true;
 };
+
 function onMouseLeave() {
   isHovering.value = false;
 };

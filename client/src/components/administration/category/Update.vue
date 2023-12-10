@@ -40,9 +40,11 @@ function onSubmitHandler(name, image) {
     })
     .catch(err => console.error(err));
 };
+
 function checkIsDisabled(disable) {
   isDisabled.value = !!disable;
 };
+
 function onCancelFormHandler() {
   router.push({ path: '/administration/categories' });
 };

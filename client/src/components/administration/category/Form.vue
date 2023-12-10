@@ -60,7 +60,7 @@ async function onSubmitFormHandler() {
     return;
   }
   emit('onSubmitHandler', data.name, data.image);
-}
+};
 </script>
 
 <template>
