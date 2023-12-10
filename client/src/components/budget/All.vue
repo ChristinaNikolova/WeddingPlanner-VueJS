@@ -37,6 +37,9 @@ onMounted(() => {
 });
 
 onUpdated(() => {
+  if (costId.value) {
+    return;
+  }
   !isLoading.value && costsAllRef.value.scrollIntoView({ behavior: 'instant', block: 'start' });
 });
 

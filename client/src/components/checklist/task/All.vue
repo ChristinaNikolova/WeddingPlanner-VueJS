@@ -21,6 +21,9 @@ onMounted(() => {
 });
 
 onUpdated(() => {
+  if (taskId.value) {
+    return;
+  }
   tasksAllRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 

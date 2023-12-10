@@ -21,6 +21,9 @@ onMounted(() => {
 });
 
 onUpdated(() => {
+  if (guestId.value || !isHidden.value) {
+    return;
+  }
   allGuests.value.scrollIntoView({ behavior: 'instant', block: 'start' });
 });
 

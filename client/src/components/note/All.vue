@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, onUpdated, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import notesService from '../../services/notes';
 import { addButtonTexts } from '../../utils/constants/global';
@@ -9,6 +9,7 @@ import Update from './Update.vue';
 
 const route = useRoute();
 const plannerId = route.params.plannerId;
+const allNotes = ref(null);
 const noteId = ref('');
 const notes = ref([]);
 const isHidden = ref(true);
@@ -17,6 +18,13 @@ const isLoading = ref(true);
 
 onMounted(() => {
   loadNotes();
+});
+
+onUpdated(() => {
+  if (noteId.value || !isHidden.value) {
+    return;
+  }
+  allNotes.value.scrollIntoView({ behavior: 'instant', block: 'start' });
 });
 
 function loadNotes() {
@@ -58,7 +66,12 @@ function onFinish() {
 
 <template>
   <Loading v-if="isLoading" />
-  <section v-else id="notes-all" class="section-planner section-background">
+  <section
+    v-else
+    id="notes-all"
+    ref="allNotes"
+    class="section-planner section-background"
+  >
     <div class="section-title-wrapper">
       <h2 class="section-title">
         Notes

@@ -21,6 +21,9 @@ onMounted(() => {
 });
 
 onUpdated(() => {
+  if (eventId.value || !isHidden.value) {
+    return;
+  }
   allEvents.value.scrollIntoView({ behavior: 'instant', block: 'start' });
 });
 
