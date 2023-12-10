@@ -82,7 +82,6 @@ async function onSubmitFormHandler() {
   if (!isValid) {
     return;
   }
-
   emit('onSubmitHandler', data.description, data.date, data.budget, data.location, data.bride, data.groom);
 };
 </script>

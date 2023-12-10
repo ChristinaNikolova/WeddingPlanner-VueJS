@@ -35,13 +35,11 @@ function onSubmitHandler(e, title, price) {
         serverError.value = res.message;
         return;
       }
-
       data.value.title = '';
       data.value.price = '';
       nextTick(() => {
         v$.value.$reset();
       });
-
       serverError.value = [];
       emit('onFinish', e);
     })

@@ -25,7 +25,6 @@ function onSubmitHandler(title, content, image, jumboImage, category) {
         serverError.value = res.message;
         return;
       }
-
       serverError.value = [];
       router.push({ path: `/blog/${res._id}` });
     })

@@ -41,7 +41,6 @@ function onSubmitHandler(firstName, lastName, gender, age, side, role, table, ma
         serverError.value = res.message;
         return;
       }
-
       data.value.firstName = '';
       data.value.lastName = '';
       data.value.gender = 'male';
@@ -54,7 +53,6 @@ function onSubmitHandler(firstName, lastName, gender, age, side, role, table, ma
       nextTick(() => {
         v$.value.$reset();
       });
-
       serverError.value = [];
       emit('onFinish');
     })

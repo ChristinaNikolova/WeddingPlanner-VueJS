@@ -36,7 +36,6 @@ function onSubmitHandler(title, startTime, endTime, duration) {
         serverError.value = res.message;
         return;
       }
-
       data.value.title = '';
       data.value.startTime = '';
       data.value.endTime = '';
@@ -44,7 +43,6 @@ function onSubmitHandler(title, startTime, endTime, duration) {
       nextTick(() => {
         v$.value.$reset();
       });
-
       serverError.value = [];
       emit('onFinish');
     })

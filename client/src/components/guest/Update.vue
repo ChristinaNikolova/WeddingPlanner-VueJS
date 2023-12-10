@@ -56,7 +56,6 @@ function onSubmitHandler(firstName, lastName, gender, age, side, role, table, ma
         serverError.value = res.message;
         return;
       }
-
       serverError.value = [];
       emit('onFinish');
     })

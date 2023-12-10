@@ -63,7 +63,6 @@ const isHovering = ref(false);
 
 const getDishImage = computed(() => {
   let image = '';
-
   if (props.mainDish === dishes.MEAT) {
     image = dishImages.MEAT;
   }
@@ -73,13 +72,11 @@ const getDishImage = computed(() => {
   else if (props.mainDish === dishes.VEGGIES) {
     image = dishImages.VEGGIES;
   }
-
   return image;
 });
 
 const getPersonImage = computed(() => {
   let image = '';
-
   if (props.age === people.ADULT && props.gender === genders.MALE) {
     image = personImages.ADULT_MALE;
   }
@@ -95,7 +92,6 @@ const getPersonImage = computed(() => {
   else if (props.age === people.BABY) {
     image = personImages.BABY;
   }
-
   return image;
 });
 

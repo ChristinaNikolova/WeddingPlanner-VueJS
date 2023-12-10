@@ -19,7 +19,6 @@ function onDeleteHandler(id) {
         serverError.value = res.message;
         return;
       }
-
       serverError.value = [];
       loadCategories();
     })

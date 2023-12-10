@@ -54,11 +54,9 @@ onMounted(() => {
 
 async function onSubmitFormHandler() {
   const isValid = await v$.value.$validate();
-
   if (!isValid) {
     return;
   }
-
   emit('onSubmitHandler', data.description);
 };
 </script>

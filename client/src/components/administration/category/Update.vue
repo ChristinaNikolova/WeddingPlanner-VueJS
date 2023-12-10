@@ -34,7 +34,6 @@ function onSubmitHandler(name, image) {
         serverError.value = res.message;
         return;
       }
-
       serverError.value = [];
       router.push({ path: '/administration/categories' });
     })

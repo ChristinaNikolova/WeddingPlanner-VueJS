@@ -61,11 +61,9 @@ watch(serverError, () => {
 
 async function onSubmitHandler() {
   const isValid = await v$.value.$validate();
-
   if (!isValid) {
     return;
   }
-
   authService.register(data.firstName, data.lastName, data.email, data.password)
     .then((res) => {
       if (!res.accessToken) {

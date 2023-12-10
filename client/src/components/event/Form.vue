@@ -74,7 +74,6 @@ async function onSubmitFormHandler() {
   if (!isValid) {
     return;
   }
-
   emit('onSubmitHandler', data.title, data.startTime, data.endTime, data.duration);
 };
 </script>

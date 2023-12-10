@@ -36,7 +36,6 @@ function onSubmitHandler(description) {
         serverError.value = res.message;
         return;
       }
-
       serverError.value = [];
       emit('onFinish');
     })
