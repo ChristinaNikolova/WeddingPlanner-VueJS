@@ -35,7 +35,9 @@ function onSubmitHandler(e, title, description) {
 
       data.value.title = '';
       data.value.description = '';
-      nextTick(() => { v$.value.$reset(); });
+      nextTick(() => {
+        v$.value.$reset();
+      });
 
       serverError.value = [];
       emit('onFinish', e);

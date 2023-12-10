@@ -51,7 +51,9 @@ function onSubmitHandler(firstName, lastName, gender, age, side, role, table, ma
       data.value.table = '';
       data.value.mainDish = 'no info';
       data.value.confirmed = 'no';
-      nextTick(() => { v$.value.$reset(); });
+      nextTick(() => {
+        v$.value.$reset();
+      });
 
       serverError.value = [];
       emit('onFinish');
