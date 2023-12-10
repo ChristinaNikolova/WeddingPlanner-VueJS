@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
   });
 
   function getPersistedProfile() {
-    if (useSessionStorage('accessToken').value === '') {
+    if (!useSessionStorage('accessToken').value) {
       return;
     }
 
