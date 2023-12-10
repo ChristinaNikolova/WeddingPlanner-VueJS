@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import { useAuthStore } from './store/auth';
 import router from './routes/index';
 import './styles/index.css';
 import App from './App.vue';
@@ -13,7 +14,6 @@ import LinkButton from './components/shared/buttons/Link.vue';
 import ClientError from './components/shared/errors/ClientError.vue';
 import ServerError from './components/shared/errors/ServerError.vue';
 import Loading from './components/shared/Loading.vue';
-import { useAuthStore } from './store/auth';
 
 const app = createApp(App);
 const pinia = createPinia();

@@ -3,10 +3,10 @@ import { computed, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { email, helpers, maxLength, minLength, required } from '@vuelidate/validators';
+import { useAuthStore } from '../../store/auth';
 import authService from '../../services/auth';
 import { auth as errors, global } from '../../utils/constants/error';
 import { auth as models } from '../../utils/constants/model';
-import { useAuthStore } from '../../store/auth';
 
 const store = useAuthStore();
 const router = useRouter();
