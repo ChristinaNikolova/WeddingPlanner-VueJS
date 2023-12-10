@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import { styleNames } from '../../../utils/constants/global';
@@ -24,24 +24,22 @@ const props = defineProps({
 const emit = defineEmits(['onSubmitHandler', 'checkIsDisabled']);
 let currentStyle = styleNames.NONE;
 const formRef = ref(null);
-const data = ref(props.initialData);
+const data = reactive(props.initialData);
 const isDisabled = ref(props.initialDisabled);
 
 const rules = computed(() => ({
-  data: {
-    description: {
-      required: helpers.withMessage(global.REQUIRED, required),
-      minLength: helpers.withMessage(global.DESC(models.DESC_MIN_LEN, models.DESC_MAX_LEN), minLength(models.DESC_MIN_LEN)),
-      maxLength: helpers.withMessage(global.DESC(models.DESC_MIN_LEN, models.DESC_MAX_LEN), maxLength(models.DESC_MAX_LEN)),
-    },
+  description: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(global.DESC(models.DESC_MIN_LEN, models.DESC_MAX_LEN), minLength(models.DESC_MIN_LEN)),
+    maxLength: helpers.withMessage(global.DESC(models.DESC_MIN_LEN, models.DESC_MAX_LEN), maxLength(models.DESC_MAX_LEN)),
   },
 }));
 
-const v$ = useVuelidate(rules, { data });
+const v$ = useVuelidate(rules, data);
 
 watch(data, () => {
   currentStyle = styleNames.FLEX;
-  isDisabled.value = v$.value.data.description.$invalid;
+  isDisabled.value = v$.value.description.$invalid;
   emit('checkIsDisabled', isDisabled.value);
 }, { deep: true });
 
@@ -61,7 +59,7 @@ async function onSubmitFormHandler() {
     return;
   }
 
-  emit('onSubmitHandler', data.value.description);
+  emit('onSubmitHandler', data.description);
 };
 </script>
 
@@ -70,8 +68,8 @@ async function onSubmitFormHandler() {
     <form class="form-width form-error-message-width" @submit.prevent="onSubmitFormHandler">
       <ServerError v-if="props.serverError.length" :errors="props.serverError" />
       <AppTextArea
-        v-model.trim="v$.data.description.$model"
-        :errors="v$?.data.description.$errors"
+        v-model.trim="v$.description.$model"
+        :errors="v$?.description.$errors"
         name="description"
         rows="4"
         label="Description"

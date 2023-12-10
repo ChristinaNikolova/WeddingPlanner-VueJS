@@ -6,5 +6,3 @@
 [] todo scroll to form
 [] todo use composable 
 [] todo test with server error
-[] todo store + comp API
-[] todo form use reactivity instead of ref

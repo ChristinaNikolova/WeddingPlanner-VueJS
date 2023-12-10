@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import { roles } from '../../utils/constants/global';
@@ -31,32 +31,30 @@ const props = defineProps({
 });
 const emit = defineEmits(['onSubmitHandler', 'checkIsDisabled']);
 const formRef = ref(null);
-const data = ref(props.initialData);
+const data = reactive(props.initialData);
 const isDisabled = ref(props.initialDisabled);
 
 const rules = computed(() => ({
-  data: {
-    firstName: {
-      required: helpers.withMessage(global.REQUIRED, required),
-      minLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), minLength(models.NAME_MIN_LEN)),
-      maxLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), maxLength(models.NAME_MAX_LEN)),
-    },
-    lastName: {
-      required: helpers.withMessage(global.REQUIRED, required),
-      minLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), minLength(models.NAME_MIN_LEN)),
-      maxLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), maxLength(models.NAME_MAX_LEN)),
-    },
-    role: {
-      required: helpers.withMessage(global.REQUIRED, required),
-    },
-    table: {},
+  firstName: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), minLength(models.NAME_MIN_LEN)),
+    maxLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), maxLength(models.NAME_MAX_LEN)),
   },
+  lastName: {
+    required: helpers.withMessage(global.REQUIRED, required),
+    minLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), minLength(models.NAME_MIN_LEN)),
+    maxLength: helpers.withMessage(global.NAME(models.NAME_MIN_LEN, models.NAME_MAX_LEN), maxLength(models.NAME_MAX_LEN)),
+  },
+  role: {
+    required: helpers.withMessage(global.REQUIRED, required),
+  },
+  table: {},
 }));
 
-const v$ = useVuelidate(rules, { data });
+const v$ = useVuelidate(rules, data);
 
 watch(data, () => {
-  isDisabled.value = v$.value.data.firstName.$invalid || v$.value.data.lastName.$invalid || v$.value.data.role.$invalid;
+  isDisabled.value = v$.value.firstName.$invalid || v$.value.lastName.$invalid || v$.value.role.$invalid;
   emit('checkIsDisabled', isDisabled.value);
 }, { deep: true });
 
@@ -76,7 +74,7 @@ async function onSubmitFormHandler() {
     return;
   }
 
-  emit('onSubmitHandler', data.value.firstName, data.value.lastName, data.value.gender, data.value.age, data.value.side, data.value.role, data.value.table, data.value.mainDish, data.value.confirmed);
+  emit('onSubmitHandler', data.firstName, data.lastName, data.gender, data.age, data.side, data.role, data.table, data.mainDish, data.confirmed);
 };
 </script>
 
@@ -85,15 +83,15 @@ async function onSubmitFormHandler() {
     <form class="guest-form form-error-message-width" @submit.prevent="onSubmitFormHandler">
       <ServerError v-if="props.serverError.length" :errors="props.serverError" />
       <AppInput
-        v-model.trim="v$.data.firstName.$model"
-        :errors="v$?.data.firstName.$errors"
+        v-model.trim="v$.firstName.$model"
+        :errors="v$?.firstName.$errors"
         name="firstName"
         type="text"
         label="First Name"
       />
       <AppInput
-        v-model.trim="v$.data.lastName.$model"
-        :errors="v$?.data.lastName.$errors"
+        v-model.trim="v$.lastName.$model"
+        :errors="v$?.lastName.$errors"
         name="lastName"
         type="text"
         label="Last Name"
@@ -184,15 +182,15 @@ async function onSubmitFormHandler() {
         </div>
       </div>
       <AppSelect
-        v-model.trim="v$.data.role.$model"
-        :errors="v$?.data.role.$errors"
+        v-model.trim="v$.role.$model"
+        :errors="v$?.role.$errors"
         name="role"
         label="Role"
         :categories="roles"
       />
       <AppInput
-        v-model.trim="v$.data.table.$model"
-        :errors="v$?.data.table.$errors"
+        v-model.trim="v$.table.$model"
+        :errors="v$?.table.$errors"
         name="table"
         type="text"
         label="Table"

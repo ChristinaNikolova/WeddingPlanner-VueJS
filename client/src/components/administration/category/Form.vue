@@ -1,7 +1,7 @@
 <script setup>
+import { computed, reactive, ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
-import { computed, reactive, ref, watch } from 'vue';
 import Bottom from '../../shared/images/Bottom.vue';
 import { formNames } from '../../../utils/constants/global';
 import { global } from '../../../utils/constants/error';
