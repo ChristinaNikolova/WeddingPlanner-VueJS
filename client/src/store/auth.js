@@ -1,24 +1,25 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { emails } from '../utils/constants/global';
+import useSessionStorage from '../composables/useSessionStorage';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref({
     isAuthenticated: false,
     isAdmin: false,
-    userId: '',
-    accessToken: '',
-    email: '',
+    userId: useSessionStorage('userId', ''),
+    accessToken: useSessionStorage('accessToken', ''),
+    email: useSessionStorage('email', ''),
   });
 
   function getPersistedProfile() {
-    if (!sessionStorage.getItem('accessToken')) {
+    if (useSessionStorage('accessToken').value === '') {
       return;
     }
 
-    user.value.userId = JSON.parse(sessionStorage.getItem('userId'));
-    user.value.accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
-    user.value.email = JSON.parse(sessionStorage.getItem('email'));
+    user.value.userId = useSessionStorage('userId').value;
+    user.value.accessToken = useSessionStorage('accessToken').value;
+    user.value.email = useSessionStorage('email').value;
     user.value.isAuthenticated = true;
     user.value.isAdmin = user.value.email === emails.ADMIN;
   };
@@ -27,9 +28,6 @@ export const useAuthStore = defineStore('auth', () => {
     user.value.userId = userData._id;
     user.value.email = userData.email;
     user.value.accessToken = userData.accessToken;
-    setSessionStorage('userId', user.value.userId);
-    setSessionStorage('email', user.value.email);
-    setSessionStorage('accessToken', user.value.accessToken);
     user.value.isAuthenticated = true;
     user.value.isAdmin = user.value.email === emails.ADMIN;
   };
@@ -38,15 +36,8 @@ export const useAuthStore = defineStore('auth', () => {
     user.value.userId = '';
     user.value.email = '';
     user.value.accessToken = '';
-    sessionStorage.removeItem('userId');
-    sessionStorage.removeItem('email');
-    sessionStorage.removeItem('accessToken');
     user.value.isAuthenticated = false;
     user.value.isAdmin = false;
-  };
-
-  function setSessionStorage(key, value) {
-    sessionStorage.setItem(key, JSON.stringify(value));
   };
 
   return {
