@@ -34,7 +34,7 @@ function onDeleteHandler() {
 };
 
 function setIsLikedHelper(likes) {
-  return likes.includes(store.userId);
+  return likes.includes(store.user.userId);
 };
 
 function like() {
@@ -91,7 +91,7 @@ function loadArticle() {
             <i v-if="isLiked" class="fa-solid fa-heart" @click="like" />
             <i v-else class="fa-regular fa-heart" @click="like" />
           </li>
-          <li v-if="store.isAdmin" class="article-details-li">
+          <li v-if="store.user.isAdmin" class="article-details-li">
             <router-link :to="`/administration/articles/edit/${id}`">
               <i class="fa-solid fa-pen" />
             </router-link>

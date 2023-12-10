@@ -25,7 +25,7 @@ const store = useAuthStore();
             Wedding's blog
           </router-link>
         </li>
-        <template v-if="store.isAuthenticated">
+        <template v-if="store.user.isAuthenticated">
           <li class="footer-nav-li">
             <router-link to="/user/favourite-article">
               Favourite

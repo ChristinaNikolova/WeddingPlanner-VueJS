@@ -18,13 +18,13 @@ const store = useAuthStore();
         Wedding's blog
       </router-link>
     </li>
-    <template v-if="store.isAuthenticated">
+    <template v-if="store.user.isAuthenticated">
       <li class="header-nav-li-hamburger">
         <router-link to="/user/favourite-article" @click="emit('setInitialCssStyles')">
           Favourite
         </router-link>
       </li>
-      <li v-if="store.isAdmin" class="header-nav-li-hamburger">
+      <li v-if="store.user.isAdmin" class="header-nav-li-hamburger">
         <router-link to="/administration" @click="emit('setInitialCssStyles')">
           Administration
         </router-link>

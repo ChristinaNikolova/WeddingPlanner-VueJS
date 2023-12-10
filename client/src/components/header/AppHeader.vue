@@ -54,13 +54,13 @@ function setInitialCssStyles() {
             Wedding Planner
           </router-link>
         </li>
-        <template v-if="store.isAuthenticated">
+        <template v-if="store.user.isAuthenticated">
           <li class="header-nav-li secondary">
             <router-link to="/user/favourite-article">
               Favourite
             </router-link>
           </li>
-          <li v-if="store.isAdmin" class="header-nav-li secondary">
+          <li v-if="store.user.isAdmin" class="header-nav-li secondary">
             <router-link to="/administration">
               Administration
             </router-link>

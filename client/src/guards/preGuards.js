@@ -1,16 +1,16 @@
 import { useAuthStore } from '../store/auth';
 
 export function isUser() {
-  const userStore = useAuthStore();
-  return userStore.isAuthenticated ? userStore.isAuthenticated : { path: '/login' };
+  const store = useAuthStore();
+  return store.user.isAuthenticated ? store.user.isAuthenticated : { path: '/login' };
 };
 
 export function isGuest() {
-  const userStore = useAuthStore();
-  return userStore.isAuthenticated ? { path: '/' } : undefined;
+  const store = useAuthStore();
+  return store.user.isAuthenticated ? { path: '/' } : undefined;
 };
 
 export function isAdmin() {
-  const userStore = useAuthStore();
-  return userStore.isAdmin ? userStore.isAdmin : { path: '/' };
+  const store = useAuthStore();
+  return store.user.isAdmin ? store.user.isAdmin : { path: '/' };
 };

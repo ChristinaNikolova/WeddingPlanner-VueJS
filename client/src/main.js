@@ -20,8 +20,8 @@ const pinia = createPinia();
 app.use(pinia);
 app.use(router);
 
-const userStore = useAuthStore();
-userStore.getPersistedProfile();
+const store = useAuthStore();
+store.getPersistedProfile();
 
 app.component('Jumbotron', Jumbotron);
 app.component('AppInput', AppInput);
