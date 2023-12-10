@@ -10,7 +10,6 @@ import { useAuthStore } from '../../store/auth';
 
 const store = useAuthStore();
 const router = useRouter();
-
 const data = reactive({
   email: '',
   password: '',

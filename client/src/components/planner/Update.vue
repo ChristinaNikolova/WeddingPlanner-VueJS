@@ -10,6 +10,8 @@ const formName = formNames.UPDATE;
 const route = useRoute();
 const router = useRouter();
 const id = route.params.id;
+let brideId = '';
+let groomId = '';
 const data = ref({
   description: '',
   date: '',
@@ -18,8 +20,6 @@ const data = ref({
   bride: '',
   groom: '',
 });
-const brideId = ref('');
-const groomId = ref('');
 const serverError = ref([]);
 
 onMounted(() => {
@@ -31,15 +31,15 @@ onMounted(() => {
       data.value.budget = res.budget;
       data.value.location = res.location;
       data.value.bride = res.bride;
-      brideId.value = res.brideId;
+      brideId = res.brideId;
       data.value.groom = res.groom;
-      groomId.value = res.groomId;
+      groomId = res.groomId;
     }).catch(err => console.error(err));
 });
 
 function onSubmitHandler(description, date, budget, location, bride, groom) {
   plannersService
-    .update(id, description, date, budget, location, bride, brideId.value, groom, groomId.value)
+    .update(id, description, date, budget, location, bride, brideId, groom, groomId)
     .then((res) => {
       if (res.message) {
         serverError.value = res.message;

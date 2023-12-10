@@ -1,8 +1,10 @@
 
 [] todo add good data
-[] todo add Readme
 [] todo cleanup components
+
 [] todo remove isLoading  + scrollTo... and check if updated is correct
 [] todo scroll to form
 [] todo use composable 
-[] rodo check ref/const everywhere
+[] todo test with server error
+[] todo store + comp API
+[] todo form use reactivity instead of ref

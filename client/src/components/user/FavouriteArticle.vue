@@ -5,7 +5,7 @@ import { jumbo } from '../../utils/constants/image';
 import form from '../../utils/helpers/form';
 import List from '../blog/List.vue';
 
-const pathToImage = ref(jumbo.USER);
+const pathToImage = jumbo.USER;
 const favArticles = ref([]);
 const isLoading = ref(true);
 
