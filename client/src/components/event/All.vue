@@ -118,7 +118,7 @@ function onFinish() {
     <template v-else>
       <AddButton
         :class-names="['note-form-icon']"
-        :text="addButtonTexts.NOTE"
+        :text="addButtonTexts.EVENT"
         :is-empty-string="true"
         @on-show-form-handler="onShowFormHandler"
       />
