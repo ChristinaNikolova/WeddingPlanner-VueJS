@@ -6,7 +6,7 @@
       </h2>
     </div>
     <div class="dashboard-content-wrapper">
-      <img class="dashboard-img img-shadow" src="./../../../public/img/groom-505683_1920.jpg" alt="groom">
+      <img class="dashboard-img img-shadow" src="/img/groom-505683_1920.jpg" alt="groom">
       <ul class="dashboard-ul">
         <li class="dashboard-li title-li">
           Articles
@@ -30,7 +30,7 @@
           </router-link>
         </li>
       </ul>
-      <img class="dashboard-img img-shadow" src="./../../../public/img/bride-428105_1920.jpg" alt="bride">
+      <img class="dashboard-img img-shadow" src="/img/bride-428105_1920.jpg" alt="bride">
     </div>
   </section>
 </template>

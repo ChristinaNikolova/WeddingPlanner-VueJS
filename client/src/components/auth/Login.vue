@@ -91,7 +91,7 @@ async function onSubmitHandler() {
           Login
         </button>
       </form>
-      <img class="login-img img-shadow" src="../../../public/img/flowers-3992893_1920.jpg" alt="wedding_accessories">
+      <img class="login-img img-shadow" src="/img/flowers-3992893_1920.jpg" alt="wedding_accessories">
     </div>
   </section>
 </template>

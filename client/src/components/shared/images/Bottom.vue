@@ -21,17 +21,17 @@ const props = defineProps({
   <div class="bottom-img-wrapper">
     <img
       class="bottom-img img img-shadow"
-      :src="`./../../../img/${props.first}`"
+      :src="`/img/${props.first}`"
       alt="wedding_image"
     >
     <img
       class="bottom-img img img-shadow"
-      :src="`./../../../img/${props.second}`"
+      :src="`/img/${props.second}`"
       alt="wedding_image"
     >
     <img
       class="bottom-img img img-shadow"
-      :src="`./../../../img/${props.third}`"
+      :src="`/img/${props.third}`"
       alt="wedding_image"
     >
   </div>

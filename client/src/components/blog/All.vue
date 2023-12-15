@@ -140,6 +140,7 @@ function loadArticles() {
     </div>
     <List :articles="articles" />
     <Pagination
+      v-if="articles.length"
       :current-page="currentPage"
       :pages-count="pagesCount"
       :selected-category="selectedCategory"

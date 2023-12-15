@@ -94,7 +94,7 @@ async function onSubmitHandler() {
     <div class="register-content-wrapper">
       <img
         class="register-img img-shadow"
-        src="../../../public/img/wedding-634526_1280.jpg"
+        src="/img/wedding-634526_1280.jpg"
         alt="bride_accessories"
       >
       <form class="auth-form" @submit.prevent="onSubmitHandler">
