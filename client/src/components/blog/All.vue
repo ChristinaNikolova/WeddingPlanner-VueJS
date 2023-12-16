@@ -146,6 +146,8 @@ function loadArticles() {
       v-if="articles.length"
       :current-page="currentPage"
       :pages-count="pagesCount"
+      url="/blog"
+      :query-string="`&category=${selectedCategory.name}`"
       :selected-category="selectedCategory"
       @on-click-handler="onPaginationHandler"
     />
