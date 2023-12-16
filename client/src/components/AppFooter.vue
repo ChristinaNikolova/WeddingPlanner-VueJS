@@ -27,7 +27,7 @@ const store = useAuthStore();
         </li>
         <template v-if="store.user.isAuthenticated">
           <li class="footer-nav-li">
-            <router-link to="/user/favourite-article">
+            <router-link to="/user/favourite-article?page=1">
               Favourite
             </router-link>
           </li>

@@ -23,7 +23,6 @@ const props = defineProps({
     default: () => {},
   },
   // todo add search query
-  // update links header
 });
 const emit = defineEmits(['onClickHandler']);
 </script>

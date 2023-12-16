@@ -20,7 +20,7 @@ const store = useAuthStore();
     </li>
     <template v-if="store.user.isAuthenticated">
       <li class="header-nav-li-hamburger">
-        <router-link to="/user/favourite-article" @click="emit('setInitialCssStyles')">
+        <router-link to="/user/favourite-article?page=1" @click="emit('setInitialCssStyles')">
           Favourite
         </router-link>
       </li>

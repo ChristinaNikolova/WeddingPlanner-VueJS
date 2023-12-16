@@ -27,6 +27,14 @@ watch(currentPage, (newValue, oldValue) => {
   }
 });
 
+watch(route, (newValue) => {
+  if (newValue.fullPath === '/user/favourite-article?page=1') {
+    currentPage.value = 1;
+    getNewQuery();
+    loadFavArticles();
+  }
+});
+
 function onPaginationHandler(direction) {
   const value = direction === directions.PREV ? -1 : 1;
   currentPage.value = currentPage.value + value;
