@@ -21,6 +21,29 @@
   align-items: center;
 }
 
+.form-wrapper-checkbox {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 20px;
+}
+
+.form-wrapper-input-checkbox {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-wrapper-input-checkbox label {
+  margin-bottom: unset;
+}
+
+.form-wrapper-input-checkbox input.input {
+  height: unset;
+}
+
 .form-width {
   width: 80%;
 }

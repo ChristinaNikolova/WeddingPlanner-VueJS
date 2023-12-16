@@ -238,27 +238,16 @@ async function onSubmitFormHandler() {
           </div>
         </div>
       </div>
-      <div class="form-wrapper">
-        <label class="label">Confirmed:</label>
-        <div class="radio">
-          <div class="form-wrapper-input-radio">
-            <label class="label" for="yes">Yes</label>
+      <div class="form-wrapper-checkbox">
+        <div class="checkbox">
+          <div class="form-wrapper-input-checkbox">
+            <label class="label" for="confirmed">Confirmed:</label>
             <input
-              id="yes"
+              id="confirmed"
               v-model.trim="data.confirmed"
-              type="radio"
-              value="yes"
+              type="checkbox"
               class="input"
-            >
-          </div>
-          <div class="form-wrapper-input-radio">
-            <label class="label" for="no">No</label>
-            <input
-              id="no"
-              v-model.trim="data.confirmed"
-              type="radio"
-              value="no"
-              class="input"
+              :checked="data.confirmed === 'yes' "
             >
           </div>
         </div>
