@@ -10,10 +10,19 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
+  url: {
+    type: String,
+    default: '',
+  },
+  queryString: {
+    type: String,
+    default: '',
+  },
   selectedCategory: {
     type: Object,
     default: () => {},
   },
+  // todo add search query
 });
 const emit = defineEmits(['onClickHandler']);
 </script>
@@ -23,7 +32,7 @@ const emit = defineEmits(['onClickHandler']);
     <router-link
       v-if="props.currentPage !== 1"
       class="pagination"
-      :to="`/blog?page=${props.currentPage - 1}&category=${props.selectedCategory.name}`"
+      :to="`${props.url}?page=${props.currentPage - 1}${props.queryString}`"
       @click="emit('onClickHandler', directions.PREV)"
     >
       Newer posts
@@ -31,7 +40,7 @@ const emit = defineEmits(['onClickHandler']);
     <router-link
       v-if="props.currentPage !== props.pagesCount"
       class="pagination"
-      :to="`/blog?page=${props.currentPage + 1}&category=${props.selectedCategory.name}`"
+      :to="`${props.url}?page=${props.currentPage + 1}${props.queryString}`"
       @click="emit('onClickHandler', directions.NEXT)"
     >
       Older posts
