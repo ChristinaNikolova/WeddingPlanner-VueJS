@@ -21,7 +21,7 @@ const selectedCategory = ref({
 });
 const pagesCount = ref(1);
 const isSearchIconClicked = ref(false);
-const query = ref('');
+const query = ref(route?.query?.query ? route.query.query : '');
 const isSearched = ref(false);
 const isLoading = ref(true);
 
@@ -93,7 +93,7 @@ function onRemoveCategoryHandler() {
 };
 
 function getNewQuery() {
-  router.push(`/blog?page=${currentPage.value}&category=${selectedCategory.value.name}&categoryId=${selectedCategory.value.id}`);
+  router.push(`/blog?page=${currentPage.value}&category=${selectedCategory.value.name}&categoryId=${selectedCategory.value.id}&query=${query.value}`);
 };
 
 function loadArticles() {
@@ -105,6 +105,9 @@ function loadArticles() {
       pagesCount.value = res.pagesCount;
       isSearched.value = false;
       isLoading.value = false;
+      if (query.value) {
+        isSearchIconClicked.value = true;
+      }
     })
     .catch(err => console.error(err));
 };
