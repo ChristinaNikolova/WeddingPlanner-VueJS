@@ -28,7 +28,7 @@ function onDeleteHandler() {
   articlesService
     .deleteById(id)
     .then(() => {
-      router.push('/blog?page=1&category=all&categoryId=default');
+      router.push('/blog?page=1&category=all&categoryId=default&query=');
     })
     .catch(err => console.error(err));
 };

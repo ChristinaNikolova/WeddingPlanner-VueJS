@@ -18,11 +18,6 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  selectedCategory: {
-    type: Object,
-    default: () => {},
-  },
-  // todo add search query
 });
 const emit = defineEmits(['onClickHandler']);
 </script>

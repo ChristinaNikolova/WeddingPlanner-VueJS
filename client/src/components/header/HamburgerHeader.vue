@@ -14,7 +14,7 @@ const store = useAuthStore();
       </router-link>
     </li>
     <li class="header-nav-li-hamburger">
-      <router-link to="/blog?page=1&category=all" @click="emit('setInitialCssStyles')">
+      <router-link to="/blog?page=1&category=all&query=" @click="emit('setInitialCssStyles')">
         Wedding's blog
       </router-link>
     </li>

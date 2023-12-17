@@ -45,7 +45,7 @@ function setInitialCssStyles() {
           </router-link>
         </li>
         <li class="header-nav-li secondary">
-          <router-link to="/blog?page=1&category=all">
+          <router-link to="/blog?page=1&category=all&query=">
             Wedding's blog
           </router-link>
         </li>

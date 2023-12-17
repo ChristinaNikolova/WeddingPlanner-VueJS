@@ -52,7 +52,7 @@ watch(query, () => {
 });
 
 watch(route, (newValue) => {
-  if (newValue.fullPath === '/blog?page=1&category=all') {
+  if (newValue.fullPath === '/blog?page=1&category=all&query=') {
     currentPage.value = 1;
     onSearchForm();
     onRemoveCategoryHandler();
@@ -147,7 +147,7 @@ function loadArticles() {
       :current-page="currentPage"
       :pages-count="pagesCount"
       url="/blog"
-      :query-string="`&category=${selectedCategory.name}`"
+      :query-string="`&category=${selectedCategory.name}&categoryId=${selectedCategory.id}&query=${query}`"
       :selected-category="selectedCategory"
       @on-click-handler="onPaginationHandler"
     />
