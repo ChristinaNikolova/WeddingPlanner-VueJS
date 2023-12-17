@@ -24,6 +24,10 @@ function onCancelFormHandler() {
   //   eventId.value = '';
   // isEditIconHidden.value = false;
 };
+
+function onFinish() {
+  onCancelFormHandler();
+};
 </script>
 
 <template>
@@ -41,6 +45,7 @@ function onCancelFormHandler() {
       :article-id="props.articleId"
       :is-hidden="isHidden"
       @on-cancel-form-handler="onCancelFormHandler"
+      @on-finish="onFinish"
     />
   </div>
 </template>

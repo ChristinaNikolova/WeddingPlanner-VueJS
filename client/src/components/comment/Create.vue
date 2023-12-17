@@ -16,8 +16,7 @@ const props = defineProps({
     default: false,
   },
 });
-// const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
-const emit = defineEmits(['onCancelFormHandler']);
+const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
 const v$ = useVuelidate();
 const formName = formNames.CREATE;
 const data = ref({
@@ -40,7 +39,7 @@ function onSubmitHandler(content) {
         v$.value.$reset();
       });
       serverError.value = [];
-      // emit('onFinish');
+      emit('onFinish');
     })
     .catch(err => console.error(err));
 };
