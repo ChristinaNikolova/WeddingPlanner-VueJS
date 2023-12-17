@@ -26,7 +26,6 @@ const serverError = ref([]);
 const isDisabled = ref(true);
 
 function onSubmitHandler(content) {
-  console.log('submit');
   commentsService
     .create(props.articleId, content)
     .then((res) => {

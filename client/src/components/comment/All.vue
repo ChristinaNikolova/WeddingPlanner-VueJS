@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { addButtonTexts } from '../../utils/constants/global';
 import Create from '../comment/Create.vue';
+import commentsService from '../../services/comments';
 
 const props = defineProps({
   articleId: {
@@ -9,6 +10,10 @@ const props = defineProps({
     required: true,
     default: '',
   },
+});
+
+onMounted(() => {
+  loadComments();
 });
 const isHidden = ref(true);
 // todo mobile version
@@ -28,6 +33,13 @@ function onCancelFormHandler() {
 function onFinish() {
   onCancelFormHandler();
 };
+
+function loadComments() {
+  commentsService
+    .all(props.articleId)
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
+}
 </script>
 
 <template>

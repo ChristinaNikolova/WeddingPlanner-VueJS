@@ -8,6 +8,13 @@ function create(articleId, content) {
     .catch(err => console.error(err));
 };
 
+function all(articleId) {
+  return requester(`${api.comments}/${articleId}`, httpMethods.GET)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
+
 export default {
   create,
+  all,
 };
