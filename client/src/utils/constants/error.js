@@ -8,14 +8,14 @@ export const global = {
   NAME(min, max) {
     return `Name should be between ${min} and ${max} characters long`;
   },
+  CONTENT(min, max) {
+    return `Content should be between ${min} and ${max} characters long`;
+  },
   REQUIRED: 'Field is required',
   DEFAULT: 'Error',
 };
 
 export const article = {
-  CONTENT(min, max) {
-    return `Content should be between ${min} and ${max} characters long`;
-  },
   CATEGORY: 'Please select category',
 };
 

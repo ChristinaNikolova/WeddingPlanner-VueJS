@@ -43,8 +43,8 @@ const rules = computed(() => ({
   },
   content: {
     required: helpers.withMessage(global.REQUIRED, required),
-    minLength: helpers.withMessage(errors.CONTENT(models.CONTENT_MIN_LEN, models.CONTENT_MAX_LEN), minLength(models.CONTENT_MIN_LEN)),
-    maxLength: helpers.withMessage(errors.CONTENT(models.CONTENT_MIN_LEN, models.CONTENT_MAX_LEN), maxLength(models.CONTENT_MAX_LEN)),
+    minLength: helpers.withMessage(global.CONTENT(models.CONTENT_MIN_LEN, models.CONTENT_MAX_LEN), minLength(models.CONTENT_MIN_LEN)),
+    maxLength: helpers.withMessage(global.CONTENT(models.CONTENT_MIN_LEN, models.CONTENT_MAX_LEN), maxLength(models.CONTENT_MAX_LEN)),
   },
   image: {
     required: helpers.withMessage(global.REQUIRED, required),

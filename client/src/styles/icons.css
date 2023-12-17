@@ -23,6 +23,11 @@ i:hover {
   margin-right: 12px;
 }
 
+.comment-form-icon{
+  margin: 20px auto 40px auto;
+  max-width: 1650px;
+}
+
 .event-form-icon {
   margin: 20px auto 40px auto;
   max-width: 900px;

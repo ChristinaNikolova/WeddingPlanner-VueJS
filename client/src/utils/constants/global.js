@@ -58,6 +58,7 @@ export const addButtonTexts = {
   GUEST: 'guest',
   NOTE: 'note',
   COST: 'cost',
+  COMMENT: 'comment',
 };
 
 export const tagNames = {

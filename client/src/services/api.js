@@ -8,6 +8,7 @@ export const api = {
   adminCategory: `${baseUrl}/admin/categories`,
   articles: `${baseUrl}/articles`,
   categories: `${baseUrl}/categories`,
+  comments: `${baseUrl}/comments`,
   users: `${baseUrl}/users`,
   planners: `${baseUrl}/planners`,
   guests: `${baseUrl}/guests`,

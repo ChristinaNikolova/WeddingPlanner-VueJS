@@ -17,6 +17,11 @@ export const category = {
   NAME_MAX_LEN: 30,
 };
 
+export const comment = {
+  CONTENT_MIN_LEN: 20,
+  CONTENT_MAX_LEN: 300,
+};
+
 export const cost = {
   TITLE_MIN_LEN: 3,
   TITLE_MAX_LEN: 80,

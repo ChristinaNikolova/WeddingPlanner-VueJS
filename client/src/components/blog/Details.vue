@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../../store/auth';
 import articlesService from '../../services/articles';
 import form from '../../utils/helpers/form';
+import AllComments from '../comment/All.vue';
 import LastThreeArticles from '../shared/Blog/LastThreeArticles.vue';
 
 const store = useAuthStore();
@@ -113,7 +114,7 @@ function loadArticle() {
         Back
       </router-link>
     </div>
-    <div class="article-details-btn-wrapper" />
+    <AllComments :article-id="id" />
     <LastThreeArticles />
   </section>
 </template>
