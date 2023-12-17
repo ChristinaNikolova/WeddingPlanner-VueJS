@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { messages, errors, important } = require('../utils/constants/global');
 require('../models/Article');
 require('../models/Category');
+require('../models/Comment');
 require('../models/Cost');
 require('../models/Event');
 require('../models/Guest');

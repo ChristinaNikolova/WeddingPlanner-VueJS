@@ -5,6 +5,11 @@ const article = {
     CONTENT_MAX_LEN: 3000,
 };
 
+const comment = {
+    CONTENT_MIN_LEN: 20,
+    CONTENT_MAX_LEN: 300,
+};
+
 const category = {
     NAME_MIN_LEN: 3,
     NAME_MAX_LEN: 30,
@@ -61,6 +66,7 @@ const user = {
 module.exports = {
     article,
     category,
+    comment,
     cost,
     event,
     guest,

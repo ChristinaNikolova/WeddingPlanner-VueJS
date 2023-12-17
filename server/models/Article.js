@@ -33,6 +33,11 @@ const articleSchema = new Schema({
         ref: 'User',
         default: [],
     },
+    comments: {
+        type: [ObjectId],
+        ref: 'Comment',
+        default: [],
+    },
 },
     {
         timestamps: true,
