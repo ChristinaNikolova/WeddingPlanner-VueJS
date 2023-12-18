@@ -40,7 +40,7 @@ function prev() {
         :key="c.id"
         :parent-index="index"
         :current-index="i"
-        :comment="c"
+        :initial-comment="c"
       />
     </div>
     <button class="btn" @click.prevent="next">

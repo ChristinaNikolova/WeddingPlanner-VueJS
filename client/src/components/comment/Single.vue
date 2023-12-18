@@ -1,5 +1,8 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { useAuthStore } from '../../store/auth';
+import likes from '../../utils/helpers/likes';
+import commentsService from '../../services/comments';
 
 const props = defineProps({
   parentIndex: {
@@ -10,34 +13,52 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  comment: {
+  initialComment: {
     type: Object,
     default: () => {},
   },
 });
+const store = useAuthStore();
+const isLiked = ref(getLikes(props.initialComment.likes));
+const likesCount = ref(props.initialComment.likesCount);
+const comment = ref(props.initialComment);
 
 const isVisible = computed(() => {
   return props.currentIndex === props.parentIndex;
 });
+
+function like() {
+  commentsService
+    .like(comment.value.id)
+    .then((res) => {
+      isLiked.value = getLikes(res.likes);
+      likesCount.value = res.likes.length;
+    })
+    .catch(err => console.error(err));
+};
+
+function getLikes(result) {
+  return likes.setIsLikedHelper(result, store.user.userId);
+}
 </script>
 
 <template>
   <article v-show="isVisible" class="comment-carousel">
     <h5 class="comment-carousel-creator">
-      {{ props.comment.creatorName }}
+      {{ comment.creatorName }}
     </h5>
     <p class="comment-carousel-date">
-      posted on {{ props.comment.createdAt }}
+      posted on {{ comment.createdAt }}
     </p>
     <p class="comment-carousel-content">
-      {{ props.comment.content }}
+      {{ comment.content }}
     </p>
     <p class="comment-carousel-likes-wrapper">
       <span class="comment-carousel-likes">Likes:
-        <span class="comment-carousel-likes-count">{{ props.comment.likesCount }}</span>
+        <span class="comment-carousel-likes-count">{{ likesCount }}</span>
       </span>
-      <i class="fa-solid fa-heart" />
-      <!-- <i v-else class="fa-regular fa-heart" /> -->
+      <i v-if="isLiked" class="fa-solid fa-heart" @click="like" />
+      <i v-else class="fa-regular fa-heart" @click="like" />
     </p>
   </article>
 </template>
