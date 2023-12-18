@@ -6,6 +6,9 @@ import commentsService from '../../services/comments';
 import ListComments from './List.vue';
 
 // todo check if everything is needed
+// todo mobile version
+// todo fix show comments, when new article selected
+
 const props = defineProps({
   articleId: {
     type: String,
@@ -13,14 +16,12 @@ const props = defineProps({
     default: '',
   },
 });
-
 const comments = ref([]);
+const isHidden = ref(true);
 
 onMounted(() => {
   loadComments();
 });
-const isHidden = ref(true);
-// todo mobile version
 
 function onShowFormHandler(e, id) {
   isHidden.value = !isHidden.value;
@@ -30,7 +31,7 @@ function onShowFormHandler(e, id) {
 
 function onCancelFormHandler() {
   isHidden.value = true;
-  //   eventId.value = '';
+  // eventId.value = '';
   // isEditIconHidden.value = false;
 };
 
@@ -65,6 +66,9 @@ function loadComments() {
       @on-finish="onFinish"
     />
     <ListComments v-if="comments.length" :comments="comments" />
+    <p v-else class="empty">
+      No comments yet
+    </p>
   </div>
 </template>
 
@@ -72,6 +76,11 @@ function loadComments() {
 .comments-wrapper {
   padding: 20px 120px;
   background-color: var(--clr-light-creme);
+}
+
+.comments-wrapper .empty{
+  text-align: center;
+  font-size: 28px;
 }
 
 .comments-title {

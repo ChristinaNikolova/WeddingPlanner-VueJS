@@ -8,7 +8,6 @@ const props = defineProps({
     default: () => ([]),
   },
 });
-
 const index = ref(0);
 
 const commentsLength = computed(() => {
