@@ -14,7 +14,14 @@ function all(articleId) {
     .catch(err => console.error(err));
 };
 
+function like(id) {
+  return requester(`${api.comments}/like/${id}`, httpMethods.POST)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
 export default {
   create,
   all,
+  like,
 };
