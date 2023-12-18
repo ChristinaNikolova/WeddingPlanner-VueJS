@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../../store/auth';
 import articlesService from '../../services/articles';
 import form from '../../utils/helpers/form';
+import likes from '../../utils/helpers/likes';
 import AllComments from '../comment/All.vue';
 import LastThreeArticles from '../shared/Blog/LastThreeArticles.vue';
 
@@ -34,15 +35,11 @@ function onDeleteHandler() {
     .catch(err => console.error(err));
 };
 
-function setIsLikedHelper(likes) {
-  return likes.includes(store.user.userId);
-};
-
 function like() {
   articlesService
     .like(id)
     .then((res) => {
-      isLiked.value = setIsLikedHelper(res.likes);
+      isLiked.value = likes.setIsLikedHelper(res.likes, store.user.userId);
       likeCounts.value = res.likes.length;
     })
     .catch(err => console.error(err));
@@ -54,7 +51,7 @@ function loadArticle() {
     .then((res) => {
       article.value = res;
       likeCounts.value = res.likes.length;
-      isLiked.value = setIsLikedHelper(res.likes);
+      isLiked.value = likes.setIsLikedHelper(res.likes, store.user.userId);
       isLoading.value = false;
       form.scrollToTop();
     })
