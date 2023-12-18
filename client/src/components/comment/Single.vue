@@ -4,9 +4,11 @@ import { computed } from 'vue';
 const props = defineProps({
   parentIndex: {
     type: Number,
+    default: 0,
   },
   currentIndex: {
     type: Number,
+    default: 0,
   },
   comment: {
     type: Object,
@@ -24,37 +26,51 @@ const isVisible = computed(() => {
     <h5 class="comment-carousel-creator">
       {{ props.comment.creatorName }}
     </h5>
-    <ul>
-      <li class="comment-carousel-content">
-        {{ props.comment.content }}
-      </li>
-      <li class="comment-carousel-likes-wrapper">
-        <span class="comment-carousel-likes">Likes:</span>
-        {{ props.comment.likeCounts }}
-        <i class="fa-solid fa-heart" />
-        <!-- <i v-else class="fa-regular fa-heart" /> -->
-      </li>
-      <li>
-        {{ props.comment.createdAt }}
-      </li>
-    </ul>
+    <p class="comment-carousel-date">
+      {{ props.comment.createdAt }}
+    </p>
+    <p class="comment-carousel-content">
+      {{ props.comment.content }}
+    </p>
+    <p class="comment-carousel-likes-wrapper">
+      <span class="comment-carousel-likes">Likes:
+        <span class="comment-carousel-likes-count">{{ props.comment.likesCount }}</span>
+      </span>
+      <i class="fa-solid fa-heart" />
+      <!-- <i v-else class="fa-regular fa-heart" /> -->
+    </p>
   </article>
 </template>
 
 <style scoped>
 .comment-carousel-creator {
   font-size: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   text-decoration: underline;
+}
+.comment-carousel-date {
+  font-size: 18px;
+  margin-bottom: 26px;
 }
 
 .comment-carousel-content {
   font-size: 30px;
   line-height: 1.5;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .comment-carousel-likes-wrapper {
-  text-align: right;
+  font-size: 24px;
+}
+
+.comment-carousel-likes-wrapper i {
+  color: var(--clr-gold);
+}
+.comment-carousel-likes {
+  margin-right: 20px;
+}
+
+.comment-carousel-likes-count {
+  color: var(--clr-gold);
 }
 </style>
