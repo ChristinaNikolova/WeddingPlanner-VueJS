@@ -3,7 +3,9 @@ import { onMounted, ref } from 'vue';
 import { addButtonTexts } from '../../utils/constants/global';
 import Create from '../comment/Create.vue';
 import commentsService from '../../services/comments';
+import ListComments from './List.vue';
 
+// todo check if everything is needed
 const props = defineProps({
   articleId: {
     type: String,
@@ -11,6 +13,8 @@ const props = defineProps({
     default: '',
   },
 });
+
+const comments = ref([]);
 
 onMounted(() => {
   loadComments();
@@ -32,12 +36,13 @@ function onCancelFormHandler() {
 
 function onFinish() {
   onCancelFormHandler();
+  loadComments();
 };
 
 function loadComments() {
   commentsService
     .all(props.articleId)
-    .then(res => console.log(res))
+    .then(res => comments.value = res)
     .catch(err => console.error(err));
 }
 </script>
@@ -59,12 +64,13 @@ function loadComments() {
       @on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
     />
+    <ListComments v-if="comments.length" :comments="comments" />
   </div>
 </template>
 
 <style scoped>
 .comments-wrapper {
-  padding:20px;
+  padding: 20px 120px;
   background-color: var(--clr-light-creme);
 }
 
