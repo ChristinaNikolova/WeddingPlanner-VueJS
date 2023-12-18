@@ -6,7 +6,7 @@ const article = {
 };
 
 const comment = {
-    CONTENT_MIN_LEN: 20,
+    CONTENT_MIN_LEN: 10,
     CONTENT_MAX_LEN: 300,
 };
 
