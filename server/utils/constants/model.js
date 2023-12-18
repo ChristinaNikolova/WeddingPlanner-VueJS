@@ -7,7 +7,7 @@ const article = {
 
 const comment = {
     CONTENT_MIN_LEN: 10,
-    CONTENT_MAX_LEN: 300,
+    CONTENT_MAX_LEN: 1000,
 };
 
 const category = {

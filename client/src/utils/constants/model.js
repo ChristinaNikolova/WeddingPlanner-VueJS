@@ -19,7 +19,7 @@ export const category = {
 
 export const comment = {
   CONTENT_MIN_LEN: 10,
-  CONTENT_MAX_LEN: 300,
+  CONTENT_MAX_LEN: 1000,
 };
 
 export const cost = {
