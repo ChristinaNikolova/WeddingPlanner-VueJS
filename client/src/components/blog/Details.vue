@@ -39,7 +39,7 @@ function like() {
   articlesService
     .like(id)
     .then((res) => {
-      isLiked.value = likes.setIsLikedHelper(res.likes, store.user.userId);
+      isLiked.value = getLikes(res.likes);
       likeCounts.value = res.likes.length;
     })
     .catch(err => console.error(err));
@@ -51,12 +51,16 @@ function loadArticle() {
     .then((res) => {
       article.value = res;
       likeCounts.value = res.likes.length;
-      isLiked.value = likes.setIsLikedHelper(res.likes, store.user.userId);
+      isLiked.value = getLikes(res.likes);
       isLoading.value = false;
       form.scrollToTop();
     })
     .catch(err => console.error(err));
 };
+
+function getLikes(result) {
+  return likes.setIsLikedHelper(result, store.user.userId);
+}
 </script>
 
 <template>
