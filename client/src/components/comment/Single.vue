@@ -22,6 +22,7 @@ const store = useAuthStore();
 const isLiked = ref(getLikes(props.initialComment.likes));
 const likesCount = ref(props.initialComment.likesCount);
 const comment = ref(props.initialComment);
+const isAuthor = ref(props.initialComment.creatorId === store.user.userId);
 
 const isVisible = computed(() => {
   return props.currentIndex === props.parentIndex;
@@ -57,8 +58,10 @@ function getLikes(result) {
       <span class="comment-carousel-likes">Likes:
         <span class="comment-carousel-likes-count">{{ likesCount }}</span>
       </span>
-      <i v-if="isLiked" class="fa-solid fa-heart" @click="like" />
-      <i v-else class="fa-regular fa-heart" @click="like" />
+      <span v-if="!isAuthor" class="comment-carousel-likes-icons">
+        <i v-if="isLiked" class="fa-solid fa-heart" @click="like" />
+        <i v-else class="fa-regular fa-heart" @click="like" />
+      </span>
     </p>
   </article>
 </template>
