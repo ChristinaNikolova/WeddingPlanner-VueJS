@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { addButtonTexts } from '../../utils/constants/global';
 import Create from '../comment/Create.vue';
 import commentsService from '../../services/comments';
@@ -9,6 +9,9 @@ import ListComments from './List.vue';
 // todo mobile version
 // todo fix show comments, when new article selected
 // todo update, delete, when creator
+// todo after create, update => to the comment
+// todo disabled buttons when only one comment
+// todo function starts with on
 
 const props = defineProps({
   articleId: {
@@ -23,6 +26,14 @@ const isHidden = ref(true);
 onMounted(() => {
   loadComments();
 });
+
+const isDisabled = computed(() => {
+  return comments.value.length === 1;
+});
+
+function onReduceComments() {
+  comments.value.length--;
+}
 
 function onShowFormHandler(e, id) {
   isHidden.value = !isHidden.value;
@@ -66,7 +77,12 @@ function loadComments() {
       @on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
     />
-    <ListComments v-if="comments.length" :comments="comments" />
+    <ListComments
+      v-if="comments.length"
+      :initial-comments="comments"
+      :is-disabled="isDisabled"
+      @on-reduce-comments="onReduceComments"
+    />
     <p v-else class="empty">
       No comments yet
     </p>

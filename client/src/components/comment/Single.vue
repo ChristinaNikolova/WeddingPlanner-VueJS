@@ -18,6 +18,7 @@ const props = defineProps({
     default: () => {},
   },
 });
+const emit = defineEmits(['onDelete']);
 const store = useAuthStore();
 const isLiked = ref(getLikes(props.initialComment.likes));
 const likesCount = ref(props.initialComment.likesCount);
@@ -37,6 +38,13 @@ function onMouseLeave() {
   isHovering.value = false;
 };
 
+function onDeleteHandler() {
+  commentsService
+    .deleteById(comment.value.id)
+    .then(() => emit('onDelete', comment.value.id))
+    .catch(err => console.error(err));
+};
+
 function like() {
   commentsService
     .like(comment.value.id)
@@ -50,13 +58,6 @@ function like() {
 function getLikes(result) {
   return likes.setIsLikedHelper(result, store.user.userId);
 }
-
-function onDeleteHandler() {
-  commentsService
-    .deleteById(comment.value.id)
-    .then(() => console.log('success'))
-    .catch(err => console.error(err));
-};
 </script>
 
 <template>

@@ -3,15 +3,21 @@ import { computed, ref } from 'vue';
 import Single from './Single.vue';
 
 const props = defineProps({
-  comments: {
+  initialComments: {
     type: Array,
     default: () => ([]),
   },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
 });
+const emit = defineEmits(['onReduceComments']);
 const index = ref(0);
+const comments = ref(props.initialComments);
 
 const commentsLength = computed(() => {
-  return props.comments?.length;
+  return comments.value?.length;
 });
 
 function next() {
@@ -27,23 +33,32 @@ function prev() {
     index.value = commentsLength.value - 1;
   }
 };
+
+function onDeleteHandler(id) {
+  comments.value = comments.value.filter(c => c.id !== id);
+  if (comments.value.length === index.value) {
+    index.value = 0;
+  }
+  emit('onReduceComments');
+}
 </script>
 
 <template>
   <div class="comments-list-wrapper">
-    <button class="btn" @click.prevent="prev">
+    <button :disabled="isDisabled" class="btn" @click.prevent="prev">
       <i class="fa fa-angle-left" />
     </button>
     <div class="comments-list-carousel-wrapper">
       <Single
-        v-for="(c, i) in (props.comments)"
+        v-for="(c, i) in (comments)"
         :key="c.id"
         :parent-index="index"
         :current-index="i"
         :initial-comment="c"
+        @on-delete="onDeleteHandler"
       />
     </div>
-    <button class="btn" @click.prevent="next">
+    <button :disabled="isDisabled" class="btn" @click.prevent="next">
       <i class="fa fa-angle-right" />
     </button>
   </div>
