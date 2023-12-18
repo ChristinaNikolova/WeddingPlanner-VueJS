@@ -40,8 +40,13 @@ async function like(id, userId) {
   return comment.save();
 }
 
+async function deleteById(id) {
+  return Comment.findByIdAndDelete(id);
+}
+
 module.exports = {
   create,
   all,
   like,
+  deleteById,
 };

@@ -23,10 +23,19 @@ const isLiked = ref(getLikes(props.initialComment.likes));
 const likesCount = ref(props.initialComment.likesCount);
 const comment = ref(props.initialComment);
 const isAuthor = ref(props.initialComment.creatorId === store.user.userId);
+const isHovering = ref(false);
 
 const isVisible = computed(() => {
   return props.currentIndex === props.parentIndex;
 });
+
+function onMouseEnter() {
+  isHovering.value = true;
+};
+
+function onMouseLeave() {
+  isHovering.value = false;
+};
 
 function like() {
   commentsService
@@ -41,12 +50,23 @@ function like() {
 function getLikes(result) {
   return likes.setIsLikedHelper(result, store.user.userId);
 }
+
+function onDeleteHandler() {
+  commentsService
+    .deleteById(comment.value.id)
+    .then(() => console.log('success'))
+    .catch(err => console.error(err));
+};
 </script>
 
 <template>
   <article v-show="isVisible" class="comment-carousel">
-    <h5 class="comment-carousel-creator">
+    <h5 class="comment-carousel-creator" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
       {{ comment.creatorName }}
+      <span v-if="isAuthor && isHovering" class="comment-carousel-icons">
+        <i class="fa-solid fa-pen" />
+        <i class="fa-solid fa-trash" @click="onDeleteHandler" />
+      </span>
     </h5>
     <p class="comment-carousel-date">
       posted on {{ comment.createdAt }}
@@ -71,6 +91,15 @@ function getLikes(result) {
   font-size: 20px;
   margin-bottom: 10px;
   text-decoration: underline;
+}
+
+.comment-carousel-icons {
+  margin-left: 20px;
+  font-size: 16px;
+}
+
+.comment-carousel-icons i {
+  margin-right: 10px;
 }
 .comment-carousel-date {
   font-size: 18px;

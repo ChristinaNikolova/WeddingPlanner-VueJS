@@ -8,8 +8,7 @@ import ListComments from './List.vue';
 // todo check if everything is needed
 // todo mobile version
 // todo fix show comments, when new article selected
-// add like unlike logic
-// update, delete, when creator
+// todo update, delete, when creator
 
 const props = defineProps({
   articleId: {
