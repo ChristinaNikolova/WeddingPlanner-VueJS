@@ -27,7 +27,7 @@ const isVisible = computed(() => {
       {{ props.comment.creatorName }}
     </h5>
     <p class="comment-carousel-date">
-      {{ props.comment.createdAt }}
+      posted on {{ props.comment.createdAt }}
     </p>
     <p class="comment-carousel-content">
       {{ props.comment.content }}
@@ -60,7 +60,7 @@ const isVisible = computed(() => {
 }
 
 .comment-carousel-likes-wrapper {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .comment-carousel-likes-wrapper i {
