@@ -115,7 +115,7 @@ function getLikes(result) {
         Back
       </router-link>
     </div>
-    <AllComments :article-id="id" />
+    <AllComments :initial-article-id="id" />
     <LastThreeArticles />
   </section>
 </template>

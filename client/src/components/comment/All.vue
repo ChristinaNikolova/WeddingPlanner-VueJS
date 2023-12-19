@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUpdated, ref, watch } from 'vue';
 import { addButtonTexts } from '../../utils/constants/global';
 import Create from '../comment/Create.vue';
 import commentsService from '../../services/comments';
@@ -7,19 +7,19 @@ import ListComments from './List.vue';
 
 // todo check if everything is needed
 // todo mobile version
-// todo fix show comments, when new article selected
 // todo update when creator
 // todo after update => to the comment
 // todo function starts with on
 // todo update Read me
 
 const props = defineProps({
-  articleId: {
+  initialArticleId: {
     type: String,
     required: true,
     default: '',
   },
 });
+const articleId = ref(props.initialArticleId);
 const comments = ref([]);
 const isHidden = ref(true);
 
@@ -27,8 +27,18 @@ onMounted(() => {
   loadComments();
 });
 
+onUpdated(() => {
+  articleId.value = props.initialArticleId;
+});
+
 const isDisabled = computed(() => {
   return comments.value.length === 1;
+});
+
+watch(articleId, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    loadComments();
+  }
 });
 
 function onShowFormHandler(e, id) {
@@ -50,7 +60,7 @@ function onFinish() {
 
 function loadComments() {
   commentsService
-    .all(props.articleId)
+    .all(articleId.value)
     .then(res => comments.value = res)
     .catch(err => console.error(err));
 }
@@ -68,7 +78,7 @@ function loadComments() {
       @on-show-form-handler="onShowFormHandler"
     />
     <Create
-      :article-id="props.articleId"
+      :article-id="articleId"
       :is-hidden="isHidden"
       @on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
