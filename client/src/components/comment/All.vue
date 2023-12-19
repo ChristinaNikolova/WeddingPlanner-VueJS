@@ -8,14 +8,9 @@ import ListComments from './List.vue';
 
 // todo check if everything is needed
 // todo mobile version
-// todo update when creator
-// todo after update => to the comment
 // todo function starts with on
 // todo update Read me
-// todo stop create when edit
 // todo use slots
-// todo check likes after update
-// todo check server errors
 
 const props = defineProps({
   initialArticleId: {
@@ -50,13 +45,11 @@ watch(articleId, (newValue, oldValue) => {
 function onShowFormHandler(e, id) {
   isHidden.value = !isHidden.value;
   commentId.value = id || '';
-  // isEditIconHidden.value = !isEditIconHidden.value;
 };
 
 function onCancelFormHandler() {
   isHidden.value = true;
   commentId.value = '';
-  // isEditIconHidden.value = false;
 };
 
 function onFinish() {

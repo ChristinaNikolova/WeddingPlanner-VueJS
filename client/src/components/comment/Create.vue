@@ -56,7 +56,7 @@ function cancelForm() {
   <CommentForm
     v-if="!props.isHidden"
     :initial-data="data"
-    :server-error="serverError"
+    :initial-server-error="serverError"
     @on-submit-handler="onSubmitHandler"
     @check-is-disabled="checkIsDisabled"
   >

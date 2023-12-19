@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, maxLength, minLength, required } from '@vuelidate/validators';
 import { global } from '../../utils/constants/error';
@@ -12,7 +12,7 @@ const props = defineProps({
       content: '',
     }),
   },
-  serverError: {
+  initialServerError: {
     type: Array,
   },
   initialDisabled: {
@@ -23,6 +23,7 @@ const props = defineProps({
 const emit = defineEmits(['onSubmitHandler', 'checkIsDisabled']);
 const formRef = ref(null);
 const data = reactive(props.initialData);
+const serverError = ref(props.initialServerError);
 const isDisabled = ref(props.initialDisabled);
 
 const rules = computed(() => ({
@@ -40,13 +41,17 @@ watch(data, () => {
   emit('checkIsDisabled', isDisabled.value);
 }, { deep: true });
 
-watch(props.serverError, () => {
-  isDisabled.value = props.serverError.length;
+watch(serverError, () => {
+  isDisabled.value = serverError.value.length;
   emit('checkIsDisabled', isDisabled.value);
 });
 
 onMounted(() => {
   formRef.value.scrollIntoView({ behavior: 'smooth', block: 'end' });
+});
+
+onUpdated(() => {
+  serverError.value = props.initialServerError;
 });
 
 async function onSubmitFormHandler() {
@@ -61,7 +66,7 @@ async function onSubmitFormHandler() {
 <template>
   <div ref="formRef" class="comment-form-wrapper">
     <form class="comment-form form-error-message-width" @submit.prevent="onSubmitFormHandler">
-      <ServerError v-if="props.serverError.length" :errors="props.serverError" />
+      <ServerError v-if="serverError.length" :errors="serverError" />
       <AppTextArea
         v-model.trim="v$.content.$model"
         :errors="v$?.content.$errors"

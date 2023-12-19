@@ -58,7 +58,7 @@ function cancelForm() {
 <template>
   <CommentForm
     :initial-data="data"
-    :server-error="serverError"
+    :initial-server-error="serverError"
     :initial-disabled="isDisabled"
     @check-is-disabled="checkIsDisabled"
     @on-submit-handler="onSubmitHandler"
