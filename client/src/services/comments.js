@@ -26,9 +26,23 @@ function deleteById(id) {
     .catch(err => console.error(err));
 }
 
+function getById(commentId, articleId) {
+  return requester(`${api.comments}/${articleId}/${commentId}`, httpMethods.GET)
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function update(id, content) {
+  return requester(`${api.comments}/${id}`, httpMethods.PUT, { content })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
 export default {
   create,
   all,
   like,
   deleteById,
+  getById,
+  update,
 };
