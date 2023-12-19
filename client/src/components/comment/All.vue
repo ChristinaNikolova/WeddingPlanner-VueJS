@@ -8,9 +8,8 @@ import ListComments from './List.vue';
 // todo check if everything is needed
 // todo mobile version
 // todo fix show comments, when new article selected
-// todo update, delete, when creator
-// todo after create, update => to the comment
-// todo disabled buttons when only one comment
+// todo update when creator
+// todo after update => to the comment
 // todo function starts with on
 // todo update Read me
 
@@ -74,15 +73,17 @@ function loadComments() {
       @on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
     />
-    <ListComments
-      v-if="comments.length"
-      :initial-comments="comments"
-      :is-disabled="isDisabled"
-      @on-load-comments="loadComments"
-    />
-    <p v-else class="empty">
-      No comments yet
-    </p>
+    <template v-if="isHidden">
+      <ListComments
+        v-if="comments.length"
+        :initial-comments="comments"
+        :is-disabled="isDisabled"
+        @on-load-comments="loadComments"
+      />
+      <p v-else class="empty">
+        No comments yet
+      </p>
+    </template>
   </div>
 </template>
 
