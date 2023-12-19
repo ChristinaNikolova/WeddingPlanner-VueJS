@@ -12,7 +12,7 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(['onLoadComments']);
+const emit = defineEmits(['onLoadComments', 'onShowFormHandler']);
 const index = ref(0);
 const comments = ref(props.initialComments);
 
@@ -50,6 +50,10 @@ function prev() {
 function onDeleteHandler() {
   emit('onLoadComments');
 }
+
+function onShow(event, id) {
+  emit('onShowFormHandler', event, id);
+}
 </script>
 
 <template>
@@ -64,6 +68,7 @@ function onDeleteHandler() {
         :parent-index="index"
         :current-index="i"
         :initial-comment="c"
+        @on-show="onShow"
         @on-delete="onDeleteHandler"
       />
     </div>

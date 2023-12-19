@@ -2,6 +2,7 @@
 import { computed, onMounted, onUpdated, ref, watch } from 'vue';
 import { addButtonTexts } from '../../utils/constants/global';
 import Create from '../comment/Create.vue';
+import Update from '../comment/Update.vue';
 import commentsService from '../../services/comments';
 import ListComments from './List.vue';
 
@@ -11,6 +12,10 @@ import ListComments from './List.vue';
 // todo after update => to the comment
 // todo function starts with on
 // todo update Read me
+// todo stop create when edit
+// todo use slots
+// todo check likes after update
+// todo check server errors
 
 const props = defineProps({
   initialArticleId: {
@@ -21,6 +26,7 @@ const props = defineProps({
 });
 const articleId = ref(props.initialArticleId);
 const comments = ref([]);
+const commentId = ref('');
 const isHidden = ref(true);
 
 onMounted(() => {
@@ -43,13 +49,13 @@ watch(articleId, (newValue, oldValue) => {
 
 function onShowFormHandler(e, id) {
   isHidden.value = !isHidden.value;
-  // eventId.value = id || '';
+  commentId.value = id || '';
   // isEditIconHidden.value = !isEditIconHidden.value;
 };
 
 function onCancelFormHandler() {
   isHidden.value = true;
-  // eventId.value = '';
+  commentId.value = '';
   // isEditIconHidden.value = false;
 };
 
@@ -71,24 +77,34 @@ function loadComments() {
     <h3 class="comments-title">
       Comments
     </h3>
-    <AddButton
-      :class-names="['comment-form-icon']"
-      :text="addButtonTexts.COMMENT"
-      :is-empty-string="true"
-      @on-show-form-handler="onShowFormHandler"
-    />
-    <Create
+    <Update
+      v-if="commentId"
+      :comment-id="commentId"
       :article-id="articleId"
-      :is-hidden="isHidden"
       @on-cancel-form-handler="onCancelFormHandler"
       @on-finish="onFinish"
     />
+    <template v-else>
+      <AddButton
+        :class-names="['comment-form-icon']"
+        :text="addButtonTexts.COMMENT"
+        :is-empty-string="true"
+        @on-show-form-handler="onShowFormHandler"
+      />
+      <Create
+        :article-id="articleId"
+        :is-hidden="isHidden"
+        @on-cancel-form-handler="onCancelFormHandler"
+        @on-finish="onFinish"
+      />
+    </template>
     <template v-if="isHidden">
       <ListComments
         v-if="comments.length"
         :initial-comments="comments"
         :is-disabled="isDisabled"
         @on-load-comments="loadComments"
+        @on-show-form-handler="onShowFormHandler"
       />
       <p v-else class="empty">
         No comments yet

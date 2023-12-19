@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onUpdated, ref } from 'vue';
 import { useAuthStore } from '../../store/auth';
 import likes from '../../utils/helpers/likes';
 import commentsService from '../../services/comments';
@@ -18,13 +18,17 @@ const props = defineProps({
     default: () => {},
   },
 });
-const emit = defineEmits(['onDelete']);
+const emit = defineEmits(['onDelete', 'onShow']);
 const store = useAuthStore();
 const isLiked = ref(getLikes(props.initialComment.likes));
 const likesCount = ref(props.initialComment.likesCount);
 const comment = ref(props.initialComment);
 const isAuthor = ref(props.initialComment.creatorId === store.user.userId);
 const isHovering = ref(false);
+
+onUpdated(() => {
+  comment.value = props.initialComment;
+});
 
 const isVisible = computed(() => {
   return props.currentIndex === props.parentIndex;
@@ -65,7 +69,7 @@ function getLikes(result) {
     <h5 class="comment-carousel-creator" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
       {{ comment.creatorName }}
       <span v-if="isAuthor && isHovering" class="comment-carousel-icons">
-        <i class="fa-solid fa-pen" />
+        <i class="fa-solid fa-pen" @click="emit('onShow', $event, comment.id)" />
         <i class="fa-solid fa-trash" @click="onDeleteHandler" />
       </span>
     </h5>
