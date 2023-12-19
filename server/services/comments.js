@@ -11,7 +11,6 @@ async function create(articleId, userId, content) {
   const article = await Article.findById(articleId);
   article.comments.push(result._id);
   await article.save();
-
   return result;
 }
 
@@ -22,7 +21,6 @@ async function all(articleId) {
       path: "creator",
     },
   });
-
   return article.comments
     .sort((a, b) => b.createdAt - a.createdAt)
     .map(commentViewModel);
@@ -36,7 +34,6 @@ async function like(id, userId) {
   } else {
     comment.likes.push(userId);
   }
-
   return comment.save();
 }
 
@@ -44,9 +41,23 @@ async function deleteById(id) {
   return Comment.findByIdAndDelete(id);
 }
 
+async function getById(id, hasToCast) {
+  const comment = await Comment.findById(id);
+  return hasToCast ? commentViewModel(comment) : comment;
+}
+
+async function update(id, content) {
+  const comment = await getById(id, false);
+  comment.content = content;
+  await comment.save();
+  return comment;
+}
+
 module.exports = {
   create,
   all,
   like,
   deleteById,
+  getById,
+  update,
 };
