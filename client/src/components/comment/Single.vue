@@ -41,7 +41,7 @@ function onMouseLeave() {
 function onDeleteHandler() {
   commentsService
     .deleteById(comment.value.id)
-    .then(() => emit('onDelete', comment.value.id))
+    .then(() => emit('onDelete'))
     .catch(err => console.error(err));
 };
 

@@ -12,6 +12,7 @@ import ListComments from './List.vue';
 // todo after create, update => to the comment
 // todo disabled buttons when only one comment
 // todo function starts with on
+// todo update Read me
 
 const props = defineProps({
   articleId: {
@@ -30,10 +31,6 @@ onMounted(() => {
 const isDisabled = computed(() => {
   return comments.value.length === 1;
 });
-
-function onReduceComments() {
-  comments.value.length--;
-}
 
 function onShowFormHandler(e, id) {
   isHidden.value = !isHidden.value;
@@ -81,7 +78,7 @@ function loadComments() {
       v-if="comments.length"
       :initial-comments="comments"
       :is-disabled="isDisabled"
-      @on-reduce-comments="onReduceComments"
+      @on-load-comments="loadComments"
     />
     <p v-else class="empty">
       No comments yet

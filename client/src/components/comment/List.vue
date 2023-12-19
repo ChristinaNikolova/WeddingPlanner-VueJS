@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onUpdated, ref, watch } from 'vue';
 import Single from './Single.vue';
 
 const props = defineProps({
@@ -12,12 +12,25 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(['onReduceComments']);
+const emit = defineEmits(['onLoadComments']);
 const index = ref(0);
 const comments = ref(props.initialComments);
 
 const commentsLength = computed(() => {
   return comments.value?.length;
+});
+
+onUpdated(() => {
+  comments.value = props.initialComments;
+});
+
+watch(comments, (newValue, oldValue) => {
+  if (newValue.length > oldValue.length) {
+    index.value = 0;
+  }
+  if (newValue.length < oldValue.length) {
+    index.value = index.value - 1 < 0 ? 0 : index.value - 1;
+  }
 });
 
 function next() {
@@ -34,12 +47,8 @@ function prev() {
   }
 };
 
-function onDeleteHandler(id) {
-  comments.value = comments.value.filter(c => c.id !== id);
-  if (comments.value.length === index.value) {
-    index.value = 0;
-  }
-  emit('onReduceComments');
+function onDeleteHandler() {
+  emit('onLoadComments');
 }
 </script>
 
