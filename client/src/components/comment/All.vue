@@ -6,11 +6,10 @@ import Update from '../comment/Update.vue';
 import commentsService from '../../services/comments';
 import ListComments from './List.vue';
 
-// todo check if everything is needed
 // todo mobile version
+// todo check if everything is needed
 // todo function starts with on
 // todo update Read me
-// todo use slots
 
 const props = defineProps({
   initialArticleId: {
