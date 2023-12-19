@@ -21,6 +21,7 @@ const props = defineProps({
 const articleId = ref(props.initialArticleId);
 const comments = ref([]);
 const commentId = ref('');
+const indexComment = ref(null);
 const isHidden = ref(true);
 
 onMounted(() => {
@@ -41,9 +42,10 @@ watch(articleId, (newValue, oldValue) => {
   }
 });
 
-function onShowFormHandler(e, id) {
+function onShowFormHandler(e, id, i) {
   isHidden.value = !isHidden.value;
   commentId.value = id || '';
+  indexComment.value = i || null;
 };
 
 function onCancelFormHandler() {
@@ -55,6 +57,10 @@ function onFinish() {
   onCancelFormHandler();
   loadComments();
 };
+
+function clearIndex() {
+  indexComment.value = null;
+}
 
 function loadComments() {
   commentsService
@@ -94,9 +100,11 @@ function loadComments() {
       <ListComments
         v-if="comments.length"
         :initial-comments="comments"
+        :initial-index="indexComment"
         :is-disabled="isDisabled"
         @on-load-comments="loadComments"
         @on-show-form-handler="onShowFormHandler"
+        @on-clear-index="clearIndex"
       />
       <p v-else class="empty">
         No comments yet

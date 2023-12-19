@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onUpdated, ref, watch } from 'vue';
+import { computed, onMounted, onUpdated, ref, watch } from 'vue';
 import Single from './Single.vue';
 
 const props = defineProps({
@@ -7,12 +7,16 @@ const props = defineProps({
     type: Array,
     default: () => ([]),
   },
+  initialIndex: {
+    type: Number,
+    default: null,
+  },
   isDisabled: {
     type: Boolean,
     default: false,
   },
 });
-const emit = defineEmits(['onLoadComments', 'onShowFormHandler']);
+const emit = defineEmits(['onLoadComments', 'onShowFormHandler', 'onClearIndex']);
 const index = ref(0);
 const comments = ref(props.initialComments);
 
@@ -20,14 +24,17 @@ const commentsLength = computed(() => {
   return comments.value?.length;
 });
 
+onMounted(() => {
+  if (props.initialIndex) {
+    index.value = props.initialIndex;
+  }
+});
+
 onUpdated(() => {
   comments.value = props.initialComments;
 });
 
 watch(comments, (newValue, oldValue) => {
-  if (newValue.length > oldValue.length) {
-    index.value = 0;
-  }
   if (newValue.length < oldValue.length) {
     index.value = index.value - 1 < 0 ? 0 : index.value - 1;
   }
@@ -38,6 +45,7 @@ function next() {
   if (index.value >= commentsLength.value) {
     index.value = 0;
   }
+  emit('onClearIndex');
 };
 
 function prev() {
@@ -45,6 +53,7 @@ function prev() {
   if (index.value < 0) {
     index.value = commentsLength.value - 1;
   }
+  emit('onClearIndex');
 };
 
 function onDeleteHandler() {
@@ -52,7 +61,8 @@ function onDeleteHandler() {
 }
 
 function onShow(event, id) {
-  emit('onShowFormHandler', event, id);
+  const indexToSend = id ? index.value : null;
+  emit('onShowFormHandler', event, id, indexToSend);
 }
 </script>
 
