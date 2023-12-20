@@ -49,17 +49,6 @@ const calculateActualCosts = computed(() => {
     .toFixed(2);
 });
 
-function loadCosts(e) {
-  costsService
-    .all(plannerId)
-    .then((res) => {
-      costs.value = res;
-      isLoading.value = false;
-      e && onCancelFormHandler(e);
-    })
-    .catch(err => console.error(err));
-};
-
 function onCancelFormHandler(e) {
   form.cancelForm(e.target);
   costId.value = '';
@@ -94,7 +83,18 @@ function isCost(currentCategoryId) {
   return costs.value.filter(cost => cost.category === currentCategoryId).length > 0;
 };
 
-function onFinish(e) {
+function loadCosts(e) {
+  costsService
+    .all(plannerId)
+    .then((res) => {
+      costs.value = res;
+      isLoading.value = false;
+      e && onCancelFormHandler(e);
+    })
+    .catch(err => console.error(err));
+};
+
+function finish(e) {
   loadCosts(e);
 };
 </script>
@@ -130,14 +130,14 @@ function onFinish(e) {
             :planner-id="plannerId"
             :cost-id="costId"
             @on-cancel-form-handler="onCancelFormHandler"
-            @on-finish="onFinish"
+            @finish="finish"
           />
           <Create
             v-if="!costId"
             :planner-id="plannerId"
             :category="cat.id"
             @on-cancel-form-handler="onCancelFormHandler"
-            @on-finish="onFinish"
+            @finish="finish"
           />
           <div class="budget-main-current-category-costs-titles-wrapper">
             <p class="budget-main-current-category-costs-titles-title">

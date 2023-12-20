@@ -17,7 +17,7 @@ const props = defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const emit = defineEmits(['onCancelFormHandler', 'finish']);
 const v$ = useVuelidate();
 const formName = formNames.CREATE;
 const data = ref({
@@ -41,17 +41,17 @@ function onSubmitHandler(e, title, price) {
         v$.value.$reset();
       });
       serverError.value = [];
-      emit('onFinish', e);
+      emit('finish', e);
     })
     .catch(err => console.error(err));
 };
 
-function checkIsDisabled(disable) {
-  isDisabled.value = !!disable;
+function onCancelForm(e) {
+  emit('onCancelFormHandler', e);
 };
 
-function cancelForm(e) {
-  emit('onCancelFormHandler', e);
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
 };
 </script>
 
@@ -66,7 +66,7 @@ function cancelForm(e) {
       <FormButton
         :form-name="formName"
         :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="cancelForm"
+        @on-cancel-button-form-handler="onCancelForm"
       />
     </template>
   </CostForm>
