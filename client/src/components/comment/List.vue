@@ -16,7 +16,7 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(['onLoadComments', 'onShowFormHandler', 'onClearIndex']);
+const emit = defineEmits(['loadComments', 'onShowFormHandler', 'clearIndex']);
 const index = ref(0);
 const comments = ref(props.initialComments);
 
@@ -40,15 +40,15 @@ watch(comments, (newValue, oldValue) => {
   }
 });
 
-function next() {
+function onNextHandler() {
   index.value++;
   if (index.value >= commentsLength.value) {
     index.value = 0;
   }
-  emit('onClearIndex');
+  emit('clearIndex');
 };
 
-function prev() {
+function onPrevHandler() {
   index.value--;
   if (index.value < 0) {
     index.value = commentsLength.value - 1;
@@ -57,10 +57,10 @@ function prev() {
 };
 
 function onDeleteHandler() {
-  emit('onLoadComments');
+  emit('loadComments');
 }
 
-function onShow(event, id) {
+function onShowForm(event, id) {
   const indexToSend = id ? index.value : null;
   emit('onShowFormHandler', event, id, indexToSend);
 }
@@ -68,7 +68,7 @@ function onShow(event, id) {
 
 <template>
   <div class="comments-list-wrapper">
-    <button :disabled="isDisabled" class="btn" @click.prevent="prev">
+    <button :disabled="isDisabled" class="btn" @click.prevent="onPrevHandler">
       <i class="fa fa-angle-left" />
     </button>
     <div class="comments-list-carousel-wrapper">
@@ -78,11 +78,11 @@ function onShow(event, id) {
         :parent-index="index"
         :current-index="i"
         :initial-comment="c"
-        @on-show="onShow"
+        @on-show="onShowForm"
         @on-delete="onDeleteHandler"
       />
     </div>
-    <button :disabled="isDisabled" class="btn" @click.prevent="next">
+    <button :disabled="isDisabled" class="btn" @click.prevent="onNextHandler">
       <i class="fa fa-angle-right" />
     </button>
   </div>

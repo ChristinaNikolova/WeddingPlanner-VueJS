@@ -53,7 +53,7 @@ function onCancelFormHandler() {
   commentId.value = '';
 };
 
-function onFinish() {
+function finish() {
   onCancelFormHandler();
   loadComments();
 };
@@ -80,7 +80,7 @@ function loadComments() {
       :comment-id="commentId"
       :article-id="articleId"
       @on-cancel-form-handler="onCancelFormHandler"
-      @on-finish="onFinish"
+      @finish="finish"
     />
     <template v-else>
       <AddButton
@@ -93,7 +93,7 @@ function loadComments() {
         :article-id="articleId"
         :is-hidden="isHidden"
         @on-cancel-form-handler="onCancelFormHandler"
-        @on-finish="onFinish"
+        @finish="finish"
       />
     </template>
     <template v-if="isHidden">
@@ -102,9 +102,9 @@ function loadComments() {
         :initial-comments="comments"
         :initial-index="indexComment"
         :is-disabled="isDisabled"
-        @on-load-comments="loadComments"
         @on-show-form-handler="onShowFormHandler"
-        @on-clear-index="clearIndex"
+        @load-comments="loadComments"
+        @clear-index="clearIndex"
       />
       <p v-else class="empty">
         No comments yet
