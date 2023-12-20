@@ -27,16 +27,6 @@ onUpdated(() => {
   allNotes.value.scrollIntoView({ behavior: 'instant', block: 'start' });
 });
 
-function loadNotes() {
-  notesService
-    .all(plannerId)
-    .then((res) => {
-      notes.value = res;
-      isLoading.value = false;
-    })
-    .catch(err => console.error(err));
-};
-
 function onDeleteHandler(id) {
   notesService
     .deleteById(id)
@@ -58,9 +48,19 @@ function onCancelFormHandler() {
   isEditIconHidden.value = false;
 };
 
-function onFinish() {
+function finish() {
   onCancelFormHandler();
   loadNotes();
+};
+
+function loadNotes() {
+  notesService
+    .all(plannerId)
+    .then((res) => {
+      notes.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
 };
 </script>
 
@@ -100,7 +100,7 @@ function onFinish() {
       :note-id="noteId"
       :planner-id="plannerId"
       @on-cancel-form-handler="onCancelFormHandler"
-      @on-finish="onFinish"
+      @finish="finish"
     />
     <template v-else>
       <AddButton
@@ -113,7 +113,7 @@ function onFinish() {
         :planner-id="plannerId"
         :is-hidden="isHidden"
         @on-cancel-form-handler="onCancelFormHandler"
-        @on-finish="onFinish"
+        @finish="finish"
       />
     </template>
   </section>
