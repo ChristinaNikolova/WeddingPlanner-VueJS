@@ -131,4 +131,37 @@ function getLikes(result) {
 .comment-carousel-likes-count {
   color: var(--clr-gold);
 }
+
+@media screen and (max-width: 1400px) {
+  .comment-carousel-content {
+    font-size: 26px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .comment-carousel-content {
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .comment-carousel-content {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .comment-carousel-content {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .comment-carousel-creator {
+    font-size: 16px;
+  }
+  .comment-carousel-content {
+    font-size: 18px;
+  }
+}
 </style>

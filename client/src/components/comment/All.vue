@@ -6,10 +6,10 @@ import Update from '../comment/Update.vue';
 import commentsService from '../../services/comments';
 import ListComments from './List.vue';
 
-// todo mobile version
-// todo check if everything is needed
 // todo function starts with on
 // todo update Read me
+// todo test again!!!!
+// todo check if everything is needed
 
 const props = defineProps({
   initialArticleId: {
@@ -129,5 +129,42 @@ function loadComments() {
   font-size: 40px;
   font-weight: 500;
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1000px) {
+  .comments-wrapper .empty {
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .comments-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .comments-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .comments-wrapper {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .comments-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 </style>

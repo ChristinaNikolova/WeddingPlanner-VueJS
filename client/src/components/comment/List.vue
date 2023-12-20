@@ -100,4 +100,35 @@ function onShow(event, id) {
   width: 1000px;
   min-height: 300px;
 }
+
+@media screen and (max-width: 1500px) {
+  .comments-list-wrapper {
+    gap: 100px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .comments-list-wrapper {
+    gap: 80px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .comments-list-wrapper {
+    gap: 60px;
+  }
+
+  .comments-list-wrapper .btn {
+    padding: 8px 26px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .comments-list-wrapper {
+    gap: 30px;
+  }
+  .comments-list-wrapper .btn {
+    padding: 6px 22px;
+  }
+}
 </style>

@@ -61,6 +61,7 @@ onMounted(() => {
 @media screen and (max-width: 1600px) {
   .last-three-articles-wrapper {
     gap: 30px;
+    align-items: start;
   }
 }
 
