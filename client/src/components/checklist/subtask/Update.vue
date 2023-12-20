@@ -11,7 +11,7 @@ const props = defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['onCancelFormHelperHandler', 'onFinish']);
+const emit = defineEmits(['onCancelFormHelperHandler', 'finish']);
 const formName = formNames.UPDATE;
 const data = ref({
   description: '',
@@ -37,17 +37,17 @@ function onSubmitHandler(description) {
         return;
       }
       serverError.value = [];
-      emit('onFinish');
+      emit('finish');
     })
     .catch(err => console.error(err));
 };
 
-function checkIsDisabled(disable) {
-  isDisabled.value = !!disable;
+function onCancelForm(e) {
+  emit('onCancelFormHelperHandler', e);
 };
 
-function cancelForm(e) {
-  emit('onCancelFormHelperHandler', e);
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
 };
 </script>
 
@@ -56,14 +56,14 @@ function cancelForm(e) {
     :initial-data="data"
     :server-error="serverError"
     :initial-disabled="isDisabled"
-    @check-is-disabled="checkIsDisabled"
     @on-submit-handler="onSubmitHandler"
+    @check-is-disabled="checkIsDisabled"
   >
     <template #button>
       <FormButton
         :form-name="formName"
         :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="cancelForm"
+        @on-cancel-button-form-handler="onCancelForm"
       />
     </template>
   </SubtaskForm>

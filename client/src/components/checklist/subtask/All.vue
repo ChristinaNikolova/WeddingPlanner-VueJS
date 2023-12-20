@@ -18,7 +18,7 @@ const props = defineProps({
     default: () => [],
   },
 });
-const emit = defineEmits(['onCancelFormHandler', 'onLoadTasks']);
+const emit = defineEmits(['onCancelFormHandler', 'loadTasks']);
 const subtaskId = ref('');
 
 function onShowSubTaskFormHandler(e) {
@@ -34,7 +34,7 @@ function onDoneSubtask(taskId, subtaskId) {
   subtasksService
     .done(taskId, subtaskId)
     .then(() => {
-      emit('onLoadTasks');
+      emit('loadTasks');
     })
     .catch(err => console.error(err));
 };
@@ -47,17 +47,17 @@ function onDeleteHandler(taskId, subtaskId) {
   subtasksService
     .deleteById(taskId, subtaskId)
     .then(() => {
-      emit('onLoadTasks');
+      emit('loadTasks');
     })
     .catch(err => console.error(err));
 };
 
-function onFinish() {
+function finish() {
   onCancelFormHelperHandler();
-  emit('onLoadTasks');
+  emit('loadTasks');
 };
 
-function onCancel(e) {
+function onCancelForm(e) {
   emit('onCancelFormHandler', e);
 };
 </script>
@@ -72,13 +72,13 @@ function onCancel(e) {
         v-if="subtaskId"
         :subtask-id="subtaskId"
         @on-cancel-form-helper-handler="onCancelFormHelperHandler"
-        @on-finish="onFinish"
+        @finish="finish"
       />
       <Create
         v-else
         :task-id="props.taskId"
-        @on-cancel-form-handler="onCancel"
-        @on-finish="onFinish"
+        @on-cancel-form-handler="onCancelForm"
+        @finish="finish"
       />
     </div>
     <template v-if="props.subtasks.length">

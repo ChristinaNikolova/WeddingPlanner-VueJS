@@ -27,17 +27,6 @@ onUpdated(() => {
   tasksAllRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
-function isTask(time) {
-  return tasks?.value.filter(t => t.timespan === time).length > 0;
-};
-
-function loadTasks() {
-  tasksService
-    .all(plannerId)
-    .then(res => tasks.value = res)
-    .catch(err => console.error(err));
-};
-
 function onDeleteHandler(id) {
   tasksService
     .deleteById(id)
@@ -61,9 +50,20 @@ function onCancelFormHandler(e) {
   currentIndex.value = '';
 };
 
-function onFinish(e) {
+function finish(e) {
   loadTasks();
   onCancelFormHandler(e);
+};
+
+function isTask(time) {
+  return tasks?.value.filter(t => t.timespan === time).length > 0;
+};
+
+function loadTasks() {
+  tasksService
+    .all(plannerId)
+    .then(res => tasks.value = res)
+    .catch(err => console.error(err));
 };
 </script>
 
@@ -94,13 +94,13 @@ function onFinish(e) {
             :planner-id="plannerId"
             :task-id="taskId"
             @on-cancel-form-handler="onCancelFormHandler"
-            @on-finish="onFinish"
+            @finish="finish"
           />
           <Create
             v-else-if="!taskId"
             :planner-id="plannerId"
             @on-cancel-form-handler="onCancelFormHandler"
-            @on-finish="onFinish"
+            @finish="finish"
           />
           <div class="checklist-all-line" />
           <div class="checklist-all-tasks-content-wrapper">
@@ -122,8 +122,8 @@ function onFinish(e) {
                     <AllSubtasks
                       :task-id="t.id"
                       :subtasks="t.subtasks"
-                      @on-load-tasks="loadTasks"
                       @on-cancel-form-handler="onCancelFormHandler"
+                      @load-tasks="loadTasks"
                     />
                   </template>
                 </SingleTask>
