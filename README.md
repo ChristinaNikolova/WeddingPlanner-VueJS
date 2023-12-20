@@ -12,8 +12,11 @@ WeddingPlanner can be used to plan and organize your wedding day.
     - see the blog.
     - filter articles by category.
     - search article by name.
-    - pagination
+    - pagination.
     - read article.
+    - comment article.
+    - update/delete comments.
+    - like/dislike comments.
     - like/dislike article.
     - list of favourite articles.
     - create wedding planners.
@@ -27,7 +30,7 @@ WeddingPlanner can be used to plan and organize your wedding day.
     - add, update and delete tasks.
     - see list of the events for the day.
     - add, update and delete events.
-    - highlight events
+    - highlight events.
     - see list of the notes.
     - add, update and delete notes.
       
