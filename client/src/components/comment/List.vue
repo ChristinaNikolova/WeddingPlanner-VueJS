@@ -53,7 +53,7 @@ function onPrevHandler() {
   if (index.value < 0) {
     index.value = commentsLength.value - 1;
   }
-  emit('onClearIndex');
+  emit('clearIndex');
 };
 
 function onDeleteHandler() {

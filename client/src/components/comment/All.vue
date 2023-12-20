@@ -7,9 +7,6 @@ import commentsService from '../../services/comments';
 import ListComments from './List.vue';
 
 // todo function starts with on
-// todo update Read me
-// todo test again!!!!
-// todo check if everything is needed
 
 const props = defineProps({
   initialArticleId: {
