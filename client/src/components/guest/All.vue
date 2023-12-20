@@ -34,16 +34,6 @@ function onDeleteHandler(guestId) {
     .catch(err => console.error(err));
 };
 
-function loadGuests() {
-  guestsService
-    .all(plannerId)
-    .then((res) => {
-      guests.value = res;
-      isLoading.value = false;
-    })
-    .catch(err => console.error(err));
-};
-
 function onCancelFormHandler() {
   isHidden.value = true;
   isEditIconHidden.value = false;
@@ -56,9 +46,19 @@ function onShowFormHandler(e, id) {
   isEditIconHidden.value = !isEditIconHidden.value;
 };
 
-function onFinish() {
+function finish() {
   onCancelFormHandler();
   loadGuests();
+};
+
+function loadGuests() {
+  guestsService
+    .all(plannerId)
+    .then((res) => {
+      guests.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
 };
 </script>
 
@@ -102,7 +102,7 @@ function onFinish() {
       :guest-id="guestId"
       :planner-id="plannerId"
       @on-cancel-form-handler="onCancelFormHandler"
-      @on-finish="onFinish"
+      @finish="finish"
     />
     <template v-else>
       <AddButton
@@ -115,7 +115,7 @@ function onFinish() {
         :planner-id="plannerId"
         :is-hidden="isHidden"
         @on-cancel-form-handler="onCancelFormHandler"
-        @on-finish="onFinish"
+        @finish="finish"
       />
     </template>
   </section>

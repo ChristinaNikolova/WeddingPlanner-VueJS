@@ -16,7 +16,7 @@ const props = defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['onCancelFormHandler', 'onFinish']);
+const emit = defineEmits(['onCancelFormHandler', 'finish']);
 const formName = formNames.UPDATE;
 const data = ref({
   firstName: '',
@@ -57,17 +57,17 @@ function onSubmitHandler(firstName, lastName, gender, age, side, role, table, ma
         return;
       }
       serverError.value = [];
-      emit('onFinish');
+      emit('finish');
     })
     .catch(err => console.error(err));
 };
 
-function checkIsDisabled(disable) {
-  isDisabled.value = !!disable;
+function onCancelForm() {
+  emit('onCancelFormHandler');
 };
 
-function cancelForm() {
-  emit('onCancelFormHandler');
+function checkIsDisabled(disable) {
+  isDisabled.value = !!disable;
 };
 </script>
 
@@ -76,14 +76,14 @@ function cancelForm() {
     :initial-data="data"
     :initial-disabled="isDisabled"
     :server-error="serverError"
-    @check-is-disabled="checkIsDisabled"
     @on-submit-handler="onSubmitHandler"
+    @check-is-disabled="checkIsDisabled"
   >
     <template #button>
       <FormButton
         :form-name="formName"
         :is-disabled="isDisabled"
-        @on-cancel-button-form-handler="cancelForm"
+        @on-cancel-button-form-handler="onCancelForm"
       />
     </template>
   </GuestForm>
