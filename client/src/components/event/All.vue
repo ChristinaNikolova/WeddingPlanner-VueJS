@@ -27,16 +27,6 @@ onUpdated(() => {
   allEvents.value.scrollIntoView({ behavior: 'instant', block: 'start' });
 });
 
-function loadEvents() {
-  eventsService
-    .all(plannerId)
-    .then((res) => {
-      events.value = res;
-      isLoading.value = false;
-    })
-    .catch(err => console.error(err));
-};
-
 function onDeleteHandler(id) {
   eventsService
     .deleteById(id)
@@ -67,9 +57,19 @@ function onCancelFormHandler() {
   isEditIconHidden.value = false;
 };
 
-function onFinish() {
+function finish() {
   onCancelFormHandler();
   loadEvents();
+};
+
+function loadEvents() {
+  eventsService
+    .all(plannerId)
+    .then((res) => {
+      events.value = res;
+      isLoading.value = false;
+    })
+    .catch(err => console.error(err));
 };
 </script>
 
@@ -113,7 +113,7 @@ function onFinish() {
       :event-id="eventId"
       :planner-id="plannerId"
       @on-cancel-form-handler="onCancelFormHandler"
-      @on-finish="onFinish"
+      @finish="finish"
     />
     <template v-else>
       <AddButton
@@ -126,7 +126,7 @@ function onFinish() {
         :planner-id="plannerId"
         :is-hidden="isHidden"
         @on-cancel-form-handler="onCancelFormHandler"
-        @on-finish="onFinish"
+        @finish="finish"
       />
     </template>
   </section>
